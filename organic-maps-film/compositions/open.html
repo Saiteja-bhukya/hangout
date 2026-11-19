@@ -1,0 +1,49 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      color: #0f1d14;
+      font-family: "Inter", sans-serif;
+    }
+    .op-line {
+      position: absolute;
+      left: 0;
+      top: 470px;
+      width: 1920px;
+      text-align: center;
+      font-size: 140px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .op-line span {
+      display: inline-block;
+    }
+    .op-line .acc {
+      color: #006c35;
+    }
+  </style>
+  <div id="root" data-composition-id="open" data-width="1920" data-height="1080">
+    <div id="op-l1" class="op-line"><span id="op-a1">No</span> <span id="op-b1">signal.</span></div>
+    <div id="op-l2" class="op-line"><span id="op-a2">No</span> <span id="op-b2">data.</span></div>
+    <div id="op-l3" class="op-line"><span id="op-a3">No</span> <span id="op-b3" class="acc">problem.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const blurIn = (sel, t) =>
+      tl.fromTo(sel, { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, t);
+    const blurOut = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power3.in" }, t);
+    // "No" is on screen at frame 0 (the thumbnail); each line swaps in place on the same stage.
+    tl.fromTo("#op-a1", { opacity: 1 }, { opacity: 1, duration: 0.01 }, 0);
+    blurIn("#op-b1", 0.2);
+    blurOut("#op-l1", 1.35);
+    blurIn("#op-a2", 1.55);
+    blurIn("#op-b2", 1.62);
+    blurOut("#op-l2", 2.7);
+    blurIn("#op-a3", 2.9);
+    blurIn("#op-b3", 2.97);
+    blurOut("#op-l3", 4.85);
+    window.__timelines["open"] = tl;
+  </script>
+</template>

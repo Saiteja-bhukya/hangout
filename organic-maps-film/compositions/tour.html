@@ -1,0 +1,83 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      color: #0f1d14;
+      font-family: "Inter", sans-serif;
+    }
+    .tr-cap {
+      position: absolute;
+      left: 170px;
+      top: 0;
+      width: 720px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .tr-cap h2 {
+      font-size: 112px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+    }
+    .tr-cap h2 span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .tr-cap h2 .acc {
+      color: #006c35;
+    }
+    .tr-cap p {
+      margin-top: 32px;
+      max-width: 600px;
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 1.32;
+      color: #3f5246;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="tour" data-width="1920" data-height="1080">
+    <div id="tr-c0" class="tr-cap">
+      <h2><span id="tr-w0-0">Every</span> <span id="tr-w0-1">trail,</span> <span id="tr-w0-2" class="acc">offline.</span></h2>
+      <p id="tr-p0">Hiking and cycling routes from around the world.</p>
+    </div>
+    <div id="tr-c1" class="tr-cap">
+      <h2><span id="tr-w1-0">Explore</span> <span id="tr-w1-1" class="acc">places.</span></h2>
+      <p id="tr-p1">Opening hours, Wikipedia, wheelchair access.</p>
+    </div>
+    <div id="tr-c2" class="tr-cap">
+      <h2><span id="tr-w2-0">Turn</span> <span id="tr-w2-1">by</span> <span id="tr-w2-2" class="acc">turn.</span></h2>
+      <p id="tr-p2">Voice-guided navigation. 100% offline.</p>
+    </div>
+    <div id="tr-c3" class="tr-cap">
+      <h2><span id="tr-w3-0">Every</span> <span id="tr-w3-1">bench.</span> <span id="tr-w3-2">Every</span> <span id="tr-w3-3" class="acc">path.</span></h2>
+      <p id="tr-p3">Detailed maps, updated twice a month.</p>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Local times (scene starts at 12.8 s). Each caption lands with its screen.
+    const beats = [
+      { in: 0.35, out: 3.6, words: 3 },
+      { in: 4.0, out: 7.45, words: 2 },
+      { in: 8.3, out: 11.3, words: 3 },
+      { in: 11.75, out: 14.95, words: 4 },
+    ];
+    beats.forEach((b, i) => {
+      for (let j = 0; j < b.words; j++) {
+        tl.fromTo(
+          "#tr-w" + i + "-" + j,
+          { opacity: 0, filter: "blur(6px)" },
+          { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" },
+          b.in + j * 0.067,
+        );
+      }
+      tl.fromTo("#tr-p" + i, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, b.in + 0.3);
+      tl.to("#tr-c" + i, { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power3.in" }, b.out);
+    });
+    window.__timelines["tour"] = tl;
+  </script>
+</template>

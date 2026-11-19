@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      color: #0f1d14;
+      font-family: "Inter", sans-serif;
+    }
+    #po-line {
+      position: absolute;
+      left: 0;
+      width: 1920px;
+      top: 118px;
+      text-align: center;
+      font-size: 96px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    #po-line span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #po-line .acc {
+      color: #006c35;
+    }
+  </style>
+  <div id="root" data-composition-id="payoff" data-width="1920" data-height="1080">
+    <div id="po-line">
+      <span id="po-w0">No</span> <span id="po-w1">ads.</span> <span id="po-w2">No</span> <span id="po-w3">tracking.</span>
+      <span id="po-w4" class="acc">100%</span> <span id="po-w5" class="acc">free.</span>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Three claims from the app's own listing, landing in pairs while the route completes.
+    [0.3, 0.37, 0.95, 1.02, 1.6, 1.67].forEach((t, j) => {
+      tl.fromTo("#po-w" + j, { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, t);
+    });
+    tl.to("#po-line", { opacity: 0, filter: "blur(8px)", duration: 0.22, ease: "power3.in" }, 3.35);
+    window.__timelines["payoff"] = tl;
+  </script>
+</template>
