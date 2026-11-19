@@ -14,6 +14,8 @@ Storyline A ("No signal, no problem"): hook type → a low flight down a 3D vall
 - `check`: 0 errors. Warnings kept: `stage.html` is one large file (the whole 3D choreography); the 2-line credits are shorter on screen than a full read needs (they are credits, held 3 s).
 - Fixed after review: pins rendered pastel (tone mapping bypassed), the flight route invisible then oversized (now draws 28 units ahead, finer dashes), sub-lines low-contrast over the hills (darker, weight 500, soft sky-coloured halo), mix too quiet at −18.8 LUFS (volumes ×1.33).
 
+- Render: `renders/organic-maps-37s.mp4`, 1920x1080, 30 fps, 37.000 s, 26 MB; decoded frames match the snapshots. Audio −16.3 LUFS, true peak −2.7 dBTP, no clipping.
+
 ## Not checked / limits
 - Sound measured, not heard. Music chosen by tempo, regularity and brightness, not by ear.
 - The screens are Android screenshots inside an iPhone-shaped body (recoloured forest green, maker's logo hidden).
