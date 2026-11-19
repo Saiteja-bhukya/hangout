@@ -21,7 +21,7 @@ Storyline A from `STORYLINES.md`, "Saturday, solved": black type sets up the pro
 
 ## Not checked / known limits
 
-- **No music.** Sound is measured, not heard. Only five Pixabay effects (riser into impact on the reveal and the logo, whooshes on the two big phone moves, pops on the Coins). Apple-style films lean on music: add a track (your own, or `npx hyperframes auth login` for HeyGen's catalog) and it slots under everything.
+- **Music**: "Familiar Roads" by Tanner Helland (CC BY 4.0, credit required where published; see `assets/music/CREDITS.md`), chosen by measurement (115 BPM, steady, bright arpeggios), not by ear. It starts 52.155 s in, so a beat lands exactly on the phone reveal; Coins burst and logo sit within 0.11 s of beats. Mix measured −16 LUFS, true peak −1.5 dBTP, no clipping (the delivered file was lifted 2.1 dB after render; the project volumes were raised to match).
 - No lifestyle photography: stock-image hosts are blocked in this environment, so every image is a real app screen or a 3D object.
 - Screens show "Bengaluru" and "Sandbox" badges, as the test build does.
 

@@ -3028,13 +3028,14 @@
   },
   "renders": {
     "latest": {
-      "id": "a6615597-530b-4e50-992c-0751e28090e3",
-      "completedAt": 1795118876365,
+      "id": "56eaf232-9e19-4379-8768-b0f2fa6e8bdc",
+      "completedAt": 1795124072614,
       "output": "/home/user/hangout/hangout-film/renders/hangout-40s.mp4",
       "status": "completed",
-      "revision": "efed9e29-874d-47c4-8d55-cc8a17669087"
+      "revision": "d779b0eb-c191-493f-857f-8608bfd1013a"
     },
     "retainedRevisions": [
+      "d779b0eb-c191-493f-857f-8608bfd1013a",
       "efed9e29-874d-47c4-8d55-cc8a17669087"
     ]
   },
