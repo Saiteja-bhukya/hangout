@@ -16,6 +16,7 @@ Storyline A from `STORYLINES.md`, "Saturday, solved": black type sets up the pro
 
 - `hyperframes check`: 0 errors. One warning kept on purpose: `stage.html` is one large file because the whole 3D choreography lives in one `render(t)`.
 - Fixed after review: background glow too flat and bright; objects milky and Coins olive (materials deepened); phone back orange (recoloured); captions crowded by push-ins (lens shift keeps the phone right of centre); the screen did not fade with the scene (own fade multiplier); the phone unwound a full turn after the ticket spin (rotation keys offset by 2π); four sub-lines too long to read (cut to 7–9 words).
+- Render: `renders/hangout-40s.mp4`, 1920x1080, 30 fps, 40.000 s, 20.6 MB (8 min 53 s on software GL); decoded frames match the snapshots. Audio −15.8 LUFS, true peak −4.4 dBTP, no clipping.
 - Snapshots read at 0.3, 3.5, 5.6, 7.3, 8.8, 10.2, 11.2–11.5, 12.25, 13.7, 15, 16, 17.8, 18.4, 21, 21.4, 23.45–25.6, 27, 28.4, 29.6–30.8, 32, 34.3, 34.85, 35.0–35.3, 37.5, 39.75 s.
 
 ## Not checked / known limits
