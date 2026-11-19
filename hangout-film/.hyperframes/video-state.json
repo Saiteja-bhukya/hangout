@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "6ad5c747-f7ec-4f74-ba54-3485cb7f44d1",
-  "currentRevision": "efed9e29-874d-47c4-8d55-cc8a17669087",
+  "currentRevision": "d779b0eb-c191-493f-857f-8608bfd1013a",
   "pendingChanges": false,
   "files": {
     "AGENTS.md": {
@@ -65,8 +65,8 @@
       "content": "/root/.cache/hyperframes/history/6ad5c747-f7ec-4f74-ba54-3485cb7f44d1/blobs/35/35a6d4ea79ebe911f0d81705f7aace5d8ff0316b745b0311d56af50c9c237cb7"
     },
     "index.html": {
-      "hash": "c2166ab569bfcf8e2e15c48c64f936bd354e812e938bea5502e845eb39ce896f",
-      "content": "/root/.cache/hyperframes/history/6ad5c747-f7ec-4f74-ba54-3485cb7f44d1/blobs/c2/c2166ab569bfcf8e2e15c48c64f936bd354e812e938bea5502e845eb39ce896f"
+      "hash": "d0dd63308c654ab7a299276e76c1dc92082b9d6e560266e49c72242c5de8a9cc",
+      "content": "/root/.cache/hyperframes/history/6ad5c747-f7ec-4f74-ba54-3485cb7f44d1/blobs/d0/d0dd63308c654ab7a299276e76c1dc92082b9d6e560266e49c72242c5de8a9cc"
     },
     "lib/three/GLTFLoader.js": {
       "hash": "b2edda923572c73e6b30b139756d182c87e2c34d022845c6e067a9a0a9544e01",
@@ -147,6 +147,14 @@
     "REVIEW.md": {
       "hash": "1395d11efe3c9c06918770989049845304319779209a0c4c7dc9af4331a5ccd6",
       "content": "/root/.cache/hyperframes/history/6ad5c747-f7ec-4f74-ba54-3485cb7f44d1/blobs/13/1395d11efe3c9c06918770989049845304319779209a0c4c7dc9af4331a5ccd6"
+    },
+    "assets/music/CREDITS.md": {
+      "hash": "bccdd5db18f861568b6cf677f008d23ec04d4e4ff3aee1c47f474dad57d32eaf",
+      "content": "/root/.cache/hyperframes/history/6ad5c747-f7ec-4f74-ba54-3485cb7f44d1/blobs/bc/bccdd5db18f861568b6cf677f008d23ec04d4e4ff3aee1c47f474dad57d32eaf"
+    },
+    "assets/music/familiar-roads.mp3": {
+      "hash": "651e471e9339590a0415245e2b370fc612d79ee0bd070f305b0a8a7c8d190752",
+      "content": "/root/.cache/hyperframes/history/6ad5c747-f7ec-4f74-ba54-3485cb7f44d1/blobs/65/651e471e9339590a0415245e2b370fc612d79ee0bd070f305b0a8a7c8d190752"
     }
   },
   "revisions": {
@@ -345,12 +353,35 @@
           "after": "/root/.cache/hyperframes/history/6ad5c747-f7ec-4f74-ba54-3485cb7f44d1/blobs/91/91b0accbe78063f2d9db73e7f8797684e3221b3c910cfb511e89d9744e6f2d91"
         }
       }
+    },
+    "d779b0eb-c191-493f-857f-8608bfd1013a": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795123381786,
+      "endedAt": 1795123381791,
+      "files": {
+        "assets/music/CREDITS.md": {
+          "before": null,
+          "after": "/root/.cache/hyperframes/history/6ad5c747-f7ec-4f74-ba54-3485cb7f44d1/blobs/bc/bccdd5db18f861568b6cf677f008d23ec04d4e4ff3aee1c47f474dad57d32eaf"
+        },
+        "assets/music/familiar-roads.mp3": {
+          "before": null,
+          "after": "/root/.cache/hyperframes/history/6ad5c747-f7ec-4f74-ba54-3485cb7f44d1/blobs/65/651e471e9339590a0415245e2b370fc612d79ee0bd070f305b0a8a7c8d190752"
+        },
+        "index.html": {
+          "before": "/root/.cache/hyperframes/history/6ad5c747-f7ec-4f74-ba54-3485cb7f44d1/blobs/c2/c2166ab569bfcf8e2e15c48c64f936bd354e812e938bea5502e845eb39ce896f",
+          "after": "/root/.cache/hyperframes/history/6ad5c747-f7ec-4f74-ba54-3485cb7f44d1/blobs/d0/d0dd63308c654ab7a299276e76c1dc92082b9d6e560266e49c72242c5de8a9cc"
+        }
+      }
     }
   },
   "checks": {
     "latest": {
-      "revision": "efed9e29-874d-47c4-8d55-cc8a17669087",
-      "id": "b38c9bdf-598e-4897-9246-952dedb7a01c"
+      "revision": "d779b0eb-c191-493f-857f-8608bfd1013a",
+      "id": "beff3540-927b-4e01-a376-e3937ef2c0c7"
     },
     "revisions": {
       "f0b4de8a-dfad-4c12-8036-af9d90d3d91c": [
@@ -462,6 +493,43 @@
           "contentHash": "18d72c387060da4e14503d02ab15507d27604c6caee4b4ac12ce2fc6c6bd048d",
           "revision": "efed9e29-874d-47c4-8d55-cc8a17669087",
           "inputFingerprint": "056edb570ce75dd42dd89e10d7fc8b578d32bad02a2e339ef796942375bbc98d",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ],
+      "d779b0eb-c191-493f-857f-8608bfd1013a": [
+        {
+          "id": "beff3540-927b-4e01-a376-e3937ef2c0c7",
+          "scope": "project",
+          "report": "/home/user/hangout/hangout-film/.hyperframes/artifacts/checks/beff3540-927b-4e01-a376-e3937ef2c0c7.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 45000,
+              "cache": true,
+              "contrast": true,
+              "craft": true,
+              "strict": false,
+              "snapshots": false,
+              "safeZones": [
+                "tiktok",
+                "reels",
+                "shorts"
+              ],
+              "browserGpuMode": "auto",
+              "includeUnmounted": false
+            }
+          },
+          "createdAt": 1795123470491,
+          "contentHash": "4c3ac987c55e3a113bbe52ee6ae87c796e5164cc0e2e79da306c174f68f8486b",
+          "revision": "d779b0eb-c191-493f-857f-8608bfd1013a",
+          "inputFingerprint": "e994d2554ac5274ae22baa0668adce7db616a5efe071bf04c245ca186a5aef77",
           "inputScope": "local-project-files",
           "attribution": "recorded-revision"
         }
