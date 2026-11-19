@@ -5,3 +5,4 @@ renders/render.log
 renders/work-*/
 renders/.*
 node_modules/
+.hyperframes/video-state.json
