@@ -11,6 +11,7 @@ Registry pieces this follows by design (hand-built to fit, not installed): `kine
 ## Measured
 
 - `hyperframes check`: 0 errors, 0 warnings (lint, runtime, layout, motion, contrast, craft, audio). Remaining layout infos are the slot words crossing during their 0.12 s roll and the homepage camera extending past its clipped window, both intended.
+- Render: `renders/test365-35s.mp4`, 1920x1080, 30 fps, 35.000 s (ffprobe), 9.0 MB; decoded frames match the snapshots. Audio −15.7 LUFS integrated, true peak −6.8 dBTP, no clipping; effect onsets land at 8.46 (logo), 28.78 (XP), 31.22 (CTA), 32.26 (click), 32.81 s (chips).
 - Snapshots: beat sheet, every seam, the phone-width sheet, and the punch-ins at 11.0–30.05 s were read frame by frame.
 - Fixed after review: homepage push-in cut the nav and then the headline (now anchored bottom-left at 1.6x); homepage→feature morph double-exposed for ~0.3 s (now a 0.2 s crossfade with blur); PYQ punch-in landed on empty card space (now on the 2021 badge and paper title); end chips held 1.8 s (now 2.3 s).
 
