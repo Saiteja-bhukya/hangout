@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <script src="lib/three/three.min.js"></script>
+    <script src="lib/three/GLTFLoader.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #04070a;
+      }
+      #st-canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="st-root" data-composition-id="stage" data-start="0" data-duration="28" data-width="1920" data-height="1080">
+      <canvas id="st-canvas" class="clip" data-layout-allow-overflow data-start="0" data-duration="28" data-track-index="1" width="1920" height="1080"></canvas>
+    </div>
+
+    <script>
+      (function () {
+        // ------------------------------------------------------------------
+        // Clock: a paused GSAP timeline drives render(t); t is this scene's local time.
+        // ------------------------------------------------------------------
+        var DURATION = 28;
+        var clock = { t: 0 };
+        var host = { render: null };
+        window.__hf = window.__hf || {};
+        window.__hf.buildReady = window.__hf.buildReady || {};
+        window.__hf.buildReady["stage"] = new Promise(function (resolve) {
+          host.ready = resolve;
+        });
+        var tl = gsap.timeline({ paused: true });
+        tl.to(clock, {
+          t: DURATION,
+          duration: DURATION,
+          ease: "none",
+          onUpdate: function () {
+            if (host.render) host.render(clock.t);
+          },
+        });
+        window.__timelines = window.__timelines || {};
+        window.__timelines["stage"] = tl;
+
+        var W = 1920,
+          H = 1080,
+          PI = Math.PI;
+
+        // ------------------------------------------------------------------
+        // Easing and keyframe helpers (pure functions of t)
+        // ------------------------------------------------------------------
+        function clamp01(x) {
+          return x < 0 ? 0 : x > 1 ? 1 : x;
+        }
+        function cbz(p1x, p1y, p2x, p2y) {
+          var ax = 3 * p1x - 3 * p2x + 1, bx = 3 * p2x - 6 * p1x, cx = 3 * p1x;
+          var ay = 3 * p1y - 3 * p2y + 1, by = 3 * p2y - 6 * p1y, cy = 3 * p1y;
+          return function (t) {
+            var s = t;
+            for (var i = 0; i < 12; i++) {
+              var x = ((ax * s + bx) * s + cx) * s - t;
+              var dx = (3 * ax * s + 2 * bx) * s + cx;
+              if (Math.abs(dx) < 1e-10) break;
+              s -= x / dx;
+            }
+            s = clamp01(s);
+            return ((ay * s + by) * s + cy) * s;
+          };
+        }
+        var E = {
+          inOut: cbz(0.65, 0, 0.35, 1), // camera and big moves
+          out: cbz(0.16, 1, 0.3, 1), // arrivals
+          in: cbz(0.55, 0, 0.9, 0.4), // exits
+          spin: cbz(0.76, 0, 0.18, 1), // flips
+          lin: function (x) {
+            return x;
+          },
+        };
+        // track: [[t, value, ease?], ...]; ease applies to the segment arriving at that key.
+        function kf(track, t) {
+          if (t <= track[0][0]) return track[0][1];
+          for (var i = 1; i < track.length; i++) {
+            var a = track[i - 1], b = track[i];
+            if (t <= b[0]) {
+              var u = (t - a[0]) / Math.max(1e-6, b[0] - a[0]);
+              var e = (b[2] || E.inOut)(clamp01(u));
+              return a[1] + (b[1] - a[1]) * e;
+            }
+          }
+          return track[track.length - 1][1];
+        }
+        // Seeded PRNG (mulberry32)
+        function rng(seed) {
+          return function () {
+            seed |= 0;
+            seed = (seed + 0x6d2b79f5) | 0;
+            var x = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+            x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+            return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+          };
+        }
+
+        // ------------------------------------------------------------------
+        // Renderer, scene, light
+        // ------------------------------------------------------------------
+        var renderer = new THREE.WebGLRenderer({
+          canvas: document.getElementById("st-canvas"),
+          antialias: true,
+          preserveDrawingBuffer: true,
+        });
+        renderer.setSize(W, H, false);
+        renderer.setPixelRatio(1);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.1;
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.setClearColor(0x04070a, 1);
+
+        var scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x04070a);
+        var camera = new THREE.PerspectiveCamera(30, W / H, 0.1, 100);
+
+        // Studio environment: dark with soft white strips, so glossy surfaces catch long highlights.
+        (function () {
+          var c = document.createElement("canvas");
+          c.width = 1024;
+          c.height = 512;
+          var g = c.getContext("2d");
+          g.fillStyle = "#020405";
+          g.fillRect(0, 0, 1024, 512);
+          var strips = [
+            [120, 150, 260, 26, 0.9],
+            [640, 110, 300, 18, 0.75],
+            [380, 330, 220, 14, 0.4],
+            [820, 300, 140, 40, 0.35],
+          ];
+          strips.forEach(function (s) {
+            g.fillStyle = "rgba(255,255,255," + s[4] + ")";
+            g.fillRect(s[0], s[1], s[2], s[3]);
+          });
+          var tg = g.createRadialGradient(780, 420, 0, 780, 420, 260);
+          tg.addColorStop(0, "rgba(2,216,204,0.22)");
+          tg.addColorStop(1, "rgba(2,216,204,0)");
+          g.fillStyle = tg;
+          g.fillRect(0, 0, 1024, 512);
+          var tex = new THREE.CanvasTexture(c);
+          tex.mapping = THREE.EquirectangularReflectionMapping;
+          var pm = new THREE.PMREMGenerator(renderer);
+          scene.environment = pm.fromEquirectangular(tex).texture;
+          tex.dispose();
+          pm.dispose();
+        })();
+
+        scene.add(new THREE.AmbientLight(0x1a2a30, 0.6));
+        var key = new THREE.DirectionalLight(0xfff0e0, 1.6);
+        key.position.set(-4, 5, 6);
+        scene.add(key);
+        var rim = new THREE.PointLight(0x02d8cc, 7, 22);
+        rim.position.set(4.5, 2.5, -2.5);
+        scene.add(rim);
+        var fill = new THREE.PointLight(0x5b7cff, 1.4, 18);
+        fill.position.set(-5, -2, 3);
+        scene.add(fill);
+
+        // Backdrop: a soft teal pool of light far behind everything (radial, not linear, to avoid banding).
+        var glowMat = new THREE.ShaderMaterial({
+          uniforms: { uGlow: { value: 0.0 }, uX: { value: 0.5 } },
+          vertexShader: "varying vec2 v;void main(){v=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}",
+          fragmentShader:
+            "uniform float uGlow;uniform float uX;varying vec2 v;void main(){vec3 base=vec3(0.016,0.027,0.039);float d=length((v-vec2(uX,0.5))*vec2(1.6,1.0));vec3 c=base+vec3(0.0,0.17,0.165)*uGlow*exp(-d*d*9.0)+vec3(0.0,0.025,0.03)*uGlow*exp(-d*d*2.2);gl_FragColor=vec4(c,1.0);}",
+          depthWrite: false,
+        });
+        var glow = new THREE.Mesh(new THREE.PlaneGeometry(60, 34), glowMat);
+        glow.position.z = -16;
+        scene.add(glow);
+
+        // ------------------------------------------------------------------
+        // Materials
+        // ------------------------------------------------------------------
+        var matTeal = new THREE.MeshPhysicalMaterial({
+          color: 0x038c84,
+          metalness: 0.2,
+          roughness: 0.2,
+          clearcoat: 1,
+          clearcoatRoughness: 0.08,
+          emissive: 0x000000,
+          envMapIntensity: 0.85,
+        });
+        var matDark = new THREE.MeshPhysicalMaterial({ color: 0x06141a, metalness: 0.3, roughness: 0.22, clearcoat: 1, envMapIntensity: 1 });
+        var matWhite = new THREE.MeshPhysicalMaterial({ color: 0xeaf7f6, metalness: 0, roughness: 0.3, clearcoat: 1 });
+        var matGold = new THREE.MeshPhysicalMaterial({
+          color: 0xff8f0a,
+          metalness: 0.92,
+          roughness: 0.3,
+          clearcoat: 0.5,
+          clearcoatRoughness: 0.2,
+          emissive: 0x3a1a00,
+          envMapIntensity: 0.9,
+        });
+
+        function roundedRectShape(w, h, r) {
+          var s = new THREE.Shape();
+          var x = -w / 2, y = -h / 2;
+          s.moveTo(x + r, y);
+          s.lineTo(x + w - r, y);
+          s.quadraticCurveTo(x + w, y, x + w, y + r);
+          s.lineTo(x + w, y + h - r);
+          s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+          s.lineTo(x + r, y + h);
+          s.quadraticCurveTo(x, y + h, x, y + h - r);
+          s.lineTo(x, y + r);
+          s.quadraticCurveTo(x, y, x + r, y);
+          return s;
+        }
+        function extrude(shape, depth, bevel) {
+          var g = new THREE.ExtrudeGeometry(shape, {
+            depth: depth,
+            bevelEnabled: true,
+            bevelThickness: bevel,
+            bevelSize: bevel,
+            bevelSegments: 6,
+            curveSegments: 24,
+          });
+          g.center();
+          return g;
+        }
+
+        // ------------------------------------------------------------------
+        // The activities, as glossy teal objects (the app's own icon set: VR, bowling, arcade)
+        // ------------------------------------------------------------------
+        function makeVR() {
+          var g = new THREE.Group();
+          g.add(new THREE.Mesh(extrude(roundedRectShape(1.7, 0.95, 0.36), 0.62, 0.1), matTeal));
+          [-0.4, 0.4].forEach(function (x) {
+            var lens = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.06, 48), matDark);
+            lens.rotation.x = PI / 2;
+            lens.position.set(x, 0.02, 0.42);
+            g.add(lens);
+          });
+          var band = new THREE.Mesh(new THREE.TorusGeometry(0.95, 0.07, 16, 64, PI), matDark);
+          band.rotation.x = PI / 2;
+          band.position.z = -0.3;
+          band.scale.set(1, 0.9, 1);
+          g.add(band);
+          return g;
+        }
+        function makeBall() {
+          var g = new THREE.Group();
+          g.add(new THREE.Mesh(new THREE.SphereGeometry(0.68, 64, 48), matTeal));
+          [[-0.16, 0.34], [0.16, 0.34], [0, 0.12]].forEach(function (p) {
+            var hole = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 0.2, 24), matDark);
+            var dir = new THREE.Vector3(p[0], p[1], 0.6).normalize();
+            hole.position.copy(dir.clone().multiplyScalar(0.64));
+            hole.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+            g.add(hole);
+          });
+          return g;
+        }
+        function makePad() {
+          var g = new THREE.Group();
+          g.add(new THREE.Mesh(extrude(roundedRectShape(1.6, 0.66, 0.32), 0.42, 0.1), matTeal));
+          [-0.55, 0.55].forEach(function (x) {
+            var grip = new THREE.Mesh(new THREE.SphereGeometry(0.36, 40, 32), matTeal);
+            grip.scale.set(1, 1.15, 0.75);
+            grip.position.set(x, -0.28, 0);
+            g.add(grip);
+          });
+          var dpH = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.09, 0.08), matDark);
+          dpH.position.set(-0.45, 0.04, 0.3);
+          var dpV = dpH.clone();
+          dpV.rotation.z = PI / 2;
+          g.add(dpH, dpV);
+          [[0.38, 0.12], [0.52, 0.0], [0.38, -0.12], [0.24, 0.0]].forEach(function (p) {
+            var b = new THREE.Mesh(new THREE.SphereGeometry(0.055, 20, 16), matWhite);
+            b.position.set(p[0], p[1] + 0.04, 0.3);
+            g.add(b);
+          });
+          return g;
+        }
+        function makeCoin() {
+          var g = new THREE.Group();
+          var body = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.09, 64), matGold);
+          body.rotation.x = PI / 2;
+          g.add(body);
+          var rimT = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.035, 12, 64), matGold);
+          rimT.position.z = 0.045;
+          var rimB = rimT.clone();
+          rimB.position.z = -0.045;
+          var ring = new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.02, 10, 48), matGold);
+          ring.position.z = 0.05;
+          g.add(rimT, rimB, ring);
+          return g;
+        }
+
+        // Act 1 cast: objects that drift toward the camera through the dark.
+        var toys = [];
+        var toyDefs = [
+          { make: makeVR, p0: [-2.6, 1.0, -9], p1: [-2.2, 0.75, 0.6], s: 0.9, spin: [0.25, 0.5, 0.05] },
+          { make: makeBall, p0: [2.9, -0.9, -11], p1: [2.5, -0.85, 0.2], s: 0.95, spin: [0.6, 0.35, 0] },
+          { make: makePad, p0: [1.9, 1.5, -13], p1: [1.75, 1.2, -1.2], s: 0.85, spin: [0.2, -0.45, 0.1] },
+          { make: makeCoin, p0: [-1.8, -1.6, -12], p1: [-1.6, -1.3, -0.8], s: 1.0, spin: [0.1, 1.1, 0] },
+          { make: makeBall, p0: [-3.6, -0.2, -16], p1: [-3.4, -0.3, -4], s: 0.6, spin: [0.4, 0.2, 0.1] },
+          { make: makeCoin, p0: [3.4, 1.4, -17], p1: [3.2, 1.3, -5], s: 0.8, spin: [0.2, 0.9, 0.1] },
+        ];
+        toyDefs.forEach(function (d) {
+          var m = d.make();
+          m.scale.setScalar(d.s);
+          scene.add(m);
+          toys.push({ obj: m, d: d });
+        });
+
+        // Payoff cast: Hangout Coins that burst out of the screen, then orbit the phone.
+        var coins = [];
+        var R = rng(365);
+        for (var i = 0; i < 26; i++) {
+          var c = makeCoin();
+          c.scale.setScalar(0.42 + R() * 0.22);
+          scene.add(c);
+          coins.push({
+            obj: c,
+            dir: new THREE.Vector3(R() * 2 - 1, R() * 1.6 - 0.5, 0.6 + R() * 0.9).normalize(),
+            speed: 3.2 + R() * 2.6,
+            spin: [R() * 4 - 2, R() * 6 - 3, R() * 2 - 1],
+            delay: R() * 0.55,
+            ringR: 1.9 + R() * 1.1,
+            ringY: R() * 2.8 - 1.4,
+            ringA: R() * PI * 2,
+            ringW: 0.35 + R() * 0.25,
+          });
+        }
+
+        // ------------------------------------------------------------------
+        // The phone (real iPhone 15 Pro Max model) with real Hangout screens
+        // ------------------------------------------------------------------
+        var phone = new THREE.Group();
+        scene.add(phone);
+        var screenA = null, screenB = null, screenBox = null;
+        var SCREENS = ["welcome", "explore", "map", "venue", "book", "ticket", "tick", "missions", "home"];
+        var tex = {};
+
+        function planarScreenUv(mesh) {
+          var g = mesh.geometry;
+          g.computeBoundingBox();
+          var bb = g.boundingBox;
+          var pos = g.attributes.position;
+          var w = bb.max.x - bb.min.x || 1;
+          var h = bb.max.y - bb.min.y || 1;
+          var uv = new Float32Array(pos.count * 2);
+          for (var i = 0; i < pos.count; i++) {
+            uv[i * 2] = (pos.getX(i) - bb.min.x) / w;
+            uv[i * 2 + 1] = (pos.getY(i) - bb.min.y) / h;
+          }
+          g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+        }
+
+        var loads = [];
+        var tLoader = new THREE.TextureLoader();
+        SCREENS.forEach(function (n) {
+          loads.push(
+            new Promise(function (res) {
+              tLoader.load("assets/screens/" + n + ".jpg", function (t) {
+                t.encoding = THREE.sRGBEncoding;
+                t.anisotropy = 8;
+                tex[n] = t;
+                res();
+              });
+            }),
+          );
+        });
+        loads.push(
+          new Promise(function (res) {
+            new THREE.GLTFLoader().load("assets/models/iphone.glb", function (gltf) {
+              var m = gltf.scene;
+              var box = new THREE.Box3().setFromObject(m);
+              var s = 3.2 / box.getSize(new THREE.Vector3()).y;
+              m.scale.setScalar(s);
+              box.setFromObject(m);
+              m.position.sub(box.getCenter(new THREE.Vector3()));
+              m.traverse(function (child) {
+                if (child.isMesh && child.name.indexOf("front-glass") === 0) {
+                  planarScreenUv(child);
+                  screenA = child;
+                  return;
+                }
+                if (child.isMesh && child.name.indexOf("apple-logo") === 0) {
+                  child.visible = false;
+                  return;
+                }
+                var mn = child.isMesh && child.material ? child.material.name || "" : "";
+                if (/anodised|antenna|lens-ring|ceramic-shield-back/.test(mn)) {
+                  child.material = child.material.clone();
+                  child.material.color.set(/ceramic-shield-back/.test(mn) ? 0x10181b : /antenna/.test(mn) ? 0x2b3539 : 0x1f2a2e);
+                  child.material.metalness = /ceramic/.test(mn) ? 0.2 : 0.85;
+                  child.material.roughness = /ceramic/.test(mn) ? 0.32 : 0.36;
+                }
+              });
+              // Face the screen toward +Z (the camera side).
+              m.updateWorldMatrix(true, true);
+              var front = m.getObjectByName("front-glass"), back = m.getObjectByName("rear-window");
+              if (front && back) {
+                var fp = new THREE.Vector3(), bp = new THREE.Vector3();
+                front.getWorldPosition(fp);
+                back.getWorldPosition(bp);
+                if (fp.z < bp.z) m.rotation.y += PI;
+              }
+              phone.add(m);
+              res();
+            });
+          }),
+        );
+
+        // ------------------------------------------------------------------
+        // Choreography (local seconds; this scene starts at 7.0 s in the film)
+        // ------------------------------------------------------------------
+        // Screen schedule: [time the new screen is fully in, name]; 0.22 s crossfade before it.
+        var SCHEDULE = [
+          [0, "welcome"],
+          [6.75, "explore"],
+          [8.35, "map"],
+          [9.9, "venue"],
+          [13.2, "book"],
+          [16.28, "ticket"], // swapped while the phone's back faces camera
+          [17.75, "tick"],
+          [19.8, "missions"],
+          [23.2, "home"],
+        ];
+        var FADE = 0.22;
+        function screenAt(t) {
+          var cur = SCHEDULE[0][1], next = null, mix = 0;
+          for (var i = 0; i < SCHEDULE.length; i++) {
+            if (t >= SCHEDULE[i][0]) cur = SCHEDULE[i][1];
+          }
+          for (var j = 1; j < SCHEDULE.length; j++) {
+            var ts = SCHEDULE[j][0];
+            if (t >= ts - FADE && t < ts) {
+              cur = SCHEDULE[j - 1][1];
+              next = SCHEDULE[j][1];
+              mix = (t - (ts - FADE)) / FADE;
+            }
+          }
+          return { cur: cur, next: next, mix: mix };
+        }
+
+        // Phone pose
+        var PH = {
+          x: [[0, 0], [28, 0]],
+          y: [[0, 0], [2.6, 0], [4.4, -0.05], [6.4, -0.05], [7.05, -0.02], [22.7, -0.02], [23.5, 0.22], [26.0, 0.22], [27.6, 0.6, E.in]],
+          z: [[0, -14], [2.4, -14], [4.4, 0, E.out], [6.4, 0], [7.05, 0.3], [22.7, 0.3], [23.5, -0.6], [26.0, -0.6], [27.6, -9, E.in]],
+          ry: [
+            [0, PI], [3.0, PI], [4.6, 0, E.spin], [5.5, -0.07], [6.4, 0.07], [7.05, -0.34], [9.6, -0.22], [12.9, -0.3],
+            [13.4, -0.12], [15.7, -0.2], [15.9, -0.2], [16.75, -0.2 - 2 * PI, E.spin], [19.5, -0.26 - 2 * PI], [22.7, -0.3 - 2 * PI],
+            [23.5, -2 * PI], [26, 0.1 - 2 * PI], [27.6, 0.25 - 2 * PI],
+          ],
+          rx: [[0, 0.5], [4.4, 0.05, E.out], [7.05, 0.02], [13.4, -0.04], [15.9, 0.02], [22.7, 0], [23.5, 0.02], [28, 0.02]],
+          rz: [[0, -0.3], [4.4, 0, E.out], [28, 0]],
+        };
+        // Camera: position and the point it looks at. Push-ins aim at real labels on the screen.
+        var CAM = {
+          x: [[0, 0], [4.4, 0], [6.4, 0], [7.05, 0], [28, 0]],
+          y: [[0, 0.3], [4.4, 0], [28, 0]],
+          z: [[0, 9.5], [4.4, 8.2, E.out], [6.4, 7.9], [7.05, 8.1], [9.6, 7.8], [10.6, 4.2], [12.6, 4.0], [13.2, 7.8], [13.75, 5.2], [15.6, 5.0], [16.1, 7.9], [19.5, 7.7], [22.7, 8.6], [23.5, 11.2], [26, 10.6], [28, 10.6]],
+          // look-at blend: 0 = look at phone centre offset, 1 = look at the focus point on the screen
+          f: [[0, 0], [9.6, 0], [10.6, 1], [12.6, 1], [13.2, 0], [13.75, 1], [15.6, 1], [16.1, 0], [28, 0]],
+        };
+        // Focus points on the screen, in screen UV (u right, v up)
+        var FOCUS = [
+          [9.6, 13.2, 0.3, 0.6], // venue: "Typical for Sunday 8 pm" and the rating
+          [13.2, 16.1, 0.5, 0.2], // booking: "Pay with", the total and "Hold slot & pay"
+        ];
+        function focusUV(t) {
+          for (var i = 0; i < FOCUS.length; i++) if (t >= FOCUS[i][0] && t < FOCUS[i][1]) return [FOCUS[i][2], FOCUS[i][3]];
+          return [0.5, 0.5];
+        }
+
+        var tmpV = new THREE.Vector3(), tgt = new THREE.Vector3(), focusW = new THREE.Vector3();
+
+        host.render = function (t) {
+          // --- Act 1: activities drift toward the camera, then part for the phone ---
+          toys.forEach(function (o, i) {
+            var d = o.d;
+            var u = clamp01(t / 4.6);
+            var e = E.out(u);
+            var part = E.in(clamp01((t - 2.6 - i * 0.05) / 1.6));
+            var x = d.p0[0] + (d.p1[0] - d.p0[0]) * e;
+            var y = d.p0[1] + (d.p1[1] - d.p0[1]) * e;
+            var z = d.p0[2] + (d.p1[2] - d.p0[2]) * e;
+            var outDir = new THREE.Vector2(x, y).normalize();
+            x += outDir.x * part * 6;
+            y += outDir.y * part * 4;
+            z += part * 4;
+            o.obj.position.set(x, y, z);
+            o.obj.rotation.set(0.3 + t * d.spin[0], -0.4 + t * d.spin[1], t * d.spin[2]);
+            o.obj.visible = t < 5.2;
+          });
+
+          // --- Phone pose ---
+          phone.position.set(kf(PH.x, t), kf(PH.y, t), kf(PH.z, t));
+          phone.rotation.set(kf(PH.rx, t), kf(PH.ry, t), kf(PH.rz, t));
+
+          // --- Screens: crossfade between real app screens ---
+          if (screenA) {
+            var sc = screenAt(t);
+            screenA.material.map = tex[sc.cur];
+            screenA.material.needsUpdate = screenA.userData.lastMap !== sc.cur;
+            screenA.userData.lastMap = sc.cur;
+            if (sc.next) {
+              screenB.visible = true;
+              screenB.material.map = tex[sc.next];
+              screenB.material.opacity = sc.mix;
+              screenB.material.needsUpdate = true;
+            } else {
+              screenB.visible = false;
+            }
+          }
+
+          // --- Coins: burst out of the screen (level up), then orbit the phone (payoff) ---
+          var tb = 20.7, to = 23.3;
+          var screenCentre = new THREE.Vector3();
+          phone.getWorldPosition(screenCentre);
+          coins.forEach(function (c, i) {
+            var lt = t - tb - c.delay;
+            if (lt < 0 || t > 27.8) {
+              c.obj.visible = false;
+              return;
+            }
+            c.obj.visible = true;
+            // burst: decelerating flight out of the screen
+            var k = 1 - Math.exp(-lt * 1.6);
+            var bx = c.dir.x * c.speed * k * 0.9;
+            var by = c.dir.y * c.speed * k * 0.7;
+            var bz = 0.3 + c.dir.z * c.speed * k * 0.55;
+            var burst = new THREE.Vector3(bx, by, bz);
+            // orbit: a ring around the phone at centre
+            var ot = Math.max(0, t - to);
+            var a = c.ringA + ot * c.ringW;
+            var orbit = new THREE.Vector3(Math.cos(a) * c.ringR, c.ringY * 0.7 + 0.22, -0.6 + Math.sin(a) * c.ringR * 0.6);
+            var m = E.inOut(clamp01((t - to + 0.6) / 1.4));
+            c.obj.position.copy(burst.lerp(orbit, m));
+            c.obj.rotation.set(lt * c.spin[0] * 0.5, lt * c.spin[1], lt * c.spin[2] * 0.4);
+          });
+
+          // --- Camera ---
+          camera.position.set(kf(CAM.x, t), kf(CAM.y, t), kf(CAM.z, t));
+          phone.updateMatrixWorld(true);
+          tgt.set(phone.position.x, phone.position.y * 0.5, phone.position.z);
+          if (screenBox) {
+            var fu = focusUV(t);
+            focusW.set(
+              screenBox.min.x + (screenBox.max.x - screenBox.min.x) * fu[0],
+              screenBox.min.y + (screenBox.max.y - screenBox.min.y) * fu[1],
+              screenBox.max.z,
+            );
+            screenA.localToWorld(focusW);
+            var f = kf(CAM.f, t);
+            tgt.lerp(focusW, f);
+            camera.position.x += (focusW.x - camera.position.x) * f * 0.85;
+            camera.position.y += (focusW.y - camera.position.y) * f * 0.85;
+          }
+          camera.lookAt(tgt);
+          // Lens shift: the subject sits right of centre during the feature tour, leaving the left for captions.
+          var shift = kf([[0, 0], [6.4, 0], [7.05, 0.17], [22.7, 0.17], [23.5, 0], [28, 0]], t);
+          camera.setViewOffset(W, H, -shift * W, 0, W, H);
+
+          // --- Light and fade ---
+          glowMat.uniforms.uGlow.value = kf([[0, 0], [2.0, 0.4], [4.4, 1.0], [6.4, 1.0], [7.05, 0.75], [26, 0.85], [27.8, 0]], t);
+          glowMat.uniforms.uX.value = 0.5;
+          rim.intensity = 7 * kf([[0, 0.2], [2.5, 1], [26, 1], [27.8, 0]], t);
+          var fadeK = kf([[0, 0], [0.5, 1, E.lin], [26.6, 1], [27.9, 0, E.lin]], t);
+          renderer.toneMappingExposure = 1.1 * fadeK;
+          // The screens are not tone-mapped, so they fade with their own colour multiplier.
+          if (screenA) {
+            screenA.material.color.setScalar(fadeK);
+            screenB.material.color.setScalar(fadeK);
+          }
+          renderer.render(scene, camera);
+        };
+
+        Promise.all(loads).then(function () {
+          // Screen materials: unlit, not tone-mapped, so the real UI keeps its colours.
+          screenA.material = new THREE.MeshBasicMaterial({ map: tex.welcome, toneMapped: false });
+          screenB = new THREE.Mesh(
+            screenA.geometry,
+            new THREE.MeshBasicMaterial({
+              map: tex.explore,
+              toneMapped: false,
+              transparent: true,
+              opacity: 0,
+              depthWrite: false,
+              polygonOffset: true,
+              polygonOffsetFactor: -2,
+              polygonOffsetUnits: -2,
+            }),
+          );
+          screenA.parent.add(screenB);
+          screenB.position.copy(screenA.position);
+          screenB.quaternion.copy(screenA.quaternion);
+          screenB.scale.copy(screenA.scale);
+          screenA.geometry.computeBoundingBox();
+          screenBox = screenA.geometry.boundingBox.clone();
+          return renderer.compileAsync ? renderer.compileAsync(scene, camera) : null;
+        }).then(function () {
+          host.render(clock.t);
+          host.ready();
+        });
+      })();
+    </script>
+  </body>
+</html>

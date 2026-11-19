@@ -1,0 +1,7 @@
+.hyperframes/artifacts/
+.hyperframes/preview/
+.hyperframes/cache/
+renders/render.log
+renders/work-*/
+renders/.*
+node_modules/

@@ -1,0 +1,98 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Space Grotesk";
+      src: url("assets/fonts/SpaceGrotesk.woff2") format("woff2");
+      font-weight: 300 700;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      color: #ffffff;
+      font-family: "Space Grotesk", sans-serif;
+      background: #04070a;
+    }
+    #ec-glow {
+      position: absolute;
+      left: 560px;
+      top: 70px;
+      width: 800px;
+      height: 640px;
+      background: radial-gradient(closest-side, rgba(2, 216, 204, 0.26), rgba(2, 216, 204, 0.08) 55%, rgba(2, 216, 204, 0) 100%);
+      opacity: 0;
+    }
+    #ec-logo {
+      position: absolute;
+      left: 810px;
+      top: 150px;
+      width: 300px;
+      height: 316px;
+      opacity: 0;
+    }
+    #ec-line {
+      position: absolute;
+      left: 0;
+      width: 1920px;
+      top: 560px;
+      text-align: center;
+      font-size: 92px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    #ec-line span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #ec-line .acc {
+      color: #02d8cc;
+    }
+    #ec-alpha {
+      position: absolute;
+      left: 0;
+      width: 1920px;
+      top: 724px;
+      text-align: center;
+      font-family: "Inter", sans-serif;
+      font-size: 34px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: #8fa1a8;
+      opacity: 0;
+    }
+    #ec-alpha b {
+      color: #ffffff;
+      font-weight: 500;
+    }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1920" data-height="1080">
+    <div id="ec-glow"></div>
+    <img id="ec-logo" src="assets/logo.png" alt="Hangout" />
+    <div id="ec-line">
+      <span id="ec-w0">Plan.</span> <span id="ec-w1">Book.</span> <span id="ec-w2">Play.</span> <span id="ec-w3" class="acc">Earn</span>
+      <span id="ec-w4" class="acc">Rewards.</span>
+    </div>
+    <div id="ec-alpha"><b>Alpha test</b> · Elan &amp; nVision 2027 · IIT Hyderabad · 8–10 January</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // The mark is performed in out of a teal bloom, then the promise, then where to see it first.
+    tl.fromTo("#ec-glow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.9, ease: "power2.out" }, 0.1);
+    tl.fromTo(
+      "#ec-logo",
+      { opacity: 0, scale: 0.78, y: 30, filter: "blur(14px)" },
+      { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out" },
+      0.25,
+    );
+    for (let j = 0; j < 5; j++) {
+      tl.fromTo(
+        "#ec-w" + j,
+        { opacity: 0, filter: "blur(6px)" },
+        { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" },
+        0.95 + j * 0.16,
+      );
+    }
+    tl.fromTo("#ec-alpha", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.25, ease: "power4.out" }, 1.85);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>
