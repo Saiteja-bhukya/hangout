@@ -96,7 +96,7 @@
 
         var scr = $('a4-rig').querySelector('.phone .app-screen'), ls = $('a4-rig-ls');
         var L = [['date-sun22', 'a4-t0', 30.15, 'right'], ['slot-6pm', 'a4-t1', 30.45, 'right'], ['players', 'a4-t2', 30.75, 'right']];
-        SC.layout(scr, function () { L.forEach(function (l) { SC.liftTag(tl, { scr: scr, liftScr: ls, part: l[0], tag: $(l[1]), wire: $(l[1] + '-w'), side: l[3], dz: 150, gap: 60 }, T(l[2])); }); });
+        SC.layout(scr, function () { L.forEach(function (l) { SC.liftTag(tl, { scr: scr, liftScr: ls, part: l[0], tag: $(l[1]), wire: $(l[1] + '-w'), side: l[3], dz: 150, gap: 60, toX: 418 }, T(l[2])); }); });
         tl.fromTo('#a4-halo', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.55, ease: 'power2.out' }, T(29.45));
         tl.to('#a4-halo', { opacity: 0, duration: 0.3, ease: 'power2.in' }, T(32.5));
         SC.qBubble(tl, $('a4-q'), T(29.42), T(32.52));

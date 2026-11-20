@@ -112,7 +112,7 @@ ${rig('a3-rig', stack('a3', ['venue', 'packages']), 'packages', 1040, 100, [['a3
         // venue screen first (hero), then packages pushes in from the right
         tl.fromTo('#a3-rig', { x: 700, rotation: 6, opacity: 0, scale: 1, transformOrigin: '50% 0%' }, { x: 0, rotation: 0, opacity: 1, duration: 0.5, ease: 'expo.out' }, T(26.04));
         tl.fromTo('#a3-s1', { x: ${PHONE.sw} }, { x: 0, duration: 0.42, ease: 'power3.inOut' }, T(27.3));
-        tl.fromTo('#a3-s0', { x: 0, opacity: 1 }, { x: -120, opacity: 0.4, duration: 0.42, ease: 'power3.inOut' }, T(27.3));
+        tl.fromTo('#a3-s0', { x: 0, opacity: 1 }, { x: -120, opacity: 0, duration: 0.42, ease: 'power3.inOut' }, T(27.3));
         // close-up: push in on the screen and pan down to the crew package
         tl.to('#a3-rig', { scale: 1.42, x: 40, y: 10, duration: 0.6, ease: 'power2.inOut' }, T(26.55));
         tl.to('#a3-rig', { y: -330, duration: 0.6, ease: 'power2.inOut' }, T(27.4));
@@ -135,7 +135,7 @@ ${rig('a4-rig', screen('datetime'), 'datetime', 1060, 110, [['a4-t0', 'Sunday 22
       ${lifts(`
         var scr = $('a4-rig').querySelector('.phone .app-screen'), ls = $('a4-rig-ls');
         var L = [['date-sun22', 'a4-t0', 30.15, 'right'], ['slot-6pm', 'a4-t1', 30.45, 'right'], ['players', 'a4-t2', 30.75, 'right']];
-        SC.layout(scr, function () { L.forEach(function (l) { SC.liftTag(tl, { scr: scr, liftScr: ls, part: l[0], tag: $(l[1]), wire: $(l[1] + '-w'), side: l[3], dz: 150, gap: 60 }, T(l[2])); }); });
+        SC.layout(scr, function () { L.forEach(function (l) { SC.liftTag(tl, { scr: scr, liftScr: ls, part: l[0], tag: $(l[1]), wire: $(l[1] + '-w'), side: l[3], dz: 150, gap: 60, toX: 418 }, T(l[2])); }); });
         tl.fromTo('#a4-halo', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.55, ease: 'power2.out' }, T(29.45));
         tl.to('#a4-halo', { opacity: 0, duration: 0.3, ease: 'power2.in' }, T(32.5));
         SC.qBubble(tl, $('a4-q'), T(29.42), T(32.52));
@@ -173,6 +173,7 @@ ${rig('a5-rig', stack('a5', ['summary', 'ticket']), ['summary', 'ticket'], 1020,
         tl.to('#a5-rig-ls [data-lifted]', { opacity: 0, z: 0, duration: 0.25, ease: 'power2.in' }, T(34.8));
         tl.to(ss.querySelector('[data-part="total"]') || {}, { opacity: 1, duration: 0.2 }, T(34.8));
         tl.fromTo('#a5-s1', { y: ${PHONE.sh} }, { y: 0, duration: 0.45, ease: 'power3.inOut' }, T(34.95));
+        tl.fromTo('#a5-s0', { opacity: 1 }, { opacity: 0, duration: 0.05, ease: 'none' }, T(35.4));
         tl.to('#a5-rig', { rotationY: 0, scale: 1.04, duration: 0.6, ease: 'power2.inOut' }, T(34.95));
         SC.stamp(tl, $('a5-ok'), T(36.05), T(36.68));
         tl.to('#a5-rig', { opacity: 0, filter: 'blur(10px)', scale: 0.92, duration: 0.3, ease: 'power3.in' }, T(36.68));`)}`,

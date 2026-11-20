@@ -100,6 +100,12 @@
     cs.position = 'absolute'; cs.left = x + 'px'; cs.top = y + 'px'; cs.width = w + 'px'; cs.height = h + 'px';
     cs.margin = '0'; cs.opacity = '0'; cs.boxSizing = 'border-box';
     liftScr.appendChild(clone);
+    // the lifted copy deliberately sits over its dimmed original: tell the layout audit
+    [clone, orig].forEach(function (el) {
+      el.setAttribute('data-layout-allow-overlap', '');
+      var all = el.querySelectorAll('*');
+      for (var i = 0; i < all.length; i++) all[i].setAttribute('data-layout-allow-overlap', '');
+    });
     return { clone: clone, orig: orig, x: x, y: y, w: w, h: h };
   };
 
@@ -115,6 +121,7 @@
     else if (o.side === 'above') { tx = cx - tw / 2; ty = g.y - gap - th; wx = cx; wy = g.y - gap; wl = gap; vertical = true; }
     else if (o.side === 'below') { tx = cx - tw / 2; ty = g.y + g.h + gap; wx = cx; wy = g.y + g.h; wl = gap; vertical = true; }
     else { tx = g.x + g.w + gap; ty = cy - th / 2; wx = g.x + g.w; wy = cy; wl = gap; }
+    if (o.toX != null && o.side === 'right') { tx = o.toX; wl = Math.max(16, o.toX - (g.x + g.w)); }
     if (o.dx) tx += o.dx; if (o.dy) ty += o.dy;
     tag.style.left = tx + 'px'; tag.style.top = ty + 'px';
     wire.style.left = wx + 'px'; wire.style.top = (wy - 1) + 'px';

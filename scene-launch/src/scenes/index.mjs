@@ -14,4 +14,6 @@ try { rewards = [(await import('./rewards.mjs')).default]; } catch (e) { if (!St
 
 export const DURATION = 60;
 export const SCENES = [bg, hook, pain, relief, range, ...answers, ...rewards, payoff, end, overlay];
-export const AUDIO = [];
+// One mastered mix (music + SFX, -14 LUFS / -1 dBTP), built by tools/make-audio.mjs + tools/master-audio.sh.
+// The stems (assets/audio/music.wav, sfx.wav) stay in the project for re-mixing.
+export const AUDIO = [{ id: 'scene-mix', src: 'assets/audio/scene-mix.wav', start: 0, duration: 60, track: 3, volume: 1 }];
