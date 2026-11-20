@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "8bb90350-8501-4893-9c96-37cb31bfe6be",
-  "currentRevision": "ee5b1903-e3b5-4891-9db9-62b1b7f76658",
+  "currentRevision": "208f7ce5-6b48-4fab-8b8f-bf3507eb02be",
   "pendingChanges": false,
   "files": {
     "AGENTS.md": {
@@ -807,6 +807,10 @@
     "tools/qa-stills.sh": {
       "hash": "915839b779ae52332b31098b85be14b390fbd33eb770c41c9b369e7a3e5a918a",
       "content": "/root/.cache/hyperframes/history/8bb90350-8501-4893-9c96-37cb31bfe6be/blobs/91/915839b779ae52332b31098b85be14b390fbd33eb770c41c9b369e7a3e5a918a"
+    },
+    "tools/splice-patches.sh": {
+      "hash": "95882fa5664a13b1f0940097c90cfdfd1d0bc17b14a8a8e1fc7cc486262cc5c0",
+      "content": "/root/.cache/hyperframes/history/8bb90350-8501-4893-9c96-37cb31bfe6be/blobs/95/95882fa5664a13b1f0940097c90cfdfd1d0bc17b14a8a8e1fc7cc486262cc5c0"
     }
   },
   "revisions": {
@@ -2234,6 +2238,21 @@
         "tools/qa-stills.sh": {
           "before": null,
           "after": "/root/.cache/hyperframes/history/8bb90350-8501-4893-9c96-37cb31bfe6be/blobs/91/915839b779ae52332b31098b85be14b390fbd33eb770c41c9b369e7a3e5a918a"
+        }
+      }
+    },
+    "208f7ce5-6b48-4fab-8b8f-bf3507eb02be": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795210982818,
+      "endedAt": 1795210982819,
+      "files": {
+        "tools/splice-patches.sh": {
+          "before": null,
+          "after": "/root/.cache/hyperframes/history/8bb90350-8501-4893-9c96-37cb31bfe6be/blobs/95/95882fa5664a13b1f0940097c90cfdfd1d0bc17b14a8a8e1fc7cc486262cc5c0"
         }
       }
     }
