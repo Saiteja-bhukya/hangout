@@ -1,0 +1,180 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>HANGOUT FX renderer</title></head>
+<body style="margin:0;background:transparent">
+<script>
+// Raster motion graphics, gamification, logo-reveal and background layers for HANGOUT.
+const CY = [54, 214, 242], ICE = [150, 240, 255], BL = [57, 123, 255], LIL = [183, 169, 255], GOLD = [233, 203, 126], WH = [255, 255, 255];
+const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function cv(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+function blurInto(dst, src, px, alpha = 1, op = 'source-over') { const g = dst.getContext('2d'); g.save(); g.filter = `blur(${px}px)`; g.globalAlpha = alpha; g.globalCompositeOperation = op; g.drawImage(src, 0, 0); g.restore(); }
+function ellipseGlow(g, x, y, rx, ry, stops) { g.save(); g.translate(x, y); g.scale(rx, ry); const gr = g.createRadialGradient(0, 0, 0, 0, 0, 1); stops.forEach(([p, c]) => gr.addColorStop(p, c)); g.fillStyle = gr; g.beginPath(); g.arc(0, 0, 1, 0, Math.PI * 2); g.fill(); g.restore(); }
+function rr(g, x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, r); }
+
+// ---------- light effects ----------
+function streak(c, col) { const W = 4096, H = 512, k = cv(W, H), g = k.getContext('2d'); g.globalCompositeOperation = 'lighter';
+  ellipseGlow(g, W / 2, H / 2, W * .5, H * .22, [[0, rgba(col, .35)], [1, rgba(col, 0)]]);
+  ellipseGlow(g, W / 2, H / 2, W * .48, H * .035, [[0, rgba(WH, 1)], [.25, rgba(col, .9)], [1, rgba(col, 0)]]);
+  ellipseGlow(g, W / 2, H / 2, W * .12, H * .12, [[0, rgba(WH, .9)], [1, rgba(col, 0)]]); return k; }
+function pulseRing(thick) { const S = 2048, k = cv(S, S), g = k.getContext('2d'); const r = S * .38;
+  const gr = g.createRadialGradient(S / 2, S / 2, r - thick * 3, S / 2, S / 2, r + thick * 3); gr.addColorStop(0, rgba(CY, 0)); gr.addColorStop(.42, rgba(CY, .5)); gr.addColorStop(.5, rgba(WH, .95)); gr.addColorStop(.58, rgba(CY, .5)); gr.addColorStop(1, rgba(BL, 0));
+  g.fillStyle = gr; g.beginPath(); g.arc(S / 2, S / 2, r + thick * 3, 0, Math.PI * 2); g.arc(S / 2, S / 2, Math.max(0, r - thick * 3), 0, Math.PI * 2, true); g.fill(); return k; }
+function burst(cols, seed, rays = 90) { const S = 2048, k = cv(S, S), g = k.getContext('2d'), R = rng(seed); g.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < rays; i++) { const a = R() * Math.PI * 2, len = S * (.18 + R() * .32), w = .004 + R() * .012, col = cols[i % cols.length];
+    const gr = g.createLinearGradient(S / 2, S / 2, S / 2 + Math.cos(a) * len, S / 2 + Math.sin(a) * len); gr.addColorStop(0, rgba(WH, .55)); gr.addColorStop(.3, rgba(col, .35)); gr.addColorStop(1, rgba(col, 0));
+    g.fillStyle = gr; g.beginPath(); g.moveTo(S / 2, S / 2); g.lineTo(S / 2 + Math.cos(a - w) * len, S / 2 + Math.sin(a - w) * len); g.lineTo(S / 2 + Math.cos(a + w) * len, S / 2 + Math.sin(a + w) * len); g.fill(); }
+  ellipseGlow(g, S / 2, S / 2, S * .22, S * .22, [[0, rgba(WH, .95)], [.2, rgba(cols[0], .6)], [1, rgba(cols[0], 0)]]); return k; }
+function flare() { const W = 3072, H = 1024, k = cv(W, H), g = k.getContext('2d'); g.globalCompositeOperation = 'lighter';
+  ellipseGlow(g, W / 2, H / 2, W * .5, 10, [[0, rgba(WH, .9)], [.3, rgba(CY, .6)], [1, rgba(BL, 0)]]);
+  ellipseGlow(g, W / 2, H / 2, W * .4, 60, [[0, rgba(CY, .25)], [1, rgba(BL, 0)]]);
+  ellipseGlow(g, W / 2, H / 2, 140, 140, [[0, rgba(WH, 1)], [.25, rgba(ICE, .7)], [1, rgba(CY, 0)]]);
+  [[.68, 60, LIL, .18], [.78, 26, CY, .25], [.86, 110, BL, .1], [.3, 40, CY, .14], [.2, 80, LIL, .08]].forEach(([p, r, c, a]) => { g.strokeStyle = rgba(c, a * 1.6); g.lineWidth = 3; g.fillStyle = rgba(c, a); g.beginPath(); g.arc(W * p, H / 2 + (p - .5) * 180, r, 0, Math.PI * 2); g.fill(); g.stroke(); });
+  return k; }
+function phoneOutline() { const W = 1300, H = 2586, k = cv(W, H), g = k.getContext('2d'), a = cv(W, H), ga = a.getContext('2d');
+  ga.strokeStyle = rgba(CY, 1); ga.lineWidth = 10; rr(ga, 100, 100, 1100, 2386, 150); ga.stroke();
+  blurInto(k, a, 40, .9); blurInto(k, a, 12, 1, 'lighter'); g.strokeStyle = rgba(ICE, 1); g.lineWidth = 4; rr(g, 100, 100, 1100, 2386, 150); g.stroke(); return k; }
+
+// ---------- particles ----------
+function particles(W, H, n, seed, rMin, rMax, blur, alpha, cols) { const k = cv(W, H), g = k.getContext('2d'), R = rng(seed), t = cv(W, H), gt = t.getContext('2d'); gt.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < n; i++) { const x = R() * W, y = R() * H, r = rMin + Math.pow(R(), 3) * (rMax - rMin), c = cols[Math.floor(R() * cols.length)], a = alpha * (.35 + R() * .65);
+    const gr = gt.createRadialGradient(x, y, 0, x, y, r * 2.4); gr.addColorStop(0, rgba(WH, a)); gr.addColorStop(.35, rgba(c, a * .8)); gr.addColorStop(1, rgba(c, 0)); gt.fillStyle = gr; gt.beginPath(); gt.arc(x, y, r * 2.4, 0, Math.PI * 2); gt.fill(); }
+  if (blur) blurInto(k, t, blur); else g.drawImage(t, 0, 0); return k; }
+function particleBurst(seed, cols) { const S = 2048, k = cv(S, S), g = k.getContext('2d'), R = rng(seed); g.globalCompositeOperation = 'lighter'; g.lineCap = 'round';
+  for (let i = 0; i < 260; i++) { const a = R() * Math.PI * 2, d = S * (.08 + Math.pow(R(), .7) * .4), len = 8 + R() * 70, c = cols[i % cols.length], w = 2 + R() * 5;
+    const x = S / 2 + Math.cos(a) * d, y = S / 2 + Math.sin(a) * d, gr = g.createLinearGradient(x - Math.cos(a) * len, y - Math.sin(a) * len, x, y); gr.addColorStop(0, rgba(c, 0)); gr.addColorStop(1, rgba(WH, .9));
+    g.strokeStyle = gr; g.lineWidth = w; g.beginPath(); g.moveTo(x - Math.cos(a) * len, y - Math.sin(a) * len); g.lineTo(x, y); g.stroke(); }
+  const b = cv(S, S); blurInto(b, k, 10); b.getContext('2d').globalCompositeOperation = 'lighter'; b.getContext('2d').drawImage(k, 0, 0); return b; }
+
+// ---------- transitions ----------
+function scanLine() { const W = 2048, H = 320, k = cv(W, H), g = k.getContext('2d'); g.globalCompositeOperation = 'lighter';
+  ellipseGlow(g, W / 2, H / 2, W * .55, H * .45, [[0, rgba(CY, .35)], [1, rgba(CY, 0)]]);
+  const gr = g.createLinearGradient(0, 0, W, 0); gr.addColorStop(0, rgba(CY, 0)); gr.addColorStop(.15, rgba(ICE, .95)); gr.addColorStop(.85, rgba(ICE, .95)); gr.addColorStop(1, rgba(CY, 0)); g.fillStyle = gr; g.fillRect(0, H / 2 - 3, W, 6);
+  for (let y = 0; y < H; y += 8) { g.fillStyle = rgba(CY, .06 * (1 - Math.abs(y - H / 2) / (H / 2))); g.fillRect(0, y, W, 2); } return k; }
+function scanOverlay() { const W = 1920, H = 1080, k = cv(W, H), g = k.getContext('2d'); for (let y = 0; y < H; y += 4) { g.fillStyle = rgba(CY, .045); g.fillRect(0, y, W, 1); } return k; }
+function sweep() { const S = 2048, k = cv(S, S), g = k.getContext('2d'); g.translate(S / 2, S / 2); g.rotate(-Math.PI / 5); const gr = g.createLinearGradient(-S * .18, 0, S * .18, 0); gr.addColorStop(0, rgba(WH, 0)); gr.addColorStop(.42, rgba(ICE, .18)); gr.addColorStop(.5, rgba(WH, .55)); gr.addColorStop(.58, rgba(ICE, .18)); gr.addColorStop(1, rgba(WH, 0)); g.fillStyle = gr; g.fillRect(-S * .18, -S, S * .36, S * 2); return k; }
+function trail(col) { const W = 3072, H = 384, k = cv(W, H), g = k.getContext('2d'); g.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < 9; i++) { const y = H / 2 + (i - 4) * 22, w = (1 - Math.abs(i - 4) / 5), gr = g.createLinearGradient(0, 0, W, 0); gr.addColorStop(0, rgba(col, 0)); gr.addColorStop(.8, rgba(col, .5 * w)); gr.addColorStop(1, rgba(WH, .9 * w)); g.fillStyle = gr; g.fillRect(W * (.15 + (1 - w) * .3), y - 2 - w * 3, W * (.85 - (1 - w) * .3), 4 + w * 6); }
+  const b = cv(W, H); blurInto(b, k, 6); b.getContext('2d').globalCompositeOperation = 'lighter'; b.getContext('2d').drawImage(k, 0, 0); return b; }
+
+// ---------- floating UI ----------
+function frameFlat() { const W = 1300, H = 2586, k = cv(W, H), g = k.getContext('2d');
+  ellipseGlow(g, W / 2, H / 2, W * .62, H * .55, [[0, rgba(CY, .16)], [1, rgba(CY, 0)]]);
+  const gr = g.createLinearGradient(0, 0, W, H); gr.addColorStop(0, '#2A3E5A'); gr.addColorStop(.5, '#0F1A2B'); gr.addColorStop(1, '#1D2C44');
+  g.fillStyle = gr; rr(g, 64, 64, W - 128, H - 128, 186); g.fill();
+  g.strokeStyle = rgba(ICE, .55); g.lineWidth = 4; rr(g, 66, 66, W - 132, H - 132, 184); g.stroke();
+  g.globalCompositeOperation = 'destination-out'; rr(g, 100, 100, 1100, 2386, 150); g.fill(); g.globalCompositeOperation = 'source-over';
+  g.strokeStyle = rgba(CY, .35); g.lineWidth = 2; rr(g, 100, 100, 1100, 2386, 150); g.stroke(); return k; }
+function persp(src, mode, deg) { // strip-based perspective warp
+  const W = src.width, H = src.height, a = deg * Math.PI / 180, f = 2.2;
+  const out = cv(Math.round(W * 1.15), Math.round(H * 1.15)), g = out.getContext('2d'), OX = out.width / 2, OY = out.height / 2;
+  if (mode === 'y') { for (let x = 0; x < W; x += 2) { const u = (x - W / 2) / W, z = 1 + u * Math.sin(a) * 1.0, px = OX + (u * Math.cos(a) * W) / z * (f / (f - 1 + 1)), sc = 1 / z; g.drawImage(src, x, 0, 2, H, px, OY - H * sc / 2, 2.6 * sc + .5, H * sc); } }
+  else { for (let y = 0; y < H; y += 2) { const v = (y - H / 2) / H, z = 1 - v * Math.sin(a) * 1.0, py = OY + (v * Math.cos(a) * H) / z, sc = 1 / z; g.drawImage(src, 0, y, W, 2, OX - W * sc / 2, py, W * sc, 2.6 * sc + .5); } }
+  return out; }
+function shadowPlate() { const W = 1600, H = 500, k = cv(W, H), g = k.getContext('2d'); ellipseGlow(g, W / 2, H / 2, W * .45, H * .3, [[0, 'rgba(0,0,0,.75)'], [1, 'rgba(0,0,0,0)']]); ellipseGlow(g, W / 2, H / 2, W * .3, H * .12, [[0, rgba(CY, .25)], [1, rgba(CY, 0)]]); return k; }
+function glassPanel(w, h) { const k = cv(w + 120, h + 120), g = k.getContext('2d'); g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 60; g.shadowOffsetY = 24; g.fillStyle = 'rgba(20,34,53,.62)'; rr(g, 60, 60, w, h, 48); g.fill(); g.shadowColor = 'transparent';
+  const hl = g.createLinearGradient(0, 60, 0, 60 + h); hl.addColorStop(0, 'rgba(255,255,255,.14)'); hl.addColorStop(.25, 'rgba(255,255,255,0)'); g.fillStyle = hl; rr(g, 60, 60, w, h, 48); g.fill();
+  const st = g.createLinearGradient(60, 60, 60 + w, 60 + h); st.addColorStop(0, rgba(ICE, .7)); st.addColorStop(.5, rgba(CY, .12)); st.addColorStop(1, rgba(BL, .45)); g.strokeStyle = st; g.lineWidth = 3; rr(g, 61.5, 61.5, w - 3, h - 3, 47); g.stroke(); return k; }
+function layeredCards() { const W = 2000, H = 1500, k = cv(W, H), g = k.getContext('2d');
+  [[0, LIL, .5], [1, BL, .6], [2, CY, .75]].forEach(([i, c, a]) => { g.save(); g.translate(W / 2 - 120 + i * 120, H / 2 - 140 + i * 110); g.transform(1, -.18, .55, .6, 0, 0); g.shadowColor = 'rgba(0,0,0,.5)'; g.shadowBlur = 50; g.shadowOffsetY = 30; g.fillStyle = 'rgba(16,28,45,.92)'; rr(g, -520, -380, 1040, 760, 70); g.fill(); g.shadowColor = 'transparent'; g.strokeStyle = rgba(c, a); g.lineWidth = 4; g.stroke(); g.restore(); });
+  return k; }
+function perspGrid(W, H, col, a = .55) { const k = cv(W, H), g = k.getContext('2d'), vx = W / 2, vy = 0; g.lineWidth = 2;
+  for (let i = -40; i <= 40; i++) { const x = W / 2 + i * W / 28; const gr = g.createLinearGradient(0, vy, 0, H); gr.addColorStop(0, rgba(col, 0)); gr.addColorStop(1, rgba(col, a)); g.strokeStyle = gr; g.beginPath(); g.moveTo(vx, vy); g.lineTo(x * 3 - W, H); g.stroke(); }
+  for (let j = 1; j < 26; j++) { const t = Math.pow(j / 26, 2.2), y = vy + t * H; g.strokeStyle = rgba(col, a * t); g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke(); }
+  return k; }
+
+// ---------- gamification ----------
+function xpOrb() { const S = 1024, k = cv(S, S), g = k.getContext('2d');
+  ellipseGlow(g, S / 2, S / 2, S * .48, S * .48, [[0, rgba(CY, .55)], [1, rgba(CY, 0)]]);
+  const gr = g.createRadialGradient(S * .42, S * .38, 10, S / 2, S / 2, S * .26); gr.addColorStop(0, '#E8FBFF'); gr.addColorStop(.35, '#7DEBFF'); gr.addColorStop(.75, '#36D6F2'); gr.addColorStop(1, '#1F6FD6'); g.fillStyle = gr; g.beginPath(); g.arc(S / 2, S / 2, S * .26, 0, Math.PI * 2); g.fill();
+  g.save(); g.translate(S / 2, S / 2); g.scale(S / 110, S / 110); g.translate(-12, -12); g.fillStyle = '#03141C'; g.fill(new Path2D('M13 2L4 14h7l-1 8 9-12h-7z')); g.restore(); return k; }
+function rewardBurst() { const b = burst([GOLD, CY, WH], 7, 70), g = b.getContext('2d'); g.globalCompositeOperation = 'lighter'; const r = pulseRing(10); g.globalAlpha = .7; g.drawImage(r, 0, 0); g.globalAlpha = 1; g.drawImage(particleBurst(19, [GOLD, ICE]), 0, 0); return b; }
+function badgeGlow() { const S = 1024, k = cv(S, S), g = k.getContext('2d'); g.globalCompositeOperation = 'lighter'; ellipseGlow(g, S / 2, S / 2, S * .48, S * .48, [[0, rgba(GOLD, .7)], [.4, rgba(GOLD, .25)], [1, rgba(GOLD, 0)]]); g.drawImage(burst([GOLD, WH], 3, 40), 0, 0, S, S); return k; }
+function completeFlash() { const S = 1024, k = cv(S, S), g = k.getContext('2d'); g.globalCompositeOperation = 'lighter'; ellipseGlow(g, S / 2, S / 2, S * .46, S * .46, [[0, rgba(CY, .55)], [.5, rgba(CY, .2)], [1, rgba(CY, 0)]]); g.drawImage(pulseRing(6), 0, 0, S, S); return k; }
+
+// ---------- logo ----------
+function logoGlow() { const S = 2048, k = cv(S, S), g = k.getContext('2d'), sc = 1024 / 64, o = (S - 1024) / 2;
+  const t = cv(S, S), gt = t.getContext('2d'); gt.translate(o, o); gt.scale(sc, sc);
+  const gr = gt.createLinearGradient(0, 0, 64, 64); gr.addColorStop(0, '#8FF0FF'); gr.addColorStop(.45, '#36D6F2'); gr.addColorStop(1, '#397BFF'); gt.fillStyle = gr; gt.beginPath(); gt.roundRect(0, 0, 64, 64, 19.2); gt.fill();
+  const hl = gt.createLinearGradient(0, 0, 0, 64); hl.addColorStop(0, 'rgba(255,255,255,.45)'); hl.addColorStop(.45, 'rgba(255,255,255,0)'); gt.fillStyle = hl; gt.fill();
+  gt.strokeStyle = '#03141C'; gt.lineWidth = 8; gt.lineCap = 'round'; gt.stroke(new Path2D('M18 14v36M46 14v36M18 32h28')); gt.fillStyle = '#03141C'; gt.beginPath(); gt.arc(32, 18, 4, 0, Math.PI * 2); gt.fill();
+  blurInto(k, t, 120, .9); blurInto(k, t, 40, .7, 'lighter'); g.drawImage(t, 0, 0); return k; }
+
+// ---------- backgrounds ----------
+function grain(g, W, H, amt, seed) { const R = rng(seed), id = g.getImageData(0, 0, W, H), d = id.data; for (let i = 0; i < d.length; i += 4) { const n = (R() - .5) * amt; d[i] += n; d[i + 1] += n; d[i + 2] += n; } g.putImageData(id, 0, 0); }
+function bgBase(W, H, top, bot, glows, seed) { const k = cv(W, H), g = k.getContext('2d'); const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, top); gr.addColorStop(1, bot); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  g.globalCompositeOperation = 'lighter'; glows.forEach(([x, y, rx, ry, c, a]) => ellipseGlow(g, x * W, y * H, rx * Math.max(W, H), ry * Math.max(W, H), [[0, rgba(c, a)], [1, rgba(c, 0)]])); g.globalCompositeOperation = 'source-over';
+  ellipseGlow(g, W / 2, H / 2, Math.max(W, H) * .75, Math.max(W, H) * .6, [[.55, 'rgba(0,0,0,0)'], [1, 'rgba(0,0,0,.6)']]); grain(g, W, H, 7, seed); return k; }
+function glowLayer(W, H, glows) { const k = cv(W, H), g = k.getContext('2d'); g.globalCompositeOperation = 'lighter'; glows.forEach(([x, y, rx, ry, c, a]) => ellipseGlow(g, x * W, y * H, rx * Math.max(W, H), ry * Math.max(W, H), [[0, rgba(c, a)], [1, rgba(c, 0)]])); return k; }
+function pillars(W, H, seed) { const k = cv(W, H), g = k.getContext('2d'), R = rng(seed); g.globalCompositeOperation = 'lighter'; for (let i = 0; i < 7; i++) { const x = W * (.08 + R() * .84), w = W * (.004 + R() * .01), c = [CY, BL, LIL][i % 3]; const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, rgba(c, 0)); gr.addColorStop(.55, rgba(c, .35)); gr.addColorStop(1, rgba(c, 0)); g.fillStyle = gr; g.fillRect(x, 0, w, H); ellipseGlow(g, x + w / 2, H * .55, w * 12, H * .4, [[0, rgba(c, .08)], [1, rgba(c, 0)]]); } return k; }
+function depthPanels(W, H, seed) { const k = cv(W, H), g = k.getContext('2d'), R = rng(seed);
+  for (let i = 0; i < 9; i++) { const d = i / 9, w = W * (.14 + R() * .12) * (1 - d * .5), h = w * (.6 + R() * .5), x = W * (.05 + R() * .9) - w / 2, y = H * (.1 + R() * .8) - h / 2; g.globalAlpha = .18 + (1 - d) * .25; g.fillStyle = 'rgba(20,34,53,.6)'; rr(g, x, y, w, h, w * .06); g.fill(); g.strokeStyle = rgba([CY, BL, LIL][i % 3], .5); g.lineWidth = 2; g.stroke(); }
+  g.globalAlpha = 1; const gk = cv(W, H); blurInto(gk, k, 3); return gk; }
+function stageFloor(W, H) { const k = cv(W, H), g = k.getContext('2d'); g.globalCompositeOperation = 'lighter';
+  ellipseGlow(g, W / 2, H * .82, W * .42, H * .08, [[0, rgba(CY, .35)], [1, rgba(CY, 0)]]);
+  const gr = g.createLinearGradient(W / 2, 0, W / 2, H * .85); gr.addColorStop(0, rgba(ICE, .0)); gr.addColorStop(1, rgba(CY, .12)); g.fillStyle = gr; g.beginPath(); g.moveTo(W * .44, 0); g.lineTo(W * .56, 0); g.lineTo(W * .78, H * .85); g.lineTo(W * .22, H * .85); g.fill();
+  g.globalCompositeOperation = 'source-over'; const pg = perspGrid(W, Math.round(H * .32), CY, .25); g.drawImage(pg, 0, H * .7); return k; }
+
+// ---------- jobs ----------
+const J = {};
+const add = (file, fn) => { J[file] = fn; };
+const M = '03_Motion_Graphics/', GM = '05_Gamification_Effects/', LR = '06_Logo_Reveal/', B = '04_Backgrounds/';
+add(M + 'light/light_streak_cyan.png', () => streak(0, CY));
+add(M + 'light/light_streak_lilac.png', () => streak(0, LIL));
+add(M + 'light/energy_pulse_ring.png', () => pulseRing(8));
+add(M + 'light/energy_pulse_shockwave.png', () => pulseRing(40));
+add(M + 'light/glowing_outline_phone.png', phoneOutline);
+add(M + 'light/light_burst_cyan.png', () => burst([CY, ICE, BL], 11));
+add(M + 'light/lens_flare_anamorphic.png', flare);
+add(M + 'particles/particles_ambient_bg_3840x2160.png', () => particles(3840, 2160, 420, 1, 2, 6, 6, .5, [CY, BL, ICE]));
+add(M + 'particles/particles_ambient_mid_3840x2160.png', () => particles(3840, 2160, 160, 2, 3, 9, 2, .75, [CY, ICE, LIL]));
+add(M + 'particles/particles_ambient_fg_3840x2160.png', () => particles(3840, 2160, 26, 3, 14, 40, 14, .55, [CY, ICE]));
+add(M + 'particles/particle_burst_cyan.png', () => particleBurst(5, [CY, ICE, BL]));
+add(M + 'particles/digital_particles_small_2048.png', () => particles(2048, 2048, 300, 9, 1.5, 4, 0, .9, [CY, ICE]));
+add(M + 'transitions/digital_scan_line.png', scanLine);
+add(M + 'transitions/scanline_overlay_1920x1080.png', scanOverlay);
+add(M + 'transitions/light_sweep_diagonal.png', sweep);
+add(M + 'transitions/motion_trail_cyan.png', () => trail(CY));
+add(M + 'transitions/motion_trail_blue.png', () => trail(BL));
+add(M + 'floating_ui/phone_frame_flat.png', frameFlat);
+add(M + 'floating_ui/phone_frame_turn_left.png', () => persp(frameFlat(), 'y', 28));
+add(M + 'floating_ui/phone_frame_turn_right.png', () => persp(frameFlat(), 'y', -28));
+add(M + 'floating_ui/phone_frame_tilt_back.png', () => persp(frameFlat(), 'x', 32));
+add(M + 'floating_ui/phone_shadow_plate.png', shadowPlate);
+add(M + 'floating_ui/glass_panel_1200x800.png', () => glassPanel(1200, 800));
+add(M + 'floating_ui/glass_panel_tall_700x1200.png', () => glassPanel(700, 1200));
+add(M + 'depth/layered_cards_stack.png', layeredCards);
+add(M + 'depth/perspective_grid_floor_3840x1600.png', () => perspGrid(3840, 1600, CY));
+add(GM + 'xp_orb.png', xpOrb);
+add(GM + 'level_up_burst.png', () => { const b = burst([GOLD, CY, WH], 21, 110); const g = b.getContext('2d'); g.globalCompositeOperation = 'lighter'; g.drawImage(pulseRing(14), 0, 0); return b; });
+add(GM + 'reward_unlock_burst.png', rewardBurst);
+add(GM + 'badge_reveal_glow.png', badgeGlow);
+add(GM + 'challenge_complete_flash.png', completeFlash);
+add(GM + 'xp_particle_stream.png', () => trail(CY));
+add(LR + 'logo_symbol_glow_2048.png', logoGlow);
+add(LR + 'logo_light_burst.png', () => burst([CY, ICE, WH], 41, 140));
+add(LR + 'logo_flare_streak.png', () => streak(0, ICE));
+const BGS = {
+  dark_cinematic: { top: '#070B13', bot: '#05080F', glows: [[.5, .45, .45, .3, BL, .14], [.75, .2, .25, .2, CY, .06]], mid: [[.3, .6, .25, .2, BL, .12], [.7, .35, .2, .18, CY, .08]] },
+  futuristic_environment: { top: '#05080F', bot: '#0B1A33', glows: [[.5, .62, .6, .12, CY, .28], [.5, .7, .3, .05, ICE, .3]], grid: true },
+  atmospheric_cyan_blue: { top: '#0A1A33', bot: '#05080F', glows: [[.2, .1, .5, .4, BL, .4], [.85, .3, .35, .3, CY, .22]] },
+  atmospheric_blue_lilac: { top: '#110F2E', bot: '#05080F', glows: [[.25, .2, .45, .35, LIL, .22], [.8, .7, .4, .3, BL, .3]] },
+  atmospheric_navy_gold: { top: '#0B1222', bot: '#05080F', glows: [[.5, .25, .45, .3, GOLD, .12], [.5, .8, .5, .3, BL, .2]] },
+  digital_depth: { top: '#06101F', bot: '#05080F', glows: [[.5, .5, .5, .4, BL, .16]], panels: true },
+  particle_ambient: { top: '#070D19', bot: '#05080F', glows: [[.4, .4, .5, .4, BL, .14], [.7, .7, .3, .3, CY, .07]], parts: true },
+  floating_screens_stage: { top: '#081226', bot: '#05080F', glows: [[.5, .45, .35, .35, BL, .22]], stage: true },
+  logo_reveal_clean: { top: '#05080F', bot: '#05080F', glows: [[.5, .5, .22, .22, BL, .12]] },
+};
+for (const [name, p] of Object.entries(BGS)) for (const [tag, W, H] of [['16x9', 3840, 2160], ['9x16', 2160, 3840]]) {
+  add(B + `${name}/${name}_${tag}_bg.png`, () => bgBase(W, H, p.top, p.bot, p.glows, W + H));
+  if (p.mid) add(B + `${name}/${name}_${tag}_mid_glow.png`, () => glowLayer(W, H, p.mid));
+  if (name === 'dark_cinematic') add(B + `${name}/${name}_${tag}_fg_dust.png`, () => particles(W, H, 120, 31, 2, 6, 3, .45, [ICE, CY]));
+  if (p.grid) { add(B + `${name}/${name}_${tag}_mid_grid.png`, () => { const k = cv(W, H); k.getContext('2d').drawImage(perspGrid(W, Math.round(H * .4), CY, .5), 0, H * .6); return k; }); add(B + `${name}/${name}_${tag}_fg_light_pillars.png`, () => pillars(W, H, 4)); }
+  if (p.panels) { add(B + `${name}/${name}_${tag}_mid_panels.png`, () => depthPanels(W, H, 8)); add(B + `${name}/${name}_${tag}_fg_bokeh.png`, () => particles(W, H, 18, 44, 30, 70, 24, .35, [CY, LIL])); }
+  if (p.parts) { add(B + `${name}/${name}_${tag}_mid_particles.png`, () => particles(W, H, 200, 51, 2, 7, 2, .7, [CY, ICE, LIL])); add(B + `${name}/${name}_${tag}_fg_bokeh.png`, () => particles(W, H, 22, 52, 26, 60, 22, .35, [CY, ICE])); }
+  if (p.stage) add(B + `${name}/${name}_${tag}_mid_floor_light.png`, () => stageFloor(W, H));
+}
+window.__jobs = Object.keys(J).map(f => ({ name: f, file: f }));
+window.__draw = n => J[n]().toDataURL('image/png');
+window.__ready = true;
+</script>
+</body></html>

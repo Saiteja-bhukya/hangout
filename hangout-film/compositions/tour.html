@@ -1,0 +1,94 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Space Grotesk";
+      src: url("assets/fonts/SpaceGrotesk.woff2") format("woff2");
+      font-weight: 300 700;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      color: #ffffff;
+      font-family: "Space Grotesk", sans-serif;
+    }
+    .tr-cap {
+      position: absolute;
+      left: 170px;
+      top: 0;
+      width: 720px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .tr-cap h2 {
+      font-size: 120px;
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1;
+    }
+    .tr-cap h2 span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .tr-cap h2 .acc {
+      color: #02d8cc;
+    }
+    .tr-cap p {
+      margin-top: 34px;
+      max-width: 620px;
+      font-family: "Inter", sans-serif;
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 1.32;
+      color: #8fa1a8;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="tour" data-width="1920" data-height="1080">
+    <div id="tr-c0" class="tr-cap">
+      <h2><span id="tr-w0-0">Find</span> <span id="tr-w0-1" class="acc">it.</span></h2>
+      <p id="tr-p0">Arcades, VR, bowling and go-karting near you.</p>
+    </div>
+    <div id="tr-c1" class="tr-cap">
+      <h2><span id="tr-w1-0">Know</span> <span id="tr-w1-1">the</span> <span id="tr-w1-2" class="acc">crowd.</span></h2>
+      <p id="tr-p1">“Typical for Sunday 8 pm”, before you leave home.</p>
+    </div>
+    <div id="tr-c2" class="tr-cap">
+      <h2><span id="tr-w2-0">Book</span> <span id="tr-w2-1">in</span> <span id="tr-w2-2" class="acc">one</span> <span id="tr-w2-3" class="acc">screen.</span></h2>
+      <p id="tr-p2">Slot held for 8 minutes. Pay by UPI.</p>
+    </div>
+    <div id="tr-c3" class="tr-cap">
+      <h2><span id="tr-w3-0">Walk</span> <span id="tr-w3-1">right</span> <span id="tr-w3-2" class="acc">in.</span></h2>
+      <p id="tr-p3">Works offline. Staff just check the green tick.</p>
+    </div>
+    <div id="tr-c4" class="tr-cap">
+      <h2><span id="tr-w4-0">Level</span> <span id="tr-w4-1" class="acc">up.</span></h2>
+      <p id="tr-p4">Missions earn XP and Coins on every visit.</p>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Local times (this scene starts at 13.4 s). Each caption lands with its screen and leaves before the next.
+    const beats = [
+      { in: 0.35, out: 3.05, words: 2 }, // Find it.          explore 13.75
+      { in: 3.35, out: 6.45, words: 3 }, // Know the crowd.   venue 16.9
+      { in: 6.85, out: 9.75, words: 4 }, // Book in one screen. book 20.2
+      { in: 10.3, out: 13.15, words: 3 }, // Walk right in.   ticket 23.28, after the spin
+      { in: 13.45, out: 16.45, words: 2 }, // Level up.       missions 26.8
+    ];
+    beats.forEach((b, i) => {
+      for (let j = 0; j < b.words; j++) {
+        tl.fromTo(
+          "#tr-w" + i + "-" + j,
+          { opacity: 0, filter: "blur(6px)" },
+          { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" },
+          b.in + j * 0.067,
+        );
+      }
+      tl.fromTo("#tr-p" + i, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, b.in + 0.3);
+      tl.to("#tr-c" + i, { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power3.in" }, b.out);
+    });
+    window.__timelines["tour"] = tl;
+  </script>
+</template>

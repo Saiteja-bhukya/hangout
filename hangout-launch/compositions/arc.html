@@ -1,0 +1,74 @@
+<template>
+  <style>
+    @font-face { font-family: "Urbanist"; src: url("assets/fonts/Urbanist.woff2") format("woff2"); font-weight: 400 800; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-600.woff2") format("woff2"); font-weight: 600; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-700.woff2") format("woff2"); font-weight: 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #080D16; color: #F4F8FC; font-family: "Urbanist", sans-serif; }
+    .bg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    .scr { mix-blend-mode: screen; pointer-events: none; }
+    .stage { position: absolute; inset: 0; perspective: 1900px; perspective-origin: 50% 46%; transform-style: preserve-3d; }
+    .ph { position: absolute; width: 433px; height: 892px; transform-style: preserve-3d; }
+    .ph-sh { position: absolute; left: 8px; top: 8px; right: 8px; bottom: 8px; border-radius: 60px;
+             box-shadow: 0 60px 120px rgba(0,0,0,.72), 0 20px 40px rgba(0,0,0,.5), 0 0 70px rgba(54,214,242,.22); }
+    .ph-scr { position: absolute; left: 20px; top: 20px; width: 393px; height: 852px; border-radius: 55px; overflow: hidden; background: #080D16; }
+    .ph-scr img { position: absolute; left: 0; top: 0; width: 393px; height: 852px; }
+    .ph-dim { position: absolute; left: 0; top: 0; width: 393px; height: 852px; background: #080D16; opacity: 0; }
+    .ph-fr { position: absolute; left: 0; top: 0; width: 433px; height: 892px; }
+    .hl { position: absolute; font-family: "Urbanist", sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; line-height: 1; color: #F4F8FC; white-space: nowrap; }
+    .hl span { display: inline-block; }
+    .cy { color: #36D6F2; text-shadow: 0 0 18px rgba(54,214,242,.55), 0 0 44px rgba(54,214,242,.28); }
+    .lbl { font-family: "Rajdhani", sans-serif; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+    #a-panels { left: -30px; top: -15px; width: 1980px; height: 1114px; }
+    .a-t { left: 0; top: 905px; width: 1920px; text-align: center; font-size: 72px; opacity: 0; }
+    #a-black { position: absolute; inset: 0; background: #000; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="arc" data-width="1920" data-height="1080">
+    <img class="bg" src="assets/derived/digital_depth_16x9_bg.jpg" alt="" />
+    <img id="a-panels" class="bg" src="assets/derived/digital_depth_16x9_mid_panels.png" alt="" />
+    <div id="a-st" class="stage">
+      <div id="a-p0" class="ph" style="left:743.5px;top:24px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S03Explore.png" alt="S03Explore" /></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="a-p1" class="ph" style="left:743.5px;top:24px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S07Venue.png" alt="S07Venue" /></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="a-p2" class="ph" style="left:743.5px;top:24px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S10Booking.png" alt="S10Booking" /></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="a-p3" class="ph" style="left:743.5px;top:24px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S14XP.png" alt="S14XP" /></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="a-p4" class="ph" style="left:743.5px;top:24px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S16Missions.png" alt="S16Missions" /></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="a-p5" class="ph" style="left:743.5px;top:24px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S18Rewards.png" alt="S18Rewards" /></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="a-home" class="ph" style="left:743.5px;top:24px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S02Home.png" alt="S02Home" /></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+    </div>
+    <div id="a-t1" class="hl a-t"><span>Your city.</span></div>
+    <div id="a-t2" class="hl a-t"><span>Your experiences.</span></div>
+    <div id="a-t3" class="hl a-t"><span>Your</span> <span class="cy">hangout.</span></div>
+    <div id="a-black"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#a-panels", { x: 0 }, { x: -30, duration: 7, ease: "none" }, 0);
+    // Six phones on a slowly turning arc, then they converge into one Home phone.
+    const R = 1100, base = [-62.5, -37.5, -12.5, 12.5, 37.5, 62.5];
+    const st = { phi: -14, c: 0 };
+    const place = () => {
+      for (let i = 0; i < 6; i++) {
+        const th = ((base[i] + st.phi) * Math.PI) / 180;
+        const x = R * Math.sin(th), z = R * Math.cos(th) - R, ry = base[i] + st.phi;
+        const k = st.c;
+        gsap.set("#a-p" + i, { x: x * (1 - k), z: z * (1 - k), rotationY: ry * (1 - k), scale: 0.8, opacity: 1 - k });
+      }
+    };
+    place();
+    tl.fromTo(st, { phi: -14 }, { phi: 14, duration: 5.2, ease: "none", onUpdate: place }, 0);
+    tl.fromTo(st, { c: 0 }, { c: 1, duration: 0.7, ease: "power3.inOut", onUpdate: place }, 4.55);
+    tl.fromTo("#a-st", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0);
+    tl.fromTo("#a-home", { opacity: 0, scale: 0.65 }, { opacity: 1, scale: 0.85, duration: 0.6, ease: "expo.out" }, 4.95);
+    // One line at a time.
+    [["#a-t1", 0.4, 2.0], ["#a-t2", 2.2, 3.95]].forEach(([s, a, b]) => {
+      tl.fromTo(s, { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power4.out" }, a);
+      tl.to(s, { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power3.in" }, b);
+    });
+    tl.fromTo("#a-t3", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power4.out" }, 4.15);
+    // Fade to black 53.5-54.0.
+    tl.fromTo("#a-black", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power1.in" }, 6.5);
+    window.__timelines["arc"] = tl;
+  </script>
+</template>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="892.5" height="160" viewBox="0 0 892.5 160" role="img" aria-label="HANGOUT logo"><title>HANGOUT logo</title><g><defs>
+<linearGradient id="glhlight" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8FF0FF"/><stop offset=".45" stop-color="#36D6F2"/><stop offset="1" stop-color="#397BFF"/></linearGradient>
+<linearGradient id="hllhlight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".45"/><stop offset=".45" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
+<linearGradient id="shlhlight" x1="0" y1="0" x2="0" y2="1"><stop offset=".6" stop-color="#10307A" stop-opacity="0"/><stop offset="1" stop-color="#10307A" stop-opacity=".45"/></linearGradient>
+</defs>
+<g transform="scale(2.5)">
+<rect width="64" height="64" rx="19.2" fill="url(#glhlight)"/>
+<rect width="64" height="64" rx="19.2" fill="url(#hllhlight)"/>
+<rect width="64" height="64" rx="19.2" fill="url(#shlhlight)"/>
+<path d="M18 14v36M46 14v36M18 32h28" fill="none" stroke="#03141C" stroke-width="8" stroke-linecap="round"/>
+<circle cx="32" cy="18" r="4" fill="#03141C"/>
+</g></g><g transform="translate(208 17.599999999999994) scale(0.9454545454545455)"><g transform="translate(16 16)" fill="none" stroke="#080D16" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 0)" d="M0 0V100M60 0V100M0 50H60"/><path transform="translate(90 0)" d="M0 100L33 0L66 100M14 64H52"/><path transform="translate(186 0)" d="M0 100V0L60 100V0"/><path transform="translate(276 0)" d="M88 18A50 50 0 1 0 100 54H58"/><path transform="translate(406 0)" d="M50 0A50 50 0 1 1 49.99 0Z"/><path transform="translate(536 0)" d="M0 0V70A30 30 0 0 0 60 70V0"/><path transform="translate(626 0)" d="M0 0H66M33 0V100"/></g></g></svg>

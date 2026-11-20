@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <script src="lib/three/three.min.js"></script>
+    <script src="lib/three/GLTFLoader.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #eef3ec;
+      }
+      #st-canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="st-root" data-composition-id="stage" data-start="0" data-duration="28" data-width="1920" data-height="1080">
+      <canvas id="st-canvas" class="clip" data-layout-allow-overflow data-start="0" data-duration="28" data-track-index="1" width="1920" height="1080"></canvas>
+    </div>
+
+    <script>
+      (function () {
+        // ------------------------------------------------------------------
+        // Clock: a paused GSAP timeline drives render(t); t is this scene's local time.
+        // ------------------------------------------------------------------
+        var DURATION = 28;
+        var clock = { t: 0 };
+        var host = { render: null };
+        window.__hf = window.__hf || {};
+        window.__hf.buildReady = window.__hf.buildReady || {};
+        window.__hf.buildReady["stage"] = new Promise(function (resolve) {
+          host.ready = resolve;
+        });
+        var tl = gsap.timeline({ paused: true });
+        tl.to(clock, {
+          t: DURATION,
+          duration: DURATION,
+          ease: "none",
+          onUpdate: function () {
+            if (host.render) host.render(clock.t);
+          },
+        });
+        window.__timelines = window.__timelines || {};
+        window.__timelines["stage"] = tl;
+
+        var W = 1920,
+          H = 1080,
+          PI = Math.PI;
+
+        // ------------------------------------------------------------------
+        // Easing and keyframe helpers (pure functions of t)
+        // ------------------------------------------------------------------
+        function clamp01(x) {
+          return x < 0 ? 0 : x > 1 ? 1 : x;
+        }
+        function cbz(p1x, p1y, p2x, p2y) {
+          var ax = 3 * p1x - 3 * p2x + 1, bx = 3 * p2x - 6 * p1x, cx = 3 * p1x;
+          var ay = 3 * p1y - 3 * p2y + 1, by = 3 * p2y - 6 * p1y, cy = 3 * p1y;
+          return function (t) {
+            var s = t;
+            for (var i = 0; i < 12; i++) {
+              var x = ((ax * s + bx) * s + cx) * s - t;
+              var dx = (3 * ax * s + 2 * bx) * s + cx;
+              if (Math.abs(dx) < 1e-10) break;
+              s -= x / dx;
+            }
+            s = clamp01(s);
+            return ((ay * s + by) * s + cy) * s;
+          };
+        }
+        var E = {
+          inOut: cbz(0.65, 0, 0.35, 1), // camera and big moves
+          out: cbz(0.16, 1, 0.3, 1), // arrivals
+          in: cbz(0.55, 0, 0.9, 0.4), // exits
+          spin: cbz(0.76, 0, 0.18, 1), // flips
+          lin: function (x) {
+            return x;
+          },
+        };
+        // track: [[t, value, ease?], ...]; ease applies to the segment arriving at that key.
+        function kf(track, t) {
+          if (t <= track[0][0]) return track[0][1];
+          for (var i = 1; i < track.length; i++) {
+            var a = track[i - 1], b = track[i];
+            if (t <= b[0]) {
+              var u = (t - a[0]) / Math.max(1e-6, b[0] - a[0]);
+              var e = (b[2] || E.inOut)(clamp01(u));
+              return a[1] + (b[1] - a[1]) * e;
+            }
+          }
+          return track[track.length - 1][1];
+        }
+        // Seeded PRNG (mulberry32)
+        function rng(seed) {
+          return function () {
+            seed |= 0;
+            seed = (seed + 0x6d2b79f5) | 0;
+            var x = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+            x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+            return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+          };
+        }
+
+        // ------------------------------------------------------------------
+        // Renderer and scene: a bright daytime studio over a topo-map landscape
+        // ------------------------------------------------------------------
+        var renderer = new THREE.WebGLRenderer({
+          canvas: document.getElementById("st-canvas"),
+          antialias: true,
+          preserveDrawingBuffer: true,
+        });
+        renderer.setSize(W, H, false);
+        renderer.setPixelRatio(1);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.0;
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        var SKY = new THREE.Color(0xeef3ec);
+        renderer.setClearColor(SKY, 1);
+        var scene = new THREE.Scene();
+        scene.background = SKY.clone();
+        var camera = new THREE.PerspectiveCamera(30, W / H, 0.1, 400);
+
+        // Soft studio environment for the phone's metal and glass.
+        (function () {
+          var c = document.createElement("canvas");
+          c.width = 1024;
+          c.height = 512;
+          var g = c.getContext("2d");
+          var bg = g.createLinearGradient(0, 0, 0, 512);
+          bg.addColorStop(0, "#f4f7f3");
+          bg.addColorStop(0.55, "#d9e3d6");
+          bg.addColorStop(1, "#7f9a78");
+          g.fillStyle = bg;
+          g.fillRect(0, 0, 1024, 512);
+          g.fillStyle = "rgba(255,255,255,0.95)";
+          g.fillRect(140, 120, 300, 30);
+          g.fillRect(620, 90, 260, 22);
+          var tex = new THREE.CanvasTexture(c);
+          tex.mapping = THREE.EquirectangularReflectionMapping;
+          var pm = new THREE.PMREMGenerator(renderer);
+          scene.environment = pm.fromEquirectangular(tex).texture;
+          tex.dispose();
+          pm.dispose();
+        })();
+        scene.add(new THREE.AmbientLight(0xffffff, 0.32));
+        var key = new THREE.DirectionalLight(0xfff6e8, 1.5);
+        key.position.set(-5, 7, 6);
+        scene.add(key);
+
+        // Sky: a soft radial brightening at the horizon (radial, never linear, to avoid banding).
+        var skyMat = new THREE.ShaderMaterial({
+          uniforms: {},
+          vertexShader: "varying vec2 v;void main(){v=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}",
+          fragmentShader:
+            "varying vec2 v;void main(){vec3 top=vec3(0.86,0.91,0.88);vec3 hz=vec3(0.985,0.99,0.975);float d=length((v-vec2(0.5,0.42))*vec2(0.9,2.2));vec3 c=mix(hz,top,smoothstep(0.0,0.9,d));gl_FragColor=vec4(pow(c,vec3(2.2)),1.0);}",
+          depthWrite: false,
+          fog: false,
+        });
+        var sky = new THREE.Mesh(new THREE.PlaneGeometry(900, 360), skyMat);
+        sky.position.set(0, 40, -260);
+        scene.add(sky);
+
+        // ------------------------------------------------------------------
+        // Terrain: seeded fBm hills styled like the app's outdoor map (meadow, forest, contour lines)
+        // ------------------------------------------------------------------
+        function hash(x, y) {
+          var h = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
+          return h - Math.floor(h);
+        }
+        function vnoise(x, y) {
+          var xi = Math.floor(x), yi = Math.floor(y);
+          var xf = x - xi, yf = y - yi;
+          var u = xf * xf * (3 - 2 * xf), w = yf * yf * (3 - 2 * yf);
+          var a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1);
+          return a + (b - a) * u + (c - a) * w + (a - b - c + d) * u * w;
+        }
+        function fbm(x, y) {
+          var s = 0, amp = 0.5, f = 1;
+          for (var o = 0; o < 5; o++) {
+            s += amp * vnoise(x * f, y * f);
+            f *= 2.03;
+            amp *= 0.5;
+          }
+          return s;
+        }
+        // The valley the route follows: x offset as a function of z.
+        function valleyX(z) {
+          return Math.sin(z * 0.045) * 9 + Math.sin(z * 0.11 + 1.3) * 3;
+        }
+        var BASE_Y = -11;
+        function heightAt(x, z) {
+          var n = fbm(x * 0.028 + 3.1, z * 0.028 - 1.7);
+          var ridge = Math.pow(n, 1.6) * 19;
+          var dv = Math.abs(x - valleyX(z));
+          var valley = 1 - Math.exp(-(dv * dv) / 90);
+          return BASE_Y + 1.2 + ridge * (0.25 + 0.75 * valley);
+        }
+        var TW = 220, TD = 230, SEG = 230;
+        var tGeo = new THREE.PlaneGeometry(TW, TD, SEG, SEG);
+        tGeo.rotateX(-PI / 2);
+        tGeo.translate(0, 0, -45);
+        var tp = tGeo.attributes.position;
+        for (var vi = 0; vi < tp.count; vi++) {
+          var vx = tp.getX(vi), vz = tp.getZ(vi);
+          tp.setY(vi, heightAt(vx, vz));
+        }
+        tGeo.computeVertexNormals();
+        var terrainMat = new THREE.ShaderMaterial({
+          uniforms: { uFade: { value: 1 } },
+          vertexShader:
+            "varying vec3 vW;varying vec3 vN;varying float vDist;void main(){vec4 w=modelMatrix*vec4(position,1.0);vW=w.xyz;vN=normalize(mat3(modelMatrix)*normal);vec4 mv=viewMatrix*w;vDist=-mv.z;gl_Position=projectionMatrix*mv;}",
+          fragmentShader: [
+            "varying vec3 vW;varying vec3 vN;varying float vDist;uniform float uFade;",
+            "float h21(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}",
+            "float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);return mix(mix(h21(i),h21(i+vec2(1,0)),f.x),mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),f.x),f.y);}",
+            "void main(){",
+            " float h=vW.y+11.0;",
+            " vec3 meadow=vec3(0.80,0.89,0.66);vec3 forest=vec3(0.62,0.80,0.52);vec3 high=vec3(0.90,0.88,0.78);",
+            " float patchN=vn(vW.xz*0.09)+0.5*vn(vW.xz*0.23);",
+            " vec3 col=mix(meadow,forest,smoothstep(0.55,0.85,patchN));",
+            " col=mix(col,high,smoothstep(11.0,15.0,h));",
+            " vec3 L=normalize(vec3(-0.5,0.8,0.45));",
+            " float sh=0.72+0.38*max(dot(normalize(vN),L),0.0);",
+            " col*=sh;",
+            " float cl=h/0.9;float fw=fwidth(cl);float line=1.0-smoothstep(0.0,fw*1.3,abs(fract(cl-0.5)-0.5));",
+            " float major=1.0-smoothstep(0.0,fw*1.6,abs(fract(cl/5.0-0.5)-0.5)*5.0);",
+            " vec3 contour=vec3(0.69,0.52,0.36);",
+            " float cfade=1.0-smoothstep(25.0,120.0,vDist);",
+            " col=mix(col,contour,max(line*0.38,major*0.6)*cfade);",
+            " float fog=1.0-exp(-pow(max(vDist-20.0,0.0)/150.0,1.35));",
+            " col=mix(col,vec3(0.94,0.96,0.93),fog);",
+            " col=mix(vec3(0.94,0.96,0.93),col,uFade);",
+            " gl_FragColor=vec4(pow(col,vec3(2.2)),1.0);",
+            "}",
+          ].join("\n"),
+          extensions: { derivatives: true },
+        });
+        var terrain = new THREE.Mesh(tGeo, terrainMat);
+        scene.add(terrain);
+
+        // Hiking route: the app's navy dashed line, drawn along the valley floor.
+        var rPts = [];
+        for (var rz = 52; rz >= -120; rz -= 4) {
+          var rx = valleyX(rz);
+          rPts.push(new THREE.Vector3(rx, heightAt(rx, rz) + 0.18, rz));
+        }
+        var routeCurve = new THREE.CatmullRomCurve3(rPts);
+        var routeMat = new THREE.ShaderMaterial({
+          uniforms: { uProg: { value: 0 }, uFade: { value: 1 } },
+          vertexShader: "varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}",
+          fragmentShader:
+            "varying vec2 vUv;uniform float uProg;uniform float uFade;void main(){if(vUv.x>uProg)discard;if(fract(vUv.x*260.0)>0.6)discard;vec3 c=mix(vec3(0.94,0.96,0.93),vec3(0.17,0.22,0.62),uFade);gl_FragColor=vec4(pow(c,vec3(2.2)),1.0);}",
+        });
+        var route = new THREE.Mesh(new THREE.TubeGeometry(routeCurve, 1400, 0.15, 8, false), routeMat);
+        scene.add(route);
+
+        // Map pins along the route, like the app's red markers.
+        var pinMat = new THREE.MeshPhysicalMaterial({ color: 0xd8141c, roughness: 0.32, clearcoat: 1, clearcoatRoughness: 0.15 });
+        pinMat.toneMapped = false; // keep the app's marker red saturated
+        var pinWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4 });
+        var pins = [];
+        [0.18, 0.42, 0.7].forEach(function (u) {
+          var p = routeCurve.getPointAt(u);
+          var g = new THREE.Group();
+          var head = new THREE.Mesh(new THREE.SphereGeometry(0.75, 32, 24), pinMat);
+          head.position.y = 2.0;
+          var tip = new THREE.Mesh(new THREE.ConeGeometry(0.62, 1.6, 32), pinMat);
+          tip.rotation.x = PI;
+          tip.position.y = 1.05;
+          var dot = new THREE.Mesh(new THREE.SphereGeometry(0.3, 20, 16), pinWhite);
+          dot.position.set(0, 2.05, 0.55);
+          g.add(head, tip, dot);
+          g.position.copy(p);
+          scene.add(g);
+          pins.push({ g: g, u: u });
+        });
+
+        // ------------------------------------------------------------------
+        // The phone with real Organic Maps screens
+        // ------------------------------------------------------------------
+        var phone = new THREE.Group();
+        scene.add(phone);
+        var screenA = null, screenB = null, screenBox = null;
+        var SCREENS = ["phone-1", "phone-2", "phone-3", "phone-4"];
+        var tex = {};
+        function planarScreenUv(mesh) {
+          var g = mesh.geometry;
+          g.computeBoundingBox();
+          var bb = g.boundingBox, pos = g.attributes.position;
+          var w = bb.max.x - bb.min.x || 1, h = bb.max.y - bb.min.y || 1;
+          var uv = new Float32Array(pos.count * 2);
+          for (var i = 0; i < pos.count; i++) {
+            uv[i * 2] = (pos.getX(i) - bb.min.x) / w;
+            uv[i * 2 + 1] = (pos.getY(i) - bb.min.y) / h;
+          }
+          g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+        }
+        var loads = [];
+        var tLoader = new THREE.TextureLoader();
+        SCREENS.forEach(function (n) {
+          loads.push(
+            new Promise(function (res) {
+              tLoader.load("assets/screens/" + n + ".jpg", function (t) {
+                t.encoding = THREE.sRGBEncoding;
+                t.anisotropy = 8;
+                tex[n] = t;
+                res();
+              });
+            }),
+          );
+        });
+        loads.push(
+          new Promise(function (res) {
+            new THREE.GLTFLoader().load("assets/models/iphone.glb", function (gltf) {
+              var m = gltf.scene;
+              var box = new THREE.Box3().setFromObject(m);
+              m.scale.setScalar(3.2 / box.getSize(new THREE.Vector3()).y);
+              box.setFromObject(m);
+              m.position.sub(box.getCenter(new THREE.Vector3()));
+              m.traverse(function (child) {
+                if (child.isMesh && child.name.indexOf("front-glass") === 0) {
+                  planarScreenUv(child);
+                  screenA = child;
+                  return;
+                }
+                if (child.isMesh && child.name.indexOf("apple-logo") === 0) {
+                  child.visible = false;
+                  return;
+                }
+                var mn = child.isMesh && child.material ? child.material.name || "" : "";
+                if (/anodised|antenna|lens-ring|ceramic-shield-back/.test(mn)) {
+                  // A deep forest-green finish, after the app's own green.
+                  child.material = child.material.clone();
+                  child.material.color.set(/ceramic-shield-back/.test(mn) ? 0x1d3b2a : /antenna/.test(mn) ? 0x3a5444 : 0x2a4a37);
+                  child.material.metalness = /ceramic/.test(mn) ? 0.2 : 0.8;
+                  child.material.roughness = /ceramic/.test(mn) ? 0.3 : 0.34;
+                }
+              });
+              m.updateWorldMatrix(true, true);
+              var front = m.getObjectByName("front-glass"), back = m.getObjectByName("rear-window");
+              if (front && back) {
+                var fp = new THREE.Vector3(), bp = new THREE.Vector3();
+                front.getWorldPosition(fp);
+                back.getWorldPosition(bp);
+                if (fp.z < bp.z) m.rotation.y += PI;
+              }
+              phone.add(m);
+              res();
+            });
+          }),
+        );
+
+        // ------------------------------------------------------------------
+        // Choreography (local seconds; this scene starts at 5.0 s in the film)
+        // ------------------------------------------------------------------
+        var SCHEDULE = [
+          [0, "phone-1"],
+          [11.75, "phone-2"],
+          [15.62, "phone-4"], // swapped while the back faces camera, mid-spin
+          [19.35, "phone-3"],
+          [23.2, "phone-1"],
+        ];
+        var FADE = 0.22;
+        function screenAt(t) {
+          var cur = SCHEDULE[0][1], next = null, mix = 0;
+          for (var i = 0; i < SCHEDULE.length; i++) if (t >= SCHEDULE[i][0]) cur = SCHEDULE[i][1];
+          for (var j = 1; j < SCHEDULE.length; j++) {
+            var ts = SCHEDULE[j][0];
+            if (t >= ts - FADE && t < ts) {
+              cur = SCHEDULE[j - 1][1];
+              next = SCHEDULE[j][1];
+              mix = (t - (ts - FADE)) / FADE;
+            }
+          }
+          return { cur: cur, next: next, mix: mix };
+        }
+        var TWO = 2 * PI;
+        var PH = {
+          y: [[0, 16], [2.9, 16], [5.2, 0, E.out], [22.7, 0], [23.6, 0.7], [26.5, 0.7], [28, 1.6, E.in]],
+          z: [[0, 0], [22.7, 0], [23.6, -0.4], [28, -0.4]],
+          rx: [[0, -1.25], [2.9, -1.25], [5.2, 0.04, E.out], [7.2, 0.02], [22.7, 0], [23.6, 0.2], [28, 0.2]],
+          ry: [
+            [0, 0.7], [2.9, 0.7], [5.2, -0.06, E.out], [6.4, 0.06], [7.2, 0.06], [7.8, -0.32], [11.2, -0.22], [11.6, -0.25],
+            [14.8, -0.2], [15.2, -0.2], [16.05, -0.2 - TWO, E.spin], [19.0, -0.26 - TWO], [22.7, -0.3 - TWO],
+            [23.6, -TWO], [26.5, 0.1 - TWO], [28, 0.2 - TWO],
+          ],
+          rz: [[0, 0.3], [5.2, 0, E.out], [28, 0]],
+        };
+        var CAM = {
+          y: [[0, -3.0], [2.8, -1.6], [5.2, 0.15], [22.7, 0.15], [23.8, 3.4], [26.5, 3.8], [28, 4.0]],
+          z: [[0, 50], [3.4, 26, E.lin], [5.2, 8.4, E.out], [7.2, 8.1], [7.8, 8.2], [11.2, 7.9], [12.2, 4.6], [14.6, 4.4], [15.0, 8.0],
+              [19.3, 7.9], [20.3, 5.2], [22.4, 5.0], [22.9, 8.6], [23.9, 13.6], [26.5, 12.6], [28, 12.4]],
+          aim: [[0, 0], [2.9, 0], [5.0, 1]], // 0 = look down the valley, 1 = look at the phone
+          f: [[0, 0], [11.2, 0], [12.2, 1], [14.6, 1], [15.0, 0], [19.3, 0], [20.3, 1], [22.4, 1], [22.9, 0], [28, 0]],
+        };
+        var FOCUS = [
+          [11.2, 15.0, 0.45, 0.31], // place page: Wikipedia and opening hours
+          [19.3, 22.9, 0.5, 0.6], // city map detail
+        ];
+        function focusUV(t) {
+          for (var i = 0; i < FOCUS.length; i++) if (t >= FOCUS[i][0] && t < FOCUS[i][1]) return [FOCUS[i][2], FOCUS[i][3]];
+          return [0.5, 0.5];
+        }
+        var tgt = new THREE.Vector3(), flightTgt = new THREE.Vector3(), focusW = new THREE.Vector3();
+
+        host.render = function (t) {
+          // Route draws ahead during the flight, completes during the payoff.
+          // During the flight the route draws itself ~28 units ahead of the camera, leading the eye down the valley.
+          var czNow = kf(CAM.z, t);
+          var flightProg = clamp01((52 - (czNow - 28)) / 172);
+          routeMat.uniforms.uProg.value = t < 23.2 ? Math.min(0.42, Math.max(flightProg, t > 5.2 ? 0.42 : 0)) : kf([[23.2, 0.42], [26.6, 1.0]], t);
+          // Each pin pops up as the route reaches it.
+          var prog = routeMat.uniforms.uProg.value;
+          pins.forEach(function (p) {
+            var k = E.out(clamp01((prog - p.u) / 0.035));
+            p.g.scale.setScalar(Math.max(0.0001, k));
+          });
+
+          phone.position.set(0, kf(PH.y, t), kf(PH.z, t));
+          phone.rotation.set(kf(PH.rx, t), kf(PH.ry, t), kf(PH.rz, t));
+
+          if (screenA) {
+            var sc = screenAt(t);
+            screenA.material.map = tex[sc.cur];
+            screenA.material.needsUpdate = screenA.userData.lastMap !== sc.cur;
+            screenA.userData.lastMap = sc.cur;
+            if (sc.next) {
+              screenB.visible = true;
+              screenB.material.map = tex[sc.next];
+              screenB.material.opacity = sc.mix;
+              screenB.material.needsUpdate = true;
+            } else screenB.visible = false;
+          }
+
+          // Camera: a low flight down the valley, then up to meet the phone.
+          var cz = kf(CAM.z, t), cy = kf(CAM.y, t);
+          var flyX = t < 5.2 ? valleyX(cz) * (1 - E.inOut(clamp01((t - 2.4) / 2.8))) : 0;
+          camera.position.set(flyX, cy, cz);
+          flightTgt.set(valleyX(cz - 30), BASE_Y + 3.5, cz - 30);
+          phone.updateMatrixWorld(true);
+          tgt.set(0, phone.position.y * 0.5, phone.position.z);
+          tgt.lerp(flightTgt, 1 - kf(CAM.aim, t));
+          if (screenBox) {
+            var fu = focusUV(t);
+            focusW.set(
+              screenBox.min.x + (screenBox.max.x - screenBox.min.x) * fu[0],
+              screenBox.min.y + (screenBox.max.y - screenBox.min.y) * fu[1],
+              screenBox.max.z,
+            );
+            screenA.localToWorld(focusW);
+            var f = kf(CAM.f, t);
+            tgt.lerp(focusW, f);
+            camera.position.x += (focusW.x - camera.position.x) * f * 0.85;
+            camera.position.y += (focusW.y - camera.position.y) * f * 0.85;
+          }
+          camera.lookAt(tgt);
+          var shift = kf([[0, 0], [7.2, 0], [7.8, 0.17], [22.7, 0.17], [23.6, 0], [28, 0]], t);
+          camera.setViewOffset(W, H, -shift * W, 0, W, H);
+
+          // Fade in from and out to the paper-white ground.
+          var fadeK = kf([[0, 0], [0.6, 1, E.lin], [26.6, 1], [27.9, 0, E.lin]], t);
+          terrainMat.uniforms.uFade.value = fadeK;
+          routeMat.uniforms.uFade.value = fadeK;
+          phone.visible = fadeK > 0.02;
+          var ph = kf([[0, 1], [26.6, 1], [27.6, 0, E.in]], t);
+          phone.scale.setScalar(Math.max(0.0001, ph));
+          pins.forEach(function (p) {
+            p.g.visible = fadeK > 0.6;
+          });
+          renderer.render(scene, camera);
+        };
+
+        Promise.all(loads).then(function () {
+          screenA.material = new THREE.MeshBasicMaterial({ map: tex["phone-1"], toneMapped: false });
+          screenB = new THREE.Mesh(
+            screenA.geometry,
+            new THREE.MeshBasicMaterial({
+              map: tex["phone-2"],
+              toneMapped: false,
+              transparent: true,
+              opacity: 0,
+              depthWrite: false,
+              polygonOffset: true,
+              polygonOffsetFactor: -2,
+              polygonOffsetUnits: -2,
+            }),
+          );
+          screenA.parent.add(screenB);
+          screenB.position.copy(screenA.position);
+          screenB.quaternion.copy(screenA.quaternion);
+          screenB.scale.copy(screenA.scale);
+          screenA.geometry.computeBoundingBox();
+          screenBox = screenA.geometry.boundingBox.clone();
+          host.render(clock.t);
+          host.ready();
+        });
+      })();
+    </script>
+  </body>
+</html>

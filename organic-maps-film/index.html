@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #eef3ec;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      #ground {
+        position: absolute;
+        inset: 0;
+        background: #eef3ec;
+      }
+      .host {
+        position: absolute;
+        inset: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="37" data-width="1920" data-height="1080">
+      <div id="ground"></div>
+
+      <!-- Full-frame scenes -->
+      <div id="open" class="host" data-composition-id="open" data-composition-src="compositions/open.html" data-start="0" data-duration="5.2" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 3"></div>
+      <div id="stage" class="host" data-composition-id="stage" data-composition-src="compositions/stage.html" data-start="5" data-duration="28" data-track-index="0" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
+      <div id="endcard" class="host" data-composition-id="endcard" data-composition-src="compositions/endcard.html" data-start="33" data-duration="4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 3"></div>
+
+      <!-- Type over the 3D stage -->
+      <div id="hero" class="host" data-composition-id="hero" data-composition-src="compositions/hero.html" data-start="10.2" data-duration="2.1" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 3"></div>
+      <div id="tour" class="host" data-composition-id="tour" data-composition-src="compositions/tour.html" data-start="12.8" data-duration="15.2" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 3"></div>
+      <div id="payoff" class="host" data-composition-id="payoff" data-composition-src="compositions/payoff.html" data-start="28" data-duration="3.7" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 3"></div>
+
+      <!-- Music: "Familiar Roads" by Tanner Helland (CC BY 4.0), see assets/music/CREDITS.md.
+           From 145.535 s so beats land on "No problem.", the phone landing, the last pin and the logo. -->
+      <audio id="music" class="clip" src="assets/music/familiar-roads.mp3" data-start="0" data-duration="37" data-media-start="145.535" data-volume="0.56" data-fade-in="0.3" data-fade-out="2.4" data-track-index="5"></audio>
+
+      <!-- Sound effects (Pixabay, see assets/sfx/CREDITS.md); each peaks one frame after its picture -->
+      <audio id="sfx-riser" class="clip" src="assets/sfx/riser.mp3" data-start="8.26" data-duration="2" data-media-start="1.5" data-volume="0.29" data-fade-out="0.06" data-track-index="4"></audio>
+      <audio id="sfx-impact-land" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="10.16" data-duration="2.12" data-volume="0.43" data-track-index="3"></audio>
+      <audio id="sfx-whoosh-shift" class="clip" src="assets/sfx/whoosh.mp3" data-start="12.37" data-duration="0.57" data-volume="0.32" data-track-index="3"></audio>
+      <audio id="sfx-whoosh-spin" class="clip" src="assets/sfx/whoosh.mp3" data-start="20.49" data-duration="0.57" data-volume="0.4" data-track-index="3"></audio>
+      <audio id="sfx-pop-pin" class="clip" src="assets/sfx/pop.mp3" data-start="29.75" data-duration="0.72" data-volume="0.32" data-track-index="3"></audio>
+      <audio id="sfx-pop-mark" class="clip" src="assets/sfx/pop.mp3" data-start="33.31" data-duration="0.72" data-volume="0.29" data-track-index="3"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

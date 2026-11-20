@@ -1,0 +1,77 @@
+<template>
+  <style>
+    @font-face { font-family: "Urbanist"; src: url("assets/fonts/Urbanist.woff2") format("woff2"); font-weight: 400 800; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-600.woff2") format("woff2"); font-weight: 600; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-700.woff2") format("woff2"); font-weight: 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #080D16; color: #F4F8FC; font-family: "Urbanist", sans-serif; }
+    .bg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    .scr { mix-blend-mode: screen; pointer-events: none; }
+    .stage { position: absolute; inset: 0; perspective: 1900px; perspective-origin: 50% 46%; transform-style: preserve-3d; }
+    .ph { position: absolute; width: 433px; height: 892px; transform-style: preserve-3d; }
+    .ph-sh { position: absolute; left: 8px; top: 8px; right: 8px; bottom: 8px; border-radius: 60px;
+             box-shadow: 0 60px 120px rgba(0,0,0,.72), 0 20px 40px rgba(0,0,0,.5), 0 0 70px rgba(54,214,242,.22); }
+    .ph-scr { position: absolute; left: 20px; top: 20px; width: 393px; height: 852px; border-radius: 55px; overflow: hidden; background: #080D16; }
+    .ph-scr img { position: absolute; left: 0; top: 0; width: 393px; height: 852px; }
+    .ph-dim { position: absolute; left: 0; top: 0; width: 393px; height: 852px; background: #080D16; opacity: 0; }
+    .ph-fr { position: absolute; left: 0; top: 0; width: 433px; height: 892px; }
+    .hl { position: absolute; font-family: "Urbanist", sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; line-height: 1; color: #F4F8FC; white-space: nowrap; }
+    .hl span { display: inline-block; }
+    .cy { color: #36D6F2; text-shadow: 0 0 18px rgba(54,214,242,.55), 0 0 44px rgba(54,214,242,.28); }
+    .lbl { font-family: "Rajdhani", sans-serif; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+    #c-floor { left: 0; top: 0; }
+    #c-t1 { left: 120px; top: 360px; font-size: 64px; }
+    #c-t2 { left: 120px; top: 470px; font-size: 64px; }
+    #c-t3 { left: 120px; top: 556px; font-size: 64px; }
+    #c-ring { position: absolute; left: 76px; top: 50px; width: 280px; height: 280px; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="carousel" data-width="1920" data-height="1080">
+    <img class="bg" src="assets/derived/floating_screens_stage_16x9_bg.jpg" alt="" />
+    <img id="c-floor" class="bg scr" src="assets/derived/floating_screens_stage_16x9_mid_floor_light.png" alt="" />
+    <div id="c-st" class="stage">
+      <div id="c-p0" class="ph" style="left:1163.5px;top:94px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S07Venue.png" alt="S07Venue" /><div id="c-p0-dim" class="ph-dim"></div></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="c-p1" class="ph" style="left:1163.5px;top:94px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S08Activity.png" alt="S08Activity" /><div id="c-p1-dim" class="ph-dim"></div></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="c-p2" class="ph" style="left:1163.5px;top:94px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S09Packages.png" alt="S09Packages" /><div id="c-p2-dim" class="ph-dim"></div></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="c-p3" class="ph" style="left:1163.5px;top:94px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S10Booking.png" alt="S10Booking" /><div id="c-p3-dim" class="ph-dim"></div></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="c-p4" class="ph" style="left:1163.5px;top:94px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S11Summary.png" alt="S11Summary" /><div id="c-p4-dim" class="ph-dim"></div></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="c-p5" class="ph" style="left:1163.5px;top:94px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S12Confirmed.png" alt="S12Confirmed" /><img id="c-ring" class="scr" src="assets/derived/energy_pulse_ring.png" alt="" /><div id="c-p5-dim" class="ph-dim"></div></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+    </div>
+    <div id="c-t1" class="hl"><span>From discovery</span></div>
+    <div id="c-t2" class="hl"><span>to your next</span></div>
+    <div id="c-t3" class="hl"><span class="cy">adventure.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Three-phone carousel: centre in front, neighbours at +-30 deg pushed back; one screen per step, each held ~1.4 s.
+    const N = 6;
+    function state(k) {
+      const a = Math.abs(k);
+      return { x: k * 340, z: -260 * Math.min(a, 2), rotationY: -30 * Math.sign(k) * Math.min(a, 1), opacity: a <= 1 ? 1 : 0, dim: a === 0 ? 0 : 0.45 };
+    }
+    for (let i = 0; i < N; i++) {
+      const s = state(i);
+      tl.fromTo("#c-p" + i, { x: s.x + 620, z: s.z, rotationY: s.rotationY, opacity: 0 }, { x: s.x, z: s.z, rotationY: s.rotationY, opacity: s.opacity, duration: 0.45, ease: "expo.out" }, 0);
+      tl.fromTo("#c-p" + i + "-dim", { opacity: s.dim }, { opacity: s.dim, duration: 0.01 }, 0);
+    }
+    const steps = [1.7, 3.5, 5.3, 7.1, 8.9];
+    steps.forEach((t, n) => {
+      const cur = n + 1;
+      for (let i = 0; i < N; i++) {
+        const s = state(i - cur);
+        tl.to("#c-p" + i, { x: s.x, z: s.z, rotationY: s.rotationY, opacity: s.opacity, duration: 0.4, ease: "power3.inOut" }, t);
+        tl.to("#c-p" + i + "-dim", { opacity: s.dim, duration: 0.4, ease: "power2.inOut" }, t);
+      }
+    });
+    // One clean ring from the check mark on Booking confirmed. Nothing else.
+    tl.fromTo("#c-ring", { opacity: 0.9, scale: 0.2 }, { opacity: 0, scale: 1.5, duration: 0.85, ease: "power2.out", immediateRender: false }, 9.35);
+    // Left text.
+    tl.fromTo("#c-t1", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power4.out" }, 0.5);
+    tl.fromTo("#c-t2", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power4.out" }, 4.0);
+    tl.fromTo("#c-t3", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power4.out" }, 4.15);
+    tl.to("#c-st", { opacity: 0, duration: 0.3, ease: "power3.in" }, 10.7);
+    tl.to(["#c-t1", "#c-t2", "#c-t3"], { opacity: 0, filter: "blur(8px)", duration: 0.25, ease: "power3.in" }, 10.7);
+    window.__timelines["carousel"] = tl;
+  </script>
+</template>

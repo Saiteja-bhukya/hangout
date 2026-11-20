@@ -1,0 +1,6 @@
+.hyperframes/
+renders/render.log
+renders/work-*/
+renders/.*
+renders/raw.mp4
+node_modules/

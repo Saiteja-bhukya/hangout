@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #080D16; }
+      #root { position: relative; width: 100%; height: 100%; }
+      #ground { position: absolute; inset: 0; background: #080D16; }
+      .host { position: absolute; inset: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="60" data-width="1920" data-height="1080">
+      <div id="ground"></div>
+      <!-- Seven beats, back to back -->
+      <div id="open" class="host" data-composition-id="open" data-composition-src="compositions/open.html" data-start="0" data-duration="7" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
+      <div id="home" class="host" data-composition-id="home" data-composition-src="compositions/home.html" data-start="7" data-duration="5.5" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
+      <div id="discover" class="host" data-composition-id="discover" data-composition-src="compositions/discover.html" data-start="12.5" data-duration="10.5" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
+      <div id="carousel" class="host" data-composition-id="carousel" data-composition-src="compositions/carousel.html" data-start="23" data-duration="11" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
+      <div id="progress" class="host" data-composition-id="progress" data-composition-src="compositions/progress.html" data-start="34" data-duration="13" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
+      <div id="arc" class="host" data-composition-id="arc" data-composition-src="compositions/arc.html" data-start="47" data-duration="7" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
+      <div id="brand" class="host" data-composition-id="brand" data-composition-src="compositions/brand.html" data-start="54" data-duration="6" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 2"></div>
+      <!-- Slow ambient particles over the whole film -->
+      <div id="particles" class="host" data-composition-id="particles" data-composition-src="compositions/particles.html" data-start="0" data-duration="60" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 5; pointer-events: none"></div>
+      <!-- Music bed, timed to this edit -->
+      <audio id="music" class="clip" src="assets/HANGOUT_Film_Kit/audio/hangout_music_bed_60s_120bpm.wav" data-start="0" data-duration="60" data-volume="1" data-fade-out="0.4" data-track-index="3"></audio>
+      <!-- Sound effects, about 8 dB under the music -->
+      <audio id="sfx-00" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_13_digital_pulse.wav" data-start="0.25" data-duration="0.5" data-volume="0.53" data-track-index="4"></audio>
+      <audio id="sfx-01" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_13_digital_pulse.wav" data-start="0.85" data-duration="0.5" data-volume="0.53" data-track-index="4"></audio>
+      <audio id="sfx-02" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_13_digital_pulse.wav" data-start="1.35" data-duration="0.5" data-volume="0.53" data-track-index="4"></audio>
+      <audio id="sfx-03" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_13_digital_pulse.wav" data-start="1.8" data-duration="0.5" data-volume="0.53" data-track-index="5"></audio>
+      <audio id="sfx-04" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_13_digital_pulse.wav" data-start="2.2" data-duration="0.5" data-volume="0.53" data-track-index="4"></audio>
+      <audio id="sfx-05" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_13_digital_pulse.wav" data-start="2.55" data-duration="0.5" data-volume="0.53" data-track-index="5"></audio>
+      <audio id="sfx-06" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_13_digital_pulse.wav" data-start="2.85" data-duration="0.5" data-volume="0.53" data-track-index="4"></audio>
+      <audio id="sfx-07" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_05_transition_whoosh.wav" data-start="3.15" data-duration="1.1" data-volume="0.28" data-track-index="5"></audio>
+      <audio id="sfx-08" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_11_logo_reveal_impact.wav" data-start="3.5" data-duration="5.5" data-volume="0.36" data-track-index="4"></audio>
+      <audio id="sfx-09" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_02_digital_startup.wav" data-start="7.2" data-duration="1.8" data-volume="0.4" data-track-index="5"></audio>
+      <audio id="sfx-10" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_06_screen_reveal.wav" data-start="9.0" data-duration="1.3" data-volume="0.54" data-track-index="4"></audio>
+      <audio id="sfx-11" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_06_screen_reveal.wav" data-start="12.5" data-duration="1.3" data-volume="0.54" data-track-index="4"></audio>
+      <audio id="sfx-12" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_06_screen_reveal.wav" data-start="15.5" data-duration="1.3" data-volume="0.54" data-track-index="4"></audio>
+      <audio id="sfx-13" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_03_ui_click_select.wav" data-start="17.5" data-duration="0.12" data-volume="0.35" data-track-index="4"></audio>
+      <audio id="sfx-14" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_05_transition_whoosh.wav" data-start="19.0" data-duration="1.1" data-volume="0.15" data-track-index="4"></audio>
+      <audio id="sfx-15" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_05_transition_whoosh.wav" data-start="20.0" data-duration="1.1" data-volume="0.13" data-track-index="5"></audio>
+      <audio id="sfx-16" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_03_ui_click_select.wav" data-start="24.7" data-duration="0.12" data-volume="0.35" data-track-index="4"></audio>
+      <audio id="sfx-17" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_04_ui_click_soft.wav" data-start="26.5" data-duration="0.1" data-volume="0.45" data-track-index="4"></audio>
+      <audio id="sfx-18" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_03_ui_click_select.wav" data-start="28.3" data-duration="0.12" data-volume="0.35" data-track-index="4"></audio>
+      <audio id="sfx-19" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_04_ui_click_soft.wav" data-start="30.1" data-duration="0.1" data-volume="0.45" data-track-index="4"></audio>
+      <audio id="sfx-20" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_03_ui_click_select.wav" data-start="31.9" data-duration="0.12" data-volume="0.35" data-track-index="4"></audio>
+      <audio id="sfx-21" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_09_challenge_complete.wav" data-start="32.3" data-duration="1.5" data-volume="0.38" data-track-index="4"></audio>
+      <audio id="sfx-22" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_07_xp_accumulate.wav" data-start="34.6" data-duration="1.7" data-volume="0.34" data-track-index="4"></audio>
+      <audio id="sfx-23" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_08_level_up.wav" data-start="39.0" data-duration="2.4" data-volume="0.36" data-track-index="4"></audio>
+      <audio id="sfx-24" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_09_challenge_complete.wav" data-start="41.5" data-duration="1.5" data-volume="0.38" data-track-index="4"></audio>
+      <audio id="sfx-25" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_10_reward_unlocked.wav" data-start="44.5" data-duration="2.4" data-volume="0.33" data-track-index="4"></audio>
+      <audio id="sfx-26" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_05_transition_whoosh.wav" data-start="47.0" data-duration="1.1" data-volume="0.28" data-track-index="4"></audio>
+      <audio id="sfx-27" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_05_transition_whoosh.wav" data-start="50.5" data-duration="1.1" data-volume="0.28" data-track-index="4"></audio>
+      <audio id="sfx-28" class="clip" src="assets/HANGOUT_Ad_Asset_Library/07_Audio/sfx/hangout_sfx_11_logo_reveal_impact.wav" data-start="53.5" data-duration="5.5" data-volume="0.36" data-track-index="4"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

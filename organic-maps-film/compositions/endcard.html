@@ -1,0 +1,88 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      color: #0f1d14;
+      font-family: "Inter", sans-serif;
+      background: #eef3ec;
+    }
+    #ec-mark {
+      position: absolute;
+      left: 870px;
+      top: 168px;
+      width: 180px;
+      height: 180px;
+      opacity: 0;
+    }
+    #ec-name {
+      position: absolute;
+      left: 0;
+      width: 1920px;
+      top: 392px;
+      text-align: center;
+      font-size: 120px;
+      font-weight: 700;
+      letter-spacing: -0.045em;
+      line-height: 1;
+      opacity: 0;
+    }
+    #ec-tag {
+      position: absolute;
+      left: 0;
+      width: 1920px;
+      top: 548px;
+      text-align: center;
+      font-size: 44px;
+      font-weight: 400;
+      color: #3f5246;
+    }
+    #ec-tag span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #ec-url {
+      position: absolute;
+      left: 0;
+      width: 1920px;
+      top: 640px;
+      text-align: center;
+      font-size: 44px;
+      font-weight: 700;
+      color: #006c35;
+      opacity: 0;
+    }
+    #ec-credits {
+      position: absolute;
+      left: 0;
+      width: 1920px;
+      top: 880px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1.45;
+      color: #66756b;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1920" data-height="1080">
+    <img id="ec-mark" src="assets/logo-mark.svg" alt="Organic Maps" />
+    <div id="ec-name">Organic Maps</div>
+    <div id="ec-tag"><span id="ec-t0">Offline maps, built on OpenStreetMap.</span></div>
+    <div id="ec-url">organicmaps.app</div>
+    <div id="ec-credits">
+      Unofficial concept film · Map data © OpenStreetMap contributors · Screens and mark: Organic Maps (Apache-2.0)<br />
+      Music: “Familiar Roads” by Tanner Helland (CC BY 4.0)
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // The mark grows out of the same green as the route; name, promise and address follow.
+    tl.fromTo("#ec-mark", { opacity: 0, scale: 0.6, y: 24, filter: "blur(12px)" }, { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 0.15);
+    tl.fromTo("#ec-name", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.55);
+    tl.fromTo("#ec-t0", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.95);
+    tl.fromTo("#ec-url", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 1.25);
+    tl.fromTo("#ec-credits", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0.75);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>

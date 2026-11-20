@@ -1,0 +1,95 @@
+<template>
+  <style>
+    @font-face { font-family: "Urbanist"; src: url("assets/fonts/Urbanist.woff2") format("woff2"); font-weight: 400 800; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-600.woff2") format("woff2"); font-weight: 600; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-700.woff2") format("woff2"); font-weight: 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #080D16; color: #F4F8FC; font-family: "Urbanist", sans-serif; }
+    .bg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    .scr { mix-blend-mode: screen; pointer-events: none; }
+    .stage { position: absolute; inset: 0; perspective: 1900px; perspective-origin: 50% 46%; transform-style: preserve-3d; }
+    .ph { position: absolute; width: 433px; height: 892px; transform-style: preserve-3d; }
+    .ph-sh { position: absolute; left: 8px; top: 8px; right: 8px; bottom: 8px; border-radius: 60px;
+             box-shadow: 0 60px 120px rgba(0,0,0,.72), 0 20px 40px rgba(0,0,0,.5), 0 0 70px rgba(54,214,242,.22); }
+    .ph-scr { position: absolute; left: 20px; top: 20px; width: 393px; height: 852px; border-radius: 55px; overflow: hidden; background: #080D16; }
+    .ph-scr img { position: absolute; left: 0; top: 0; width: 393px; height: 852px; }
+    .ph-dim { position: absolute; left: 0; top: 0; width: 393px; height: 852px; background: #080D16; opacity: 0; }
+    .ph-fr { position: absolute; left: 0; top: 0; width: 433px; height: 892px; }
+    .hl { position: absolute; font-family: "Urbanist", sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; line-height: 1; color: #F4F8FC; white-space: nowrap; }
+    .hl span { display: inline-block; }
+    .cy { color: #36D6F2; text-shadow: 0 0 18px rgba(54,214,242,.55), 0 0 44px rgba(54,214,242,.28); }
+    .lbl { font-family: "Rajdhani", sans-serif; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+    #o-glow { position: absolute; left: 460px; top: 40px; width: 1000px; height: 1000px; border-radius: 50%;
+              background: radial-gradient(closest-side, rgba(54,214,242,.16), rgba(57,123,255,.06) 55%, rgba(8,13,22,0) 100%); }
+    .o-box { position: absolute; left: 0; top: 230px; width: 1920px; height: 620px; display: flex; align-items: center; justify-content: center; }
+    .o-img { height: 620px; width: auto; max-width: 1100px; object-fit: contain; visibility: hidden;
+             filter: drop-shadow(0 0 24px rgba(54,214,242,.55)) drop-shadow(0 22px 34px rgba(8,13,22,.85)); }
+    .o-ring { position: absolute; left: 610px; top: 190px; width: 700px; height: 700px; opacity: 0; }
+    #o-burst { position: absolute; left: 260px; top: -160px; width: 1400px; height: 1400px; opacity: 0; }
+    #o-wash { position: absolute; inset: 0; background: #36D6F2; opacity: 0; }
+    #o-words { left: 0; top: 478px; width: 1920px; text-align: center; font-size: 118px; letter-spacing: .1em; }
+    #o-words span { opacity: 0; }
+    #o-shock { position: absolute; left: 310px; top: -220px; width: 1300px; height: 1300px; opacity: 0; }
+    #o-lburst { position: absolute; left: 410px; top: -120px; width: 1100px; height: 1100px; opacity: 0; }
+    #o-logo { position: absolute; left: 770px; top: 240px; width: 380px; height: 380px; opacity: 0; }
+    #o-wm { position: absolute; left: 680px; top: 650px; width: 560px; height: 102px; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="open" data-width="1920" data-height="1080">
+    <div id="o-glow"></div>
+    <img id="o-r0" class="o-ring scr" src="assets/derived/energy_pulse_ring.png" alt="" />
+    <div class="o-box"><img id="o-i0" class="o-img" src="assets/derived/stock_01_kart.png" alt="kart" /></div>
+    <img id="o-r1" class="o-ring scr" src="assets/derived/energy_pulse_ring.png" alt="" />
+    <div class="o-box"><img id="o-i1" class="o-img" src="assets/derived/stock_02_bowling.png" alt="bowling" /></div>
+    <img id="o-r2" class="o-ring scr" src="assets/derived/energy_pulse_ring.png" alt="" />
+    <div class="o-box"><img id="o-i2" class="o-img" src="assets/derived/stock_03_vr.png" alt="vr" /></div>
+    <img id="o-r3" class="o-ring scr" src="assets/derived/energy_pulse_ring.png" alt="" />
+    <div class="o-box"><img id="o-i3" class="o-img" src="assets/derived/stock_04_trampoline.png" alt="trampoline" /></div>
+    <img id="o-r4" class="o-ring scr" src="assets/derived/energy_pulse_ring.png" alt="" />
+    <div class="o-box"><img id="o-i4" class="o-img" src="assets/derived/stock_05_claw.png" alt="claw" /></div>
+    <img id="o-r5" class="o-ring scr" src="assets/derived/energy_pulse_ring.png" alt="" />
+    <div class="o-box"><img id="o-i5" class="o-img" src="assets/derived/stock_06_gamepad.png" alt="gamepad" /></div>
+    <img id="o-r6" class="o-ring scr" src="assets/derived/energy_pulse_ring.png" alt="" />
+    <div class="o-box"><img id="o-i6" class="o-img" src="assets/derived/stock_07_lock.png" alt="lock" /></div>
+    <img id="o-burst" class="scr" src="assets/derived/light_burst_cyan.png" alt="" />
+    <div id="o-wash" class="scr"></div>
+    <div id="o-words" class="hl"><span id="o-w0">Planning</span> <span id="o-w1">to</span> <span id="o-w2" class="cy">chill?</span></div>
+    <img id="o-shock" class="scr" src="assets/derived/energy_pulse_shockwave.png" alt="" />
+    <img id="o-lburst" class="scr" src="assets/derived/logo_light_burst.png" alt="" />
+    <img id="o-logo" src="assets/derived/logo_symbol_glow_2048.png" alt="HANGOUT" />
+    <img id="o-wm" src="assets/HANGOUT_Ad_Asset_Library/01_Brand_Assets/svg/hangout_wordmark_gradient.svg" alt="HANGOUT" />
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Faint cyan glow in the dark, then seven activities pop in, each cut quicker than the last.
+    tl.fromTo("#o-glow", { opacity: 0.55 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 0);
+    const pops = [[0.25, 0.6], [0.85, 0.5], [1.35, 0.45], [1.8, 0.4], [2.2, 0.35], [2.55, 0.3], [2.85, 0.3]];
+    pops.forEach(([t, d], i) => {
+      const s = i % 2 ? 1 : -1;
+      tl.fromTo("#o-i" + i, { autoAlpha: 0, scale: 0.6, rotation: -6 * s }, { autoAlpha: 1, scale: 1.05, rotation: 1.5 * s, duration: 0.11, ease: "power3.out" }, t);
+      tl.to("#o-i" + i, { scale: 1, rotation: 0, duration: 0.13, ease: "power2.out" }, t + 0.11);
+      tl.to("#o-i" + i, { autoAlpha: 0, scale: 0.94, duration: 0.05, ease: "power2.in" }, t + d - 0.05);
+      tl.fromTo("#o-r" + i, { opacity: 0.85, scale: 0.45 }, { opacity: 0, scale: 1.25, duration: Math.min(0.55, d + 0.1), ease: "power2.out", immediateRender: false }, t);
+    });
+    // Cyan flash.
+    tl.fromTo("#o-burst", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1.3, duration: 0.09, ease: "power2.out" }, 3.15);
+    tl.to("#o-burst", { opacity: 0, scale: 1.6, duration: 0.12, ease: "power2.in" }, 3.24);
+    tl.fromTo("#o-wash", { opacity: 0 }, { opacity: 0.32, duration: 0.07, ease: "power2.out" }, 3.15);
+    tl.to("#o-wash", { opacity: 0, duration: 0.13, ease: "power2.in" }, 3.22);
+    // PLANNING / TO / CHILL? stamp in.
+    [3.4, 3.85, 4.3].forEach((t, j) => {
+      tl.fromTo("#o-w" + j, { opacity: 0, scale: 1.7, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.2, ease: "expo.out" }, t);
+    });
+    tl.to("#o-words", { opacity: 0, filter: "blur(10px)", duration: 0.12, ease: "power3.in" }, 4.83);
+    // The logo bursts in on the drop at 5.0; the wordmark rises under it.
+    tl.fromTo("#o-shock", { opacity: 0.9, scale: 0.25 }, { opacity: 0, scale: 1.8, duration: 0.95, ease: "power2.out", immediateRender: false }, 5.0);
+    tl.fromTo("#o-lburst", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1.1, duration: 0.18, ease: "power3.out" }, 5.0);
+    tl.to("#o-lburst", { opacity: 0, scale: 1.45, duration: 0.9, ease: "power2.out" }, 5.18);
+    tl.fromTo("#o-logo", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1.08, duration: 0.18, ease: "expo.out" }, 5.0);
+    tl.to("#o-logo", { scale: 1, duration: 0.3, ease: "power2.out" }, 5.18);
+    tl.fromTo("#o-wm", { opacity: 0, y: 44, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 5.6);
+    tl.to("#o-wm", { opacity: 0, filter: "blur(6px)", duration: 0.15, ease: "power3.in" }, 6.82);
+    window.__timelines["open"] = tl;
+  </script>
+</template>

@@ -1,0 +1,97 @@
+<template>
+  <style>
+    @font-face { font-family: "Urbanist"; src: url("assets/fonts/Urbanist.woff2") format("woff2"); font-weight: 400 800; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-600.woff2") format("woff2"); font-weight: 600; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-700.woff2") format("woff2"); font-weight: 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #080D16; color: #F4F8FC; font-family: "Urbanist", sans-serif; }
+    .bg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    .scr { mix-blend-mode: screen; pointer-events: none; }
+    .stage { position: absolute; inset: 0; perspective: 1900px; perspective-origin: 50% 46%; transform-style: preserve-3d; }
+    .ph { position: absolute; width: 433px; height: 892px; transform-style: preserve-3d; }
+    .ph-sh { position: absolute; left: 8px; top: 8px; right: 8px; bottom: 8px; border-radius: 60px;
+             box-shadow: 0 60px 120px rgba(0,0,0,.72), 0 20px 40px rgba(0,0,0,.5), 0 0 70px rgba(54,214,242,.22); }
+    .ph-scr { position: absolute; left: 20px; top: 20px; width: 393px; height: 852px; border-radius: 55px; overflow: hidden; background: #080D16; }
+    .ph-scr img { position: absolute; left: 0; top: 0; width: 393px; height: 852px; }
+    .ph-dim { position: absolute; left: 0; top: 0; width: 393px; height: 852px; background: #080D16; opacity: 0; }
+    .ph-fr { position: absolute; left: 0; top: 0; width: 433px; height: 892px; }
+    .hl { position: absolute; font-family: "Urbanist", sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; line-height: 1; color: #F4F8FC; white-space: nowrap; }
+    .hl span { display: inline-block; }
+    .cy { color: #36D6F2; text-shadow: 0 0 18px rgba(54,214,242,.55), 0 0 44px rgba(54,214,242,.28); }
+    .lbl { font-family: "Rajdhani", sans-serif; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+    #d-t1 { left: 140px; top: 330px; font-size: 132px; }
+    #d-t2 { left: 146px; top: 488px; font-size: 70px; letter-spacing: .07em; }
+    #d-t3 { left: 0; top: 900px; width: 1920px; text-align: center; font-size: 62px; }
+    .d-ring { position: absolute; left: 510px; top: 20px; width: 900px; height: 900px; opacity: 0; }
+    .d-fly { position: absolute; left: 760px; top: 320px; width: 400px; height: 300px; opacity: 0; }
+    .d-fly img { width: 400px; height: 300px; object-fit: contain; filter: drop-shadow(0 0 22px rgba(54,214,242,.55)); }
+    .d-trail { position: absolute; left: 960px; top: 414px; width: 900px; height: 112px; transform-origin: 0% 50%; opacity: 0; }
+    #d-ven { clip-path: inset(62.5% 4% 25.5% 4% round 14px); }
+  </style>
+  <div id="root" data-composition-id="discover" data-width="1920" data-height="1080">
+    <img class="bg" src="assets/derived/atmospheric_cyan_blue_16x9_bg.jpg" alt="" />
+    <img class="d-ring scr" id="d-r0" src="assets/derived/energy_pulse_ring.png" alt="" />
+    <img class="d-ring scr" id="d-r1" src="assets/derived/energy_pulse_ring.png" alt="" />
+    <img class="d-ring scr" id="d-r2" src="assets/derived/energy_pulse_ring.png" alt="" />
+    <div id="d-st" class="stage">
+      <div id="d-map" class="ph" style="left:203.5px;top:24px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S06Map.png" alt="S06Map" /></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="d-ex" class="ph" style="left:1073.5px;top:94px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S03Explore.png" alt="S03Explore" /><div id="d-ex-dim" class="ph-dim"></div></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="d-res" class="ph" style="left:1073.5px;top:94px"><div class="ph-sh"></div><div class="ph-scr"><img src="assets/HANGOUT_Film_Kit/screens/S05Results.png" alt="S05Results" /><img id="d-ven" src="assets/HANGOUT_Film_Kit/screens/S07Venue.png" alt="S07Venue" /></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+    </div>
+    <img id="d-tr0" class="d-trail scr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/transitions/motion_trail_cyan.png" alt="" data-ang="-152.2" />
+    <div id="d-f0" class="d-fly"><img src="assets/derived/stock_01_kart.png" alt="kart" /></div>
+    <img id="d-tr1" class="d-trail scr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/transitions/motion_trail_cyan.png" alt="" data-ang="-23.5" />
+    <div id="d-f1" class="d-fly"><img src="assets/derived/stock_02_bowling.png" alt="bowling" /></div>
+    <img id="d-tr2" class="d-trail scr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/transitions/motion_trail_cyan.png" alt="" data-ang="165.0" />
+    <div id="d-f2" class="d-fly"><img src="assets/derived/stock_03_vr.png" alt="vr" /></div>
+    <img id="d-tr3" class="d-trail scr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/transitions/motion_trail_cyan.png" alt="" data-ang="20.1" />
+    <div id="d-f3" class="d-fly"><img src="assets/derived/stock_04_trampoline.png" alt="trampoline" /></div>
+    <img id="d-tr4" class="d-trail scr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/transitions/motion_trail_cyan.png" alt="" data-ang="-119.7" />
+    <div id="d-f4" class="d-fly"><img src="assets/derived/stock_05_claw.png" alt="claw" /></div>
+    <img id="d-tr5" class="d-trail scr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/transitions/motion_trail_cyan.png" alt="" data-ang="61.8" />
+    <div id="d-f5" class="d-fly"><img src="assets/derived/stock_06_gamepad.png" alt="gamepad" /></div>
+    <img id="d-tr6" class="d-trail scr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/transitions/motion_trail_cyan.png" alt="" data-ang="-2.5" />
+    <div id="d-f6" class="d-fly"><img src="assets/derived/stock_07_lock.png" alt="lock" /></div>
+    <div id="d-t1" class="hl"><span>Discover</span></div>
+    <div id="d-t2" class="hl"><span>What's out</span> <span class="cy">there.</span></div>
+    <div id="d-t3" class="hl"><span>Find your next</span> <span class="cy">experience.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Explore on the right, the question on the left.
+    tl.fromTo("#d-ex", { x: 700, rotationY: -32, opacity: 0 }, { x: 0, rotationY: -14, opacity: 1, duration: 0.55, ease: "expo.out" }, 0);
+    tl.fromTo("#d-t1", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.4);
+    tl.fromTo("#d-t2", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.62);
+    // Results slides in front; Explore recedes.
+    tl.fromTo("#d-res", { x: 640, z: 120, rotationY: -32, opacity: 0 }, { x: -20, z: 80, rotationY: -10, opacity: 1, duration: 0.6, ease: "expo.out" }, 3.0);
+    tl.to("#d-ex", { x: 190, z: -320, rotationY: -22, duration: 0.6, ease: "power2.inOut" }, 3.0);
+    tl.to("#d-ex-dim", { opacity: 0.5, duration: 0.6, ease: "power2.out" }, 3.0);
+    tl.to(["#d-t1", "#d-t2"], { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power3.in" }, 4.75);
+    // The Holodeck VR card expands into the venue page, filling the phone.
+    tl.fromTo("#d-ven", { clipPath: "inset(62.5% 4% 25.5% 4% round 14px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", duration: 0.45, ease: "power3.inOut" }, 5.0);
+    tl.to("#d-ex", { opacity: 0, duration: 0.35, ease: "power2.in" }, 5.0);
+    // Portal: the venue recedes to the centre, rings pulse outward, the activities fly past the camera.
+    tl.to("#d-res", { x: -330, y: -70, z: -600, rotationY: 0, duration: 0.9, ease: "power2.inOut" }, 6.5);
+    [6.6, 7.1, 7.6].forEach((t, i) => {
+      tl.fromTo("#d-r" + i, { opacity: 0.9, scale: 0.3 }, { opacity: 0, scale: 2.6, duration: 1.2, ease: "power2.out", immediateRender: false }, t);
+    });
+    const dirs = [[-760, -400], [760, -330], [-860, 230], [820, 300], [-320, -560], [300, 560], [900, -40]];
+    dirs.forEach(([dx, dy], i) => {
+      const t = 7.0 + i * 0.32;
+      const tr = document.getElementById("d-tr" + i);
+      const ang = parseFloat(tr.getAttribute("data-ang"));
+      tl.fromTo("#d-f" + i, { x: 0, y: 0, scale: 0.15, opacity: 0, rotation: (i % 2 ? 8 : -8) },
+        { x: dx, y: dy, scale: 1.9, rotation: 0, duration: 1.1, ease: "power2.in" }, t);
+      tl.to("#d-f" + i, { opacity: 1, duration: 0.15, ease: "power1.out" }, t);
+      tl.to("#d-f" + i, { opacity: 0, duration: 0.2, ease: "power1.in" }, t + 0.9);
+      tl.fromTo(tr, { rotation: ang, scaleX: 0, opacity: 0.85 }, { rotation: ang, scaleX: 1, opacity: 0, duration: 1.1, ease: "power2.in", immediateRender: false }, t);
+    });
+    tl.fromTo("#d-map", { x: -520, z: -250, rotationY: 32, opacity: 0 }, { x: 0, z: -250, rotationY: 16, opacity: 1, duration: 0.7, ease: "expo.out" }, 7.6);
+    tl.fromTo("#d-t3", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power4.out" }, 8.0);
+    tl.to("#d-st", { opacity: 0, duration: 0.3, ease: "power3.in" }, 10.2);
+    tl.to("#d-t3", { opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power3.in" }, 10.2);
+    window.__timelines["discover"] = tl;
+  </script>
+</template>

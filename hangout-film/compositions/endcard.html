@@ -1,0 +1,138 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Space Grotesk";
+      src: url("assets/fonts/SpaceGrotesk.woff2") format("woff2");
+      font-weight: 300 700;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      color: #ffffff;
+      font-family: "Space Grotesk", sans-serif;
+      background: #04070a;
+    }
+    #ec-glow {
+      position: absolute;
+      left: 560px;
+      top: 70px;
+      width: 800px;
+      height: 640px;
+      background: radial-gradient(closest-side, rgba(2, 216, 204, 0.26), rgba(2, 216, 204, 0.08) 55%, rgba(2, 216, 204, 0) 100%);
+      opacity: 0;
+    }
+    #ec-logo {
+      position: absolute;
+      left: 810px;
+      top: 150px;
+      width: 300px;
+      height: 316px;
+      opacity: 0;
+    }
+    #ec-line {
+      position: absolute;
+      left: 0;
+      width: 1920px;
+      top: 560px;
+      text-align: center;
+      font-size: 92px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    #ec-line span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #ec-line .acc {
+      color: #02d8cc;
+    }
+    #ec-alpha {
+      position: absolute;
+      left: 0;
+      width: 1920px;
+      top: 724px;
+      text-align: center;
+      font-family: "Inter", sans-serif;
+      font-size: 34px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: #8fa1a8;
+      opacity: 0;
+    }
+    #ec-logo text {
+      font-family: "Oswald", sans-serif;
+      font-weight: 500;
+    }
+    #ec-alpha b {
+      color: #ffffff;
+      font-weight: 500;
+    }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1920" data-height="1080">
+    <div id="ec-glow"></div>
+    <div id="ec-logo" role="img" aria-label="Hangout">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 928" width="300" height="316">
+  <!-- Hangout mark, rebuilt as vector from the app's welcome-screen logo (traced at 8x). Wordmark: Oswald 500. -->
+  <defs>
+    <linearGradient id="hg-pin" x1="0.2" y1="0" x2="0.75" y2="1">
+      <stop offset="0" stop-color="#3fe0d4" />
+      <stop offset="0.55" stop-color="#1bbdb6" />
+      <stop offset="1" stop-color="#0f9c9c" />
+    </linearGradient>
+    <linearGradient id="hg-out" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4fe6da" />
+      <stop offset="1" stop-color="#22bdb7" />
+    </linearGradient>
+    <linearGradient id="hg-line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22c4bc" stop-opacity="0" />
+      <stop offset="0.2" stop-color="#22c4bc" stop-opacity="1" />
+      <stop offset="0.8" stop-color="#22c4bc" stop-opacity="1" />
+      <stop offset="1" stop-color="#22c4bc" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <path d="M 442 584 L 287.9 366.1 A 190 190 0 1 1 596.1 366.1 Z" fill="url(#hg-pin)" />
+  <circle cx="442" cy="272" r="128" fill="#0f3039" />
+  <g transform="translate(442 296) scale(1.16) translate(-442 -296)">
+  <path d="M 380 246 H 504 C 528 246 542 262 545 287 L 550 330 C 552 348 534 357 521 344 L 499 322 H 385 L 363 344 C 350 357 332 348 334 330 L 339 287 C 342 262 356 246 380 246 Z" fill="#eef7f6" />
+  <rect x="364" y="277" width="38" height="11" rx="2" fill="#0f3039" />
+  <rect x="377.5" y="263.5" width="11" height="38" rx="2" fill="#0f3039" />
+  <circle cx="499" cy="268" r="7" fill="#0f3039" />
+  <circle cx="515" cy="283" r="7" fill="#0f3039" />
+  <circle cx="499" cy="298" r="7" fill="#0f3039" />
+  <circle cx="483" cy="283" r="7" fill="#0f3039" />
+  </g>
+  <g transform="translate(70 0) skewX(-5)">
+    <text x="438" y="806" text-anchor="middle" font-family="Oswald, sans-serif" font-weight="500" font-size="198" letter-spacing="7"><tspan fill="#f4fbfb">HANG</tspan><tspan fill="url(#hg-out)">OUT</tspan></text>
+  </g>
+  <path d="M 280 850 Q 492 866 704 850" fill="none" stroke="url(#hg-line)" stroke-width="10" stroke-linecap="round" />
+</svg>
+    </div>
+    <div id="ec-line">
+      <span id="ec-w0">Plan.</span> <span id="ec-w1">Book.</span> <span id="ec-w2">Play.</span> <span id="ec-w3" class="acc">Earn</span>
+      <span id="ec-w4" class="acc">Rewards.</span>
+    </div>
+    <div id="ec-alpha"><b>Alpha test</b> · Elan &amp; nVision 2027 · IIT Hyderabad · 8–10 January</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // The mark is performed in out of a teal bloom, then the promise, then where to see it first.
+    tl.fromTo("#ec-glow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.9, ease: "power2.out" }, 0.1);
+    tl.fromTo(
+      "#ec-logo",
+      { opacity: 0, scale: 0.78, y: 30, filter: "blur(14px)" },
+      { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out" },
+      0.25,
+    );
+    for (let j = 0; j < 5; j++) {
+      tl.fromTo(
+        "#ec-w" + j,
+        { opacity: 0, filter: "blur(6px)" },
+        { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" },
+        0.95 + j * 0.16,
+      );
+    }
+    tl.fromTo("#ec-alpha", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.25, ease: "power4.out" }, 1.85);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>

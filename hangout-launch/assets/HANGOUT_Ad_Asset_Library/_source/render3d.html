@@ -1,0 +1,237 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>HANGOUT 3D renderer</title></head>
+<body style="margin:0;background:transparent">
+<script>
+// ---------- tiny flat-shaded 3D renderer (painter's algorithm) ----------
+const PI = Math.PI;
+const M = {
+  body:   { c: [22, 38, 64],   spec: .55 },
+  metal:  { c: [70, 92, 122],  spec: .8 },
+  dark:   { c: [10, 16, 28],   spec: .3 },
+  white:  { c: [226, 236, 246], spec: .7 },
+  ball:   { c: [28, 52, 110],  spec: .9 },
+  glass:  { c: [18, 40, 70],   spec: 1 },
+  ecy:    { e: [54, 214, 242] },
+  eice:   { e: [150, 240, 255] },
+  eblue:  { e: [57, 123, 255] },
+  elil:   { e: [183, 169, 255] },
+  egold:  { e: [233, 203, 126] },
+};
+const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+const T = {
+  tr: (x, y, z) => p => [p[0] + x, p[1] + y, p[2] + z],
+  sc: (x, y, z) => p => [p[0] * x, p[1] * (y ?? x), p[2] * (z ?? x)],
+  rx: a => { const c = Math.cos(a), s = Math.sin(a); return p => [p[0], p[1] * c - p[2] * s, p[1] * s + p[2] * c]; },
+  ry: a => { const c = Math.cos(a), s = Math.sin(a); return p => [p[0] * c + p[2] * s, p[1], -p[0] * s + p[2] * c]; },
+  rz: a => { const c = Math.cos(a), s = Math.sin(a); return p => [p[0] * c - p[1] * s, p[0] * s + p[1] * c, p[2]]; },
+};
+function xf(faces, ...fns) { return faces.map(f => ({ ...f, pts: f.pts.map(p => fns.reduce((q, fn) => fn(q), p)) })); }
+function box(w, h, d, mat) {
+  const x = w / 2, y = h / 2, z = d / 2;
+  const v = [[-x, -y, -z], [x, -y, -z], [x, y, -z], [-x, y, -z], [-x, -y, z], [x, -y, z], [x, y, z], [-x, y, z]];
+  return [[0, 1, 2, 3], [4, 5, 6, 7], [0, 1, 5, 4], [3, 2, 6, 7], [0, 3, 7, 4], [1, 2, 6, 5]].map(ix => ({ pts: ix.map(i => v[i]), mat, edge: true }));
+}
+function lathe(prof, seg, mat, a0 = 0, a1 = 2 * PI, edge = false) {
+  const out = [];
+  for (let i = 0; i < seg; i++) {
+    const t0 = a0 + (a1 - a0) * i / seg, t1 = a0 + (a1 - a0) * (i + 1) / seg;
+    for (let j = 0; j < prof.length - 1; j++) {
+      const [r0, y0] = prof[j], [r1, y1] = prof[j + 1];
+      out.push({ pts: [[r0 * Math.cos(t0), y0, r0 * Math.sin(t0)], [r0 * Math.cos(t1), y0, r0 * Math.sin(t1)], [r1 * Math.cos(t1), y1, r1 * Math.sin(t1)], [r1 * Math.cos(t0), y1, r1 * Math.sin(t0)]], mat, edge });
+    }
+  }
+  return out;
+}
+function cyl(r, h, seg, mat, capMat) {
+  const f = lathe([[r, -h / 2], [r, h / 2]], seg, mat);
+  const top = [], bot = [];
+  for (let i = 0; i < seg; i++) { const t = 2 * PI * i / seg; top.push([r * Math.cos(t), h / 2, r * Math.sin(t)]); bot.push([r * Math.cos(t), -h / 2, r * Math.sin(t)]); }
+  f.push({ pts: top, mat: capMat || mat }, { pts: bot, mat: capMat || mat });
+  return f;
+}
+function sphere(r, seg, mat) { const p = []; for (let i = 0; i <= seg / 2; i++) { const a = -PI / 2 + PI * i / (seg / 2); p.push([r * Math.cos(a), r * Math.sin(a)]); } return lathe(p, seg, mat); }
+function torus(R, r, su, sv, mat, u0 = 0, u1 = 2 * PI) {
+  const out = [], P = (u, v) => [(R + r * Math.cos(v)) * Math.cos(u), r * Math.sin(v), (R + r * Math.cos(v)) * Math.sin(u)];
+  for (let i = 0; i < su; i++) for (let j = 0; j < sv; j++) {
+    const u = u0 + (u1 - u0) * i / su, U = u0 + (u1 - u0) * (i + 1) / su, v = 2 * PI * j / sv, V = 2 * PI * (j + 1) / sv;
+    out.push({ pts: [P(u, v), P(U, v), P(U, V), P(u, V)], mat });
+  }
+  return out;
+}
+// ---------- render ----------
+function norm(v) { const l = Math.hypot(...v) || 1; return [v[0] / l, v[1] / l, v[2] / l]; }
+function render(faces, cam, mode, size) {
+  const yaw = cam.yaw * PI / 180, pitch = cam.pitch * PI / 180, dist = cam.dist || 7;
+  const view = p => { let q = T.ry(yaw + PI)(p); q = T.rx(-pitch)(q); return [q[0], q[1], q[2] + dist]; };
+  const F = faces.map(f => {
+    const vp = f.pts.map(view);
+    let n = [0, 0, 0];
+    for (let i = 0; i < vp.length; i++) { const a = vp[i], b = vp[(i + 1) % vp.length]; n[0] += (a[1] - b[1]) * (a[2] + b[2]); n[1] += (a[2] - b[2]) * (a[0] + b[0]); n[2] += (a[0] - b[0]) * (a[1] + b[1]); }
+    n = norm(n); if (n[2] > 0) n = n.map(x => -x);
+    const z = vp.reduce((s, p) => s + p[2], 0) / vp.length;
+    const pr = vp.map(p => [p[0] / p[2], -p[1] / p[2]]);
+    return { ...f, vp, n, z, pr };
+  }).sort((a, b) => b.z - a.z);
+  let mnx = 1e9, mny = 1e9, mxx = -1e9, mxy = -1e9;
+  F.forEach(f => f.pr.forEach(([x, y]) => { mnx = Math.min(mnx, x); mxx = Math.max(mxx, x); mny = Math.min(mny, y); mxy = Math.max(mxy, y); }));
+  const s = size * (cam.fill || .74) / Math.max(mxx - mnx, mxy - mny);
+  const ox = size / 2 - s * (mnx + mxx) / 2, oy = size / 2 - s * (mny + mxy) / 2;
+  const cv = document.createElement('canvas'); cv.width = cv.height = size; const g = cv.getContext('2d');
+  const gl = document.createElement('canvas'); gl.width = gl.height = size; const gg = gl.getContext('2d');
+  const L = norm([-.45, .75, -.55]), L2 = norm([.7, .2, -.3]), H = norm([L[0], L[1], L[2] - 1]);
+  const path = (ctx, f) => { ctx.beginPath(); f.pr.forEach(([x, y], i) => i ? ctx.lineTo(ox + x * s, oy + y * s) : ctx.moveTo(ox + x * s, oy + y * s)); ctx.closePath(); };
+  const lw = size / 1400;
+  F.forEach(f => {
+    const m = f.mat, n = f.n;
+    if (mode === 'holo') {
+      path(g, f);
+      g.fillStyle = m.e ? 'rgba(127,230,247,.30)' : 'rgba(54,214,242,.055)'; g.fill();
+      g.strokeStyle = m.e ? 'rgba(200,250,255,.85)' : (f.edge ? 'rgba(127,230,247,.55)' : 'rgba(127,230,247,.16)'); g.lineWidth = lw * (f.edge ? 1.6 : 1); g.stroke();
+      path(gg, f); gg.strokeStyle = 'rgba(54,214,242,.9)'; gg.lineWidth = lw * 3; gg.stroke();
+      return;
+    }
+    let col;
+    if (m.e) {
+      const k = .78 + .22 * Math.max(0, -n[2]);
+      col = m.e.map(c => Math.min(255, c * k + 30));
+      path(gg, f); gg.fillStyle = `rgb(${m.e.join(',')})`; gg.fill();
+    } else {
+      const dif = Math.max(0, n[0] * L[0] + n[1] * L[1] + n[2] * L[2]);
+      const dif2 = Math.max(0, n[0] * L2[0] + n[1] * L2[1] + n[2] * L2[2]);
+      const sp = Math.pow(Math.max(0, n[0] * H[0] + n[1] * H[1] + n[2] * H[2]), 28) * m.spec;
+      const rim = Math.pow(1 - Math.abs(n[2]), 2.4);
+      col = m.c.map((c, i) => c * (.32 + .9 * dif + .25 * dif2) + 255 * sp * .55 + [54, 214, 242][i] * rim * .55);
+      col = col.map(c => Math.max(0, Math.min(255, c)));
+    }
+    path(g, f); g.fillStyle = `rgb(${col.map(Math.round).join(',')})`; g.fill();
+    g.strokeStyle = f.edge && !m.e ? 'rgba(127,230,247,.28)' : `rgb(${col.map(Math.round).join(',')})`; g.lineWidth = f.edge ? lw * 1.4 : lw * .9; g.stroke();
+  });
+  // compose: wide bloom under, object, tight bloom over
+  const out = document.createElement('canvas'); out.width = out.height = size; const o = out.getContext('2d');
+  o.filter = `blur(${size / 34}px)`; o.globalAlpha = mode === 'holo' ? .8 : .75; o.drawImage(gl, 0, 0);
+  o.filter = 'none'; o.globalAlpha = 1; o.drawImage(cv, 0, 0);
+  o.globalCompositeOperation = 'lighter'; o.filter = `blur(${size / 160}px)`; o.globalAlpha = mode === 'holo' ? .9 : .55; o.drawImage(gl, 0, 0);
+  return out.toDataURL('image/png');
+}
+// ---------- scenes ----------
+const S = {};
+S.arcade = { cam: { yaw: -32, pitch: 12, dist: 7 }, build() {
+  let f = [];
+  f.push(...xf(box(.82, 1.82, .72, M.body), T.tr(0, .91, 0)));
+  for (const sx of [-.415, .415]) f.push(...xf(box(.025, 1.82, .025, M.ecy), T.tr(sx, .91, .37)));
+  f.push(...xf(box(.68, .52, .04, M.eblue), T.rx(-.2), T.tr(0, 1.36, .37)));
+  f.push(...xf(box(.6, .44, .02, M.ecy), T.rx(-.2), T.tr(0, 1.36, .40)));
+  f.push(...xf(box(.82, .24, .14, M.elil), T.tr(0, 1.72, .32)));
+  f.push(...xf(box(.82, .07, .38, M.metal), T.rx(.26), T.tr(0, 1.02, .46)));
+  f.push(...xf(cyl(.016, .14, 12, M.metal), T.tr(-.2, 1.12, .5)));
+  f.push(...xf(sphere(.05, 16, M.elil), T.tr(-.2, 1.2, .5)));
+  [[.02, M.ecy], [.12, M.egold], [.22, M.ecy], [.07, M.elil], [.17, M.ecy]].forEach(([x, m], i) => f.push(...xf(cyl(.032, .03, 14, m), T.tr(x, 1.06 + (i > 2 ? .02 : 0), .46 + (i > 2 ? -.06 : 0)))));
+  f.push(...xf(box(.3, .26, .02, M.metal), T.tr(0, .46, .37)));
+  f.push(...xf(box(.12, .02, .03, M.egold), T.tr(0, .5, .385)));
+  return f; } };
+S.kart = { cam: { yaw: 38, pitch: 18, dist: 7 }, build() {
+  let f = [];
+  f.push(...xf(box(1.0, .06, 1.7, M.body), T.tr(0, .2, 0)));
+  for (const sx of [-.5, .5]) { f.push(...xf(box(.2, .16, 1.0, M.metal), T.tr(sx, .28, 0))); f.push(...xf(box(.02, .03, 1.0, M.ecy), T.tr(sx * 1.21, .3, 0))); }
+  f.push(...xf(box(.86, .14, .3, M.body), T.tr(0, .3, .86)));
+  f.push(...xf(box(.86, .03, .3, M.ecy), T.tr(0, .38, .86)));
+  f.push(...xf(box(.46, .52, .12, M.dark), T.rx(-.28), T.tr(0, .55, -.42)));
+  f.push(...xf(box(.46, .1, .42, M.dark), T.tr(0, .3, -.25)));
+  f.push(...xf(box(.6, .26, .32, M.metal), T.tr(0, .38, -.78)));
+  f.push(...xf(box(.9, .06, .1, M.body), T.tr(0, .26, -.98)));
+  for (const [x, z, r] of [[-.6, .55, .17], [.6, .55, .17], [-.62, -.62, .21], [.62, -.62, .21]]) {
+    f.push(...xf(cyl(r, .17, 32, M.dark), T.rz(PI / 2), T.tr(x, r, z)));
+    f.push(...xf(cyl(r * .45, .18, 24, M.ecy), T.rz(PI / 2), T.tr(x, r, z)));
+  }
+  f.push(...xf(cyl(.018, .5, 10, M.metal), T.rx(-.9), T.tr(0, .44, .32)));
+  f.push(...xf(torus(.14, .022, 32, 8, M.metal), T.rx(-.95), T.tr(0, .6, .18)));
+  return f; } };
+S.vr = { cam: { yaw: 28, pitch: 10, dist: 6 }, build() {
+  let f = [];
+  f.push(...xf(box(1.1, .5, .34, M.body), T.tr(0, 0, 0)));
+  f.push(...xf(box(1.04, .44, .03, M.glass), T.tr(0, 0, .18)));
+  f.push(...xf(box(.96, .035, .02, M.ecy), T.tr(0, .07, .2)));
+  f.push(...xf(box(.6, .02, .02, M.eblue), T.tr(0, -.04, .2)));
+  [[-.42, .15], [.42, .15], [-.42, -.15], [.42, -.15], [-.2, .17], [.2, .17]].forEach(([x, y]) => f.push(...xf(sphere(.022, 10, M.eice), T.tr(x, y, .2))));
+  f.push(...xf(box(.9, .4, .12, M.dark), T.tr(0, 0, -.22)));
+  f.push(...xf(torus(.62, .04, 64, 8, M.dark, PI * 1.08, PI * 1.92), T.sc(.95, 1, .9), T.tr(0, 0, -.2)));
+  f.push(...xf(box(.04, .3, .3, M.metal), T.tr(-.57, 0, -.02)));
+  f.push(...xf(box(.04, .3, .3, M.metal), T.tr(.57, 0, -.02)));
+  f.push(...xf(box(.02, .16, .02, M.ecy), T.tr(.6, 0, .08)));
+  return f; } };
+S.bowling = { cam: { yaw: -20, pitch: 10, dist: 9 }, build() {
+  const prof = [[0, 0], [.06, 0], [.075, .05], [.095, .16], [.1, .22], [.085, .3], [.055, .38], [.04, .44], [.05, .5], [.055, .56], [.045, .61], [.02, .64], [0, .645]].map(([r, y]) => [r * 2.4, y * 2.4]);
+  let f = [];
+  for (const [x, z] of [[0, -.3], [-.32, -.62], [.32, -.62]]) {
+    f.push(...xf(lathe(prof, 36, M.white), T.tr(x, 0, z)));
+    f.push(...xf(torus(.125, .018, 36, 6, M.ecy), T.tr(x, 1.17, z)));
+    f.push(...xf(torus(.135, .016, 36, 6, M.ecy), T.tr(x, 1.25, z)));
+  }
+  f.push(...xf(sphere(.5, 40, M.ball), T.tr(-.55, .5, .7)));
+  [[0, .12], [-.12, -.05], [.12, -.05]].forEach(([a, b]) => f.push(...xf(cyl(.06, .02, 16, M.dark), T.rx(PI / 2 - .3), T.ry(.35), T.tr(-.55 + a * .9, .5 + b + .12, .7 + .48))));
+  f.push(...xf(torus(.5, .012, 64, 6, M.ecy), T.rx(PI / 2 - .3), T.ry(.35), T.tr(-.55, .5, .7)));
+  return f; } };
+S.trampoline = { cam: { yaw: -10, pitch: 30, dist: 8 }, build() {
+  let f = [];
+  f.push(...torus(1.4, .07, 72, 10, M.metal));
+  f.push(...xf(cyl(1.22, .02, 72, M.dark), T.tr(0, -.02, 0)));
+  f.push(...xf(torus(1.24, .02, 72, 6, M.ecy), T.tr(0, 0, 0)));
+  f.push(...xf(torus(.5, .012, 48, 6, M.elil), T.tr(0, -.005, 0)));
+  for (let i = 0; i < 36; i++) { const a = 2 * PI * i / 36; f.push(...xf(box(.16, .02, .03, M.metal), T.ry(-a), T.tr(1.31 * Math.cos(a), 0, 1.31 * Math.sin(a)))); }
+  for (let i = 0; i < 6; i++) { const a = 2 * PI * i / 6 + .3; f.push(...xf(cyl(.045, .8, 12, M.metal), T.tr(1.4 * Math.cos(a), -.4, 1.4 * Math.sin(a)))); f.push(...xf(cyl(.07, .03, 12, M.ecy), T.tr(1.4 * Math.cos(a), -.8, 1.4 * Math.sin(a)))); }
+  return f; } };
+S.escape = { cam: { yaw: -24, pitch: 8, dist: 7 }, build() {
+  let f = [];
+  f.push(...xf(box(1.0, .8, .38, M.body), T.tr(0, 0, 0)));
+  f.push(...xf(box(1.02, .05, .4, M.ecy), T.tr(0, .32, 0)));
+  f.push(...xf(torus(.33, .07, 40, 10, M.metal, 0, PI), T.rx(-PI / 2), T.tr(0, .4, 0)));
+  for (const x of [-.33, .33]) f.push(...xf(cyl(.07, .2, 16, M.metal), T.tr(x, .38, 0)));
+  f.push(...xf(cyl(.07, .02, 20, M.egold), T.rx(PI / 2), T.tr(0, .02, .2)));
+  f.push(...xf(box(.05, .16, .02, M.egold), T.tr(0, -.08, .2)));
+  // floating key
+  const k = [...torus(.15, .04, 32, 8, M.egold), ...xf(box(.62, .07, .07, M.egold), T.tr(.45, 0, 0)), ...xf(box(.07, .14, .07, M.egold), T.tr(.62, -.09, 0)), ...xf(box(.07, .1, .07, M.egold), T.tr(.72, -.07, 0))];
+  f.push(...xf(k, T.rx(PI / 2), T.rz(.5), T.ry(-.5), T.tr(.55, -.55, .55)));
+  return f; } };
+S.cafe = { cam: { yaw: -26, pitch: 14, dist: 8 }, build() {
+  let f = [];
+  f.push(...xf(box(1.7, .98, .06, M.body), T.tr(0, 1.0, 0)));
+  f.push(...xf(box(1.6, .88, .02, M.eblue), T.tr(0, 1.0, .035)));
+  f.push(...xf(box(1.2, .5, .01, M.ecy), T.tr(-.1, 1.05, .05)));
+  f.push(...xf(box(.4, .18, .01, M.elil), T.tr(.52, .74, .05)));
+  f.push(...xf(box(.1, .42, .06, M.metal), T.tr(0, .36, -.06)));
+  f.push(...xf(cyl(.32, .03, 32, M.metal), T.sc(1, 1, .6), T.tr(0, .15, -.02)));
+  f.push(...xf(box(1.2, .045, .38, M.dark), T.tr(-.05, .16, .6)));
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 13; c++) f.push(...xf(box(.06, .02, .06, (r === 3 && c > 4 && c < 9) ? M.elil : M.ecy), T.tr(-.05 - .54 + c * .09, .19, .6 - .12 + r * .08)));
+  f.push(...xf(sphere(.11, 20, M.body), T.sc(.75, .45, 1.15), T.tr(.82, .18, .62)));
+  f.push(...xf(box(.02, .01, .06, M.ecy), T.tr(.82, .23, .55)));
+  return f; } };
+S.amusement = { cam: { yaw: -28, pitch: 8, dist: 9 }, build() {
+  let f = [];
+  const R = 1.35;
+  for (const z of [-.12, .12]) { f.push(...xf(torus(R, .03, 96, 6, M.metal), T.rx(PI / 2), T.tr(0, 1.75, z))); }
+  f.push(...xf(torus(R * .45, .02, 64, 6, M.ecy), T.rx(PI / 2), T.tr(0, 1.75, .13)));
+  for (let i = 0; i < 16; i++) { const a = 2 * PI * i / 16; f.push(...xf(box(R, .025, .025, M.metal), T.tr(R / 2, 0, 0), T.rz(a), T.tr(0, 1.75, .13))); }
+  f.push(...xf(cyl(.12, .4, 20, M.metal), T.rx(PI / 2), T.tr(0, 1.75, 0)));
+  for (let i = 0; i < 12; i++) { const a = 2 * PI * i / 12; const x = R * Math.cos(a), y = 1.75 + R * Math.sin(a); f.push(...xf(box(.2, .18, .26, i % 3 === 0 ? M.elil : M.body), T.tr(x, y - .16, 0))); f.push(...xf(box(.2, .03, .26, M.ecy), T.tr(x, y - .07, 0))); }
+  for (let i = 0; i < 32; i++) { const a = 2 * PI * i / 32; f.push(...xf(sphere(.028, 8, i % 2 ? M.egold : M.eice), T.tr(R * 1.0 * Math.cos(a), 1.75 + R * Math.sin(a), .17))); }
+  for (const [sx, sz] of [[-1, 1], [1, 1], [-1, -1], [1, -1]]) f.push(...xf(box(.07, 1.95, .07, M.metal), T.rz(sx * .32), T.rx(sz * .1), T.tr(sx * .32, .85, sz * .3)));
+  f.push(...xf(box(1.6, .06, .9, M.dark), T.tr(0, -.08, 0)));
+  return f; } };
+S.thrill = { cam: { yaw: -42, pitch: 12, dist: 9 }, build() {
+  let f = [];
+  const R = 1.1;
+  for (const z of [-.14, .14]) { f.push(...xf(torus(R, .035, 96, 6, M.ecy), T.rx(PI / 2), T.tr(0, R + .1, z))); f.push(...xf(box(2.4, .07, .07, M.ecy), T.tr(-1.2, .1 - .0, z))); f.push(...xf(box(2.4, .07, .07, M.ecy), T.tr(1.2, .1, z))); }
+  for (let i = 0; i < 40; i++) { const a = 2 * PI * i / 40; f.push(...xf(box(.04, .04, .34, M.metal), T.tr(R * Math.cos(a), R + .1 + R * Math.sin(a), 0))); }
+  for (let i = -6; i <= 6; i++) f.push(...xf(box(.05, .04, .34, M.metal), T.tr(i * .38, .07, 0)));
+  for (const x of [-2.1, -1.2, 1.2, 2.1]) f.push(...xf(cyl(.04, .12, 10, M.metal), T.tr(x, 0, 0)));
+  f.push(...xf(cyl(.06, 2.1, 12, M.metal), T.tr(0, 1.05, -.45)));
+  const car = [...box(.56, .2, .4, M.body), ...xf(box(.56, .04, .42, M.elil), T.tr(0, .1, 0)), ...xf(box(.12, .16, .36, M.dark), T.tr(.14, .16, 0))];
+  f.push(...xf(car, T.tr(-1.5, .28, 0)));
+  return f; } };
+// ---------- jobs ----------
+window.__jobs = [];
+for (const k of Object.keys(S)) { window.__jobs.push({ name: k + '|solid', file: `hangout_3d_${k}_solid.png` }); window.__jobs.push({ name: k + '|holo', file: `hangout_3d_${k}_hologram.png` }); }
+window.__draw = n => { const [k, mode] = n.split('|'); const sc = S[k]; return render(sc.build(), sc.cam, mode, 2048); };
+window.__ready = true;
+</script>
+</body></html>

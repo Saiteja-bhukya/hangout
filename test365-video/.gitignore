@@ -1,0 +1,6 @@
+.hyperframes/artifacts/
+.hyperframes/preview/
+.hyperframes/cache/
+renders/render.log
+node_modules/
+.hyperframes/video-state.json
