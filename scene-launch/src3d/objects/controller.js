@@ -40,7 +40,7 @@ export default {
     }
 
     // touchpad + blue light bar
-    const touch = new Mesh(new RoundedBoxGeometry(0.44, 0.04, 0.27, 3, 0.02), K.navyDark);
+    const touch = new Mesh(new RoundedBoxGeometry(0.44, 0.04, 0.27, 3, 0.02), K.phys('#0E1829', { roughness: 0.62, clearcoat: 0, rim: 0.12 }));
     touch.position.set(0, yTop(0, -0.06) - 0.005, -0.06);
     pad.add(touch);
     const bar = new Mesh(new RoundedBoxGeometry(0.5, 0.05, 0.075, 3, 0.022), K.blueGlow);

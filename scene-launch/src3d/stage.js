@@ -12,7 +12,7 @@ import { BUILDERS, OBJECTS } from './registry.js';
 export { OBJECTS };
 
 const DEFAULT_ELEVATION = MathUtils.degToRad(17);
-const DEFAULT_TARGET_Y = 0.85;
+const DEFAULT_TARGET_Y = 1.0;
 const TARGET_FILL = 0.75; // a 2-unit-tall object fills ~75% of the canvas height
 
 function defaultCamera(fov) {
@@ -103,6 +103,9 @@ export function createStage(canvas, opts = {}) {
   applyCamera();
 
   const handles = [];
+  // Until the caller positions the camera itself, the default view re-centres vertically on the
+  // first object added (same distance/elevation), so low objects like the kart sit mid-frame.
+  let autoCamera = true;
 
   function add(name) {
     const B = BUILDERS[name];
@@ -110,6 +113,13 @@ export function createStage(canvas, opts = {}) {
     const K = makeKit();
     const built = B.build(K);
     const model = built.model;
+    // metals opt into a stronger environment reflection (material.envMap enables envMapIntensity)
+    model.traverse((o) => {
+      const mats = o.material ? (Array.isArray(o.material) ? o.material : [o.material]) : [];
+      for (const m of mats) {
+        if (m.userData && m.userData.envBoost && !m.envMap) { m.envMap = scene.environment; m.envMapIntensity = m.userData.envBoost; }
+      }
+    });
     const update = built.update || (() => {});
 
     // ---- normalisation: largest bbox axis -> 2 units, centred on x/z, resting on y = 0
@@ -120,6 +130,8 @@ export function createStage(canvas, opts = {}) {
     if (built.groundActions) {
       for (const a of built.groundActions) { update(a); minY = Math.min(minY, measure(model).min.y); }
     }
+    if (typeof built.floorY === 'number') minY = built.floorY;
+    box.min.y = minY;
     const size = box.getSize(new Vector3());
     const s = 2 / Math.max(size.x, size.y, size.z);
     const cx = (box.min.x + box.max.x) / 2, cz = (box.min.z + box.max.z) / 2;
@@ -142,8 +154,8 @@ export function createStage(canvas, opts = {}) {
     // ---- contact shadows
     const shadows = [];
     if (!built.ownShadows) {
-      const fw = size.x * s, fd = size.z * s;
       const fp = built.footprint || {};
+      const fw = (fp.w ?? size.x) * s, fd = (fp.d ?? size.z) * s;
       const sx = fp.scale ?? 1.25;
       const wide = shadowBlob(fw * sx * 1.25, fd * sx * 1.25, fp.wide ?? 0.32);
       const core = shadowBlob(fw * sx * 0.85, fd * sx * 0.85, fp.core ?? 0.38);
@@ -155,6 +167,7 @@ export function createStage(canvas, opts = {}) {
     for (const c of built.contacts || []) {
       const b = shadowBlob(c.w * s, (c.d ?? c.w) * s, c.o ?? 0.55);
       b.position.set((c.x - cx) * s, 0.003, (c.z - cz) * s);
+      b.rotation.y = c.rot ?? 0;
       yaw.add(b); shadows.push(b);
     }
     model.traverse((o) => { if (o.userData.isShadow) shadows.push(o); });
@@ -202,6 +215,13 @@ export function createStage(canvas, opts = {}) {
     };
     apply();
     handles.push(handle);
+    if (autoCamera && handles.length === 1) {
+      const d = defaultCamera(camState.fov);
+      const ty = handle.size.y / 2;
+      camState.target = [0, ty, 0];
+      camState.position = [d.position[0], d.position[1] - DEFAULT_TARGET_Y + ty, d.position[2]];
+      applyCamera();
+    }
     return handle;
   }
 
@@ -212,6 +232,7 @@ export function createStage(canvas, opts = {}) {
   }
 
   function setCamera(p = {}) {
+    if (p.position || p.target) autoCamera = false;
     if (p.position) camState.position = [p.position[0], p.position[1], p.position[2]];
     if (p.target) camState.target = [p.target[0], p.target[1], p.target[2]];
     if (p.fov) camState.fov = p.fov;
@@ -223,6 +244,7 @@ export function createStage(canvas, opts = {}) {
    * fill `fill` of the frame, viewed from `elevation`/`azimuth` (radians).
    */
   function frame(list, o = {}) {
+    autoCamera = false;
     const items = (list ? (Array.isArray(list) ? list : [list]) : handles).filter((h) => h.group.visible);
     const fill = o.fill ?? 0.75;
     const elev = o.elevation ?? DEFAULT_ELEVATION;

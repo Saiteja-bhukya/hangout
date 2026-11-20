@@ -50,6 +50,24 @@
     });
   };
 
+  /* Run fn with every display:none ancestor of el temporarily shown, so layout can be measured
+     while the scene is inactive (scenes are hidden outside their window when scripts run). */
+  SC.layout = function (el, fn) {
+    var fixed = [];
+    for (var n = el; n && n.nodeType === 1; n = n.parentElement) {
+      if (getComputedStyle(n).display === 'none') {
+        fixed.push([n, n.style.getPropertyValue('display'), n.style.getPropertyPriority('display')]);
+        n.style.setProperty('display', 'block', 'important');
+      }
+    }
+    try { return fn(); } finally {
+      for (var i = fixed.length - 1; i >= 0; i--) {
+        var f = fixed[i];
+        if (f[1]) f[0].style.setProperty('display', f[1], f[2]); else f[0].style.removeProperty('display');
+      }
+    }
+  };
+
   /* easing helpers for code-driven motion */
   SC.clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
   SC.prog = function (t, a, b) { return SC.clamp((t - a) / (b - a), 0, 1); };
@@ -104,7 +122,7 @@
     else { wire.style.width = wl + 'px'; }
     if (o.side === 'left') wire.classList.add('l');
     tl.set(g.clone, { opacity: 1 }, t);
-    tl.fromTo(g.clone, { z: 0, scale: 1 }, { z: dz, scale: 1.05, duration: 0.42, ease: 'expo.out' }, t);
+    tl.fromTo(g.clone, { z: 0, scale: 1 }, { z: dz, scale: o.scale == null ? 1.14 : o.scale, duration: 0.42, ease: 'expo.out' }, t);
     tl.to(g.orig, { opacity: o.dim == null ? 0.22 : o.dim, duration: 0.2, ease: 'power2.out' }, t);
     var wo = vertical ? (o.side === 'above' ? '50% 100%' : '50% 0%') : (o.side === 'left' ? '100% 50%' : '0% 50%');
     tl.fromTo(wire, { opacity: 0, z: dz, scaleX: vertical ? 1 : 0, scaleY: vertical ? 0 : 1, transformOrigin: wo },

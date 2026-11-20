@@ -6,7 +6,7 @@ import {
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { rod, seg, easeInOut, lerp, TAU } from '../util.js';
 
-const PLUSH_COLORS = ['#2F6BFF', '#B7A9FF', '#5E86FF', '#9C8BFF', '#1F4FD8', '#CDBFFF', '#7FA6FF', '#8A78F0'];
+const PLUSH_COLORS = ['#2F6BFF', '#8C78F5', '#3E73FF', '#A898FF', '#183FB8', '#9C8BFF', '#2A5CEB', '#6E5AE0'];
 
 function plushToy(K, r, color, earStyle) {
   const g = new Group();
@@ -30,7 +30,7 @@ export default {
   heroRotY: 0.48,
   build(K) {
     const model = new Group();
-    const W = 1.0, D = 0.9, BASE_H = 0.86, GLASS_H = 0.86, TOP_H = 0.28;
+    const W = 1.0, D = 0.9, BASE_H = 0.8, GLASS_H = 0.94, TOP_H = 0.28;
     const GY0 = BASE_H, GY1 = BASE_H + GLASS_H;
 
     // ---------- base cabinet
@@ -127,7 +127,7 @@ export default {
     ];
     PL.forEach(([x, r, z], i) => {
       const p = plushToy(K, r, PLUSH_COLORS[i], i % 3 === 1);
-      const stackY = (i === 6) ? 0.1 : 0;
+      const stackY = (i === 6) ? 0.07 : 0;
       p.position.set(x, GY0 + 0.02 + r * 0.94 + stackY, z);
       p.rotation.y = (i % 2 ? -0.3 : 0.25) + (x * 0.6);
       p.rotation.z = i === 6 ? 0.2 : 0;
@@ -157,34 +157,34 @@ export default {
     model.add(claw);
     const cable = new Mesh(new CylinderGeometry(0.006, 0.006, 1, 8), K.navyDark);
     model.add(cable);
-    const hub = new Mesh(new CylinderGeometry(0.05, 0.065, 0.09, 28), K.chrome);
-    hub.position.y = 0.045;
+    const hub = new Mesh(new CylinderGeometry(0.07, 0.09, 0.12, 32), K.chrome);
+    hub.position.y = 0.06;
     claw.add(hub);
-    const hubTop = new Mesh(new ConeGeometry(0.05, 0.05, 28), K.chrome);
-    hubTop.position.y = 0.115;
+    const hubTop = new Mesh(new ConeGeometry(0.07, 0.07, 32), K.chrome);
+    hubTop.position.y = 0.155;
     claw.add(hubTop);
-    const collar = new Mesh(new TorusGeometry(0.06, 0.012, 8, 32).rotateX(Math.PI / 2), K.cyanGlow);
-    collar.position.y = 0.06;
+    const collar = new Mesh(new TorusGeometry(0.085, 0.014, 10, 40).rotateX(Math.PI / 2), K.cyanGlow);
+    collar.position.y = 0.075;
     claw.add(collar);
     const prongCurve = new CubicBezierCurve3(
-      new Vector3(0, 0, 0), new Vector3(0.12, -0.03, 0), new Vector3(0.16, -0.16, 0), new Vector3(0.06, -0.25, 0));
-    const prongGeo = new TubeGeometry(prongCurve, 24, 0.013, 10, false);
+      new Vector3(0, 0, 0), new Vector3(0.17, -0.04, 0), new Vector3(0.22, -0.22, 0), new Vector3(0.08, -0.34, 0));
+    const prongGeo = new TubeGeometry(prongCurve, 32, 0.019, 12, false);
     const prongs = [];
     for (let i = 0; i < 3; i++) {
       const arm = new Group();
       arm.rotation.y = (i / 3) * TAU + 0.5;
       const hinge = new Group();
-      hinge.position.x = 0.045;
+      hinge.position.x = 0.06;
       hinge.add(new Mesh(prongGeo, K.chrome));
-      const tip = new Mesh(new SphereGeometry(0.02, 12, 10), K.chrome);
-      tip.position.set(0.06, -0.25, 0);
+      const tip = new Mesh(new SphereGeometry(0.027, 14, 10), K.chrome);
+      tip.position.set(0.08, -0.34, 0);
       hinge.add(tip);
       arm.add(hinge);
       claw.add(arm);
       prongs.push(hinge);
     }
 
-    const HUB_TOP_Y = railY - 0.2, HUB_LOW_Y = targetRest.y + 0.13;
+    const HUB_TOP_Y = railY - 0.24, HUB_LOW_Y = targetRest.y + 0.22;
     function update(t) {
       const down = easeInOut(seg(t, 0, 0.4));
       const close = easeInOut(seg(t, 0.4, 0.55));
@@ -193,10 +193,10 @@ export default {
       const sway = 0.03 * Math.sin(Math.PI * seg(t, 0.55, 1.0)) * (1 - up * 0.5);
       claw.position.set(clawX + sway * 0.4, y, clawZ);
       claw.rotation.z = sway;
-      const open = 0.18, shut = -0.42;
+      const open = 0.2, shut = -0.2;
       for (const h of prongs) h.rotation.z = lerp(open, shut, close);
       // cable from carriage to hub
-      const cTop = railY - 0.04, cBot = y + 0.14;
+      const cTop = railY - 0.04, cBot = y + 0.18;
       cable.scale.y = Math.max(0.001, cTop - cBot);
       cable.position.set(clawX, (cTop + cBot) / 2, clawZ);
       // grabbed plush follows the claw once closed

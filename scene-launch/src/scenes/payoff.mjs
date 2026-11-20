@@ -33,7 +33,7 @@ export default {
 
         var items = [], gap = 8;
         for (var i = 0; i < TIMES.length; i++) items.push($('po-m' + i));
-        var h = items.map(function (el) { return el.offsetHeight + gap; });
+        var h = SC.layout(items[0], function () { return items.map(function (el) { return el.offsetHeight + gap; }); });
         var below = function (k) { var s = 0; for (var j = k + 1; j < h.length; j++) s += h[j]; return s; };
         tl.set('#po-list', { y: below(1) }, 0);
         items.forEach(function (el, k) {

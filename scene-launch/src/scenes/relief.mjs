@@ -29,8 +29,8 @@ export default {
       tl.to('#rl-icon', { scale: 1, duration: 0.2, ease: 'power2.out' }, T(12.81));
       tl.fromTo('#rl-ring', { scale: 0.7, opacity: 0.95 }, { scale: 2.3, opacity: 0, duration: 0.6, ease: 'expo.out' }, T(12.56));
       // lockup: icon slides left and shrinks, wordmark wipes in from the left
-      tl.to('#rl-icon', { x: -287, y: 30, scale: 0.72, duration: 0.5, ease: 'power3.inOut' }, T(13.05));
-      tl.fromTo('#rl-word', { width: 0 }, { width: 529, duration: 0.5, ease: 'power3.out' }, T(13.3));
+      tl.to('#rl-icon', { x: -287, y: 30, scale: 0.72, duration: 0.45, ease: 'power3.inOut' }, T(12.95));
+      tl.fromTo('#rl-word', { width: 0 }, { width: 529, duration: 0.45, ease: 'power3.out' }, T(13.12));
       // tagline, phrase by phrase on the beat
-      SC.wordsIn(tl, $('rl-tag'), T(13.75), { gap: 0.3, dur: 0.18 });`,
+      SC.wordsIn(tl, $('rl-tag'), T(13.45), { gap: 0.2, dur: 0.18 });`,
 };

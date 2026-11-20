@@ -37,17 +37,21 @@
 <div class="sc-body sc-body--flow">
   <div class="sc-monthrow"><b>November 2026</b><span class="sc-monthrow__nav"><svg class="sc-ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.8 5.5-6.5 6.5 6.5 6.5"/></svg><svg class="sc-ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.2 5.5 6.5 6.5-6.5 6.5"/></svg></span></div>
   <div class="sc-dates" data-part="dates">
-    <span class="sc-date"><small>Fri</small><b>20</b><i>Today</i></span><span class="sc-date"><small>Sat</small><b>21</b></span><span class="sc-date is-selected" data-part="date-sun22"><small>Sun</small><b>22</b><i class="sc-date__dot"></i></span><span class="sc-date"><small>Mon</small><b>23</b></span><span class="sc-date"><small>Tue</small><b>24</b></span><span class="sc-date"><small>Wed</small><b>25</b></span>
+    <span class="sc-date is-today"><small>Today</small><b>20</b></span><span class="sc-date"><small>Sat</small><b>21</b></span><span class="sc-date is-selected" data-part="date-sun22"><small>Sun</small><b>22</b><i class="sc-date__dot"></i></span><span class="sc-date"><small>Mon</small><b>23</b></span><span class="sc-date"><small>Tue</small><b>24</b></span><span class="sc-date"><small>Wed</small><b>25</b></span>
   </div>
 
-  <div class="sc-label sc-label--row"><span><svg class="sc-ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17.6h18M6.2 14a5.8 5.8 0 0 1 11.6 0"/><path d="M12 3.6v3.2M4.6 7.4l1.6 1.6M19.4 7.4 17.8 9M8.6 21h6.8"/></svg>Evening</span><span class="sc-label__r">Sun, 22 Nov</span></div>
+  <div class="sc-label sc-label--row"><span><svg class="sc-ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.8v2.2M12 19v2.2M2.8 12H5M19 12h2.2M5.5 5.5l1.6 1.6M16.9 16.9l1.6 1.6M5.5 18.5l1.6-1.6M16.9 7.1l1.6-1.6"/></svg>Afternoon</span><span class="sc-label__r">Sun, 22 Nov</span></div>
+  <div class="sc-slots sc-slots--dim">
+    <span class="sc-slot is-full"><b>1:00<small> pm</small></b><small>Full</small></span><span class="sc-slot"><b>2:00<small> pm</small></b><small>2 left</small></span><span class="sc-slot is-full"><b>3:00<small> pm</small></b><small>Full</small></span><span class="sc-slot"><b>4:00<small> pm</small></b><small>5 left</small></span>
+  </div>
+  <div class="sc-label sc-label--row"><span><svg class="sc-ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17.6h18M6.2 14a5.8 5.8 0 0 1 11.6 0"/><path d="M12 3.6v3.2M4.6 7.4l1.6 1.6M19.4 7.4 17.8 9M8.6 21h6.8"/></svg>Evening</span><span class="sc-label__r sc-label__r--muted">After 5 pm</span></div>
   <div class="sc-slots" data-part="slots">
     <span class="sc-slot"><b>5:00<small> pm</small></b><small>6 left</small></span><span class="sc-slot is-selected" data-part="slot-6pm"><b>6:00<small> pm</small></b><small>4 left</small></span><span class="sc-slot"><b>7:00<small> pm</small></b><small>8 left</small></span><span class="sc-slot"><b>8:00<small> pm</small></b><small>8 left</small></span>
   </div>
 
   <div class="sc-card sc-players" data-part="players">
     <div class="sc-players__top">
-      <span class="sc-pkg__t"><b>Players</b><small>Book once for the whole crew</small></span>
+      <span class="sc-pkg__t"><b>Players</b><small>Book once for the crew</small></span>
       <span class="sc-stepper"><span class="sc-stepper__b"><svg class="sc-ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.2 12h13.6"/></svg></span><b>3</b><span class="sc-stepper__b is-on"><svg class="sc-ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5.2v13.6M5.2 12h13.6"/></svg></span></span>
     </div>
     <div class="sc-crew sc-crew--row">
@@ -91,7 +95,7 @@
 
         var scr = $('a4-rig').querySelector('.phone .app-screen'), ls = $('a4-rig-ls');
         var L = [['date-sun22', 'a4-t0', 30.15, 'right'], ['slot-6pm', 'a4-t1', 30.45, 'right'], ['players', 'a4-t2', 30.75, 'right']];
-        L.forEach(function (l) { SC.liftTag(tl, { scr: scr, liftScr: ls, part: l[0], tag: $(l[1]), wire: $(l[1] + '-w'), side: l[3], dz: 150, gap: 60 }, T(l[2])); });
+        SC.layout(scr, function () { L.forEach(function (l) { SC.liftTag(tl, { scr: scr, liftScr: ls, part: l[0], tag: $(l[1]), wire: $(l[1] + '-w'), side: l[3], dz: 150, gap: 60 }, T(l[2])); }); });
         SC.qBubble(tl, $('a4-q'), T(29.42), T(32.52));
         // top-down tilt: the phone lies back like it's on a table, parts rise off it
         tl.fromTo('#a4-rig', { y: 900, rotationX: 10, rotationZ: 0, opacity: 0 }, { y: 0, rotationX: 34, rotationZ: -7, opacity: 1, duration: 0.6, ease: 'expo.out' }, T(29.45));

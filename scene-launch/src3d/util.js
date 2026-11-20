@@ -2,8 +2,9 @@
 // Nothing in here may depend on wall-clock time or unseeded randomness.
 import {
   Shape, Path, Vector3, Quaternion, Mesh, PlaneGeometry, MeshBasicMaterial,
-  CanvasTexture, SRGBColorSpace, CylinderGeometry, LinearFilter,
+  CanvasTexture, SRGBColorSpace, CylinderGeometry, LinearFilter, SphereGeometry,
 } from 'three';
+import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 export function mulberry32(seed) {
   let a = seed | 0;
@@ -114,4 +115,22 @@ export function shadowBlob(w, d, baseOpacity = 0.5) {
   m.userData.baseOpacity = baseOpacity;
   m.userData.dynOpacity = 1; // per-frame factor objects may set
   return m;
+}
+
+/**
+ * Soft "pillow" superellipsoid: half-extents a/b/c, exponents ex/ey/ez (< 1 = boxier, 1 = ellipsoid).
+ * Great for domed visors and toy-like bodies.
+ */
+export function superBlob(a, b, c, ex, ey, ez, wSeg = 96, hSeg = 64) {
+  let g = new SphereGeometry(1, wSeg, hSeg);
+  g.deleteAttribute('uv');
+  g.deleteAttribute('normal');
+  g = mergeVertices(g, 1e-5);
+  const pos = g.attributes.position;
+  const sp = (v, e) => Math.sign(v) * Math.pow(Math.abs(v), e);
+  for (let i = 0; i < pos.count; i++) {
+    pos.setXYZ(i, a * sp(pos.getX(i), ex), b * sp(pos.getY(i), ey), c * sp(pos.getZ(i), ez));
+  }
+  g.computeVertexNormals();
+  return g;
 }

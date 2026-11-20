@@ -72,7 +72,7 @@ ${CHIPS.map(([id, ic, txt, l, t]) => `      <div class="pain-chip" id="${id}" st
         // --- messages: measure once, then each arrival lifts the list by its own height
         var items = [];
         for (var i = 0; i < TIMES.length; i++) items.push($('pain-m' + i));
-        var gap = 8, h = items.map(function (el) { return el.offsetHeight + gap; });
+        var gap = 8, h = SC.layout(items[0], function () { return items.map(function (el) { return el.offsetHeight + gap; }); });
         var below = function (k) { var s = 0; for (var j = k + 1; j < h.length; j++) s += h[j]; return s; };
         tl.set('#pain-list', { y: below(-1) }, 0);
         items.forEach(function (el, k) {

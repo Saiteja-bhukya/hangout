@@ -48,7 +48,7 @@ const coinPill = (n = '275') => `<span class="sc-coinpill">${coin()}<b>${n}</b><
 const iconBtn = (name, cls = '') => `<span class="sc-iconbtn${cls ? ' ' + cls : ''}">${ic(name, 22)}</span>`;
 
 const chip = (label, iconName, { active = false, cls = '' } = {}) =>
-  `<span class="sc-chip${active ? ' is-active' : ''}${cls ? ' ' + cls : ''}">${iconName ? ic(iconName, 18) : ''}<span>${label}</span>${active ? ic('check', 16, 'sc-chip__check', 2.4) : ''}</span>`;
+  `<span class="sc-chip${active ? ' is-active' : ''}${cls ? ' ' + cls : ''}">${iconName ? ic(iconName, 18) : ''}<span>${label}</span>${active && !cls.includes('nocheck') ? ic('check', 16, 'sc-chip__check', 2.4) : ''}</span>`;
 
 const sectionHead = (title, link = 'See all') =>
   `<div class="sc-sechead"><span class="sc-sechead__t">${title}</span>${link ? `<span class="sc-link">${link}</span>` : ''}</div>`;
@@ -167,11 +167,11 @@ ${statusBar()}
     <div class="sc-homehead__txt">
       <div class="sc-eyebrow">${ic('pin', 15)}<span>Hyderabad</span></div>
       <div class="sc-h1 sc-h1--xl">Hi Asha</div>
-      <div class="sc-sub">Where's the crew headed this weekend?</div>
+      <div class="sc-sub">Where's the crew headed?</div>
     </div>
     <div class="sc-homehead__act">
+      ${coinPill('275')}
       <span class="sc-iconbtn sc-iconbtn--dot">${ic('bell', 22)}</span>
-      ${avatar('A', 'sc-av--lg')}
     </div>
   </div>
 
@@ -191,10 +191,10 @@ ${statusBar()}
     <div class="sc-level__main">
       <div class="sc-level__row">
         <span class="sc-level__t">Level 9</span>
-        <span class="sc-level__xp"><b>3,330</b> XP</span>
+        <span class="sc-level__xp"><b>3,230</b> / 3,330 XP</span>
       </div>
-      <div class="sc-xptrack"><span class="sc-xpfill" data-part="xp-bar" style="width:82.5%"></span></div>
-      <div class="sc-level__foot"><span>70 XP to <b>Level 10 · The Regular</b></span>${coinPill('275')}</div>
+      <div class="sc-xptrack"><span class="sc-xpfill" data-part="xp-bar" style="width:81%"></span></div>
+      <div class="sc-level__foot"><span>100 XP to <b>Level 10 · The Regular</b></span>${ic('chevronRight', 18, 'sc-row__chev')}</div>
     </div>
   </div>
 
@@ -210,7 +210,7 @@ ${statusBar()}
     <div class="sc-tcard">
       ${art('kart', { size: 56, cls: 'sc-tcard__art', inner: `<span class="sc-tag">${ic('kart', 14)}Go-karting</span><span class="sc-fav">${ic('heart', 18)}</span>` })}
       <div class="sc-tcard__body">
-        <div class="sc-tcard__row"><span class="sc-tcard__name">Gridline Karting</span><span class="sc-price"><small>from</small> ₹549</span></div>
+        <div class="sc-tcard__row"><span class="sc-tcard__name">Lapline Karting</span><span class="sc-price"><small>from</small> ₹549</span></div>
         <div class="sc-meta">${ic('pin', 15)}Gachibowli · 9.6 km</div>
       </div>
     </div>
@@ -224,18 +224,15 @@ ${bg()}
 ${statusBar()}
 <div class="sc-body">
   <div class="sc-pagehead">
-    <div>
-      <div class="sc-eyebrow sc-eyebrow--caps">Plan an outing</div>
-      <div class="sc-h1">What's the plan?</div>
-    </div>
+    <div class="sc-h1">Plan an outing</div>
     <span class="sc-link sc-link--muted">Reset</span>
   </div>
 
   <div class="sc-card sc-plan" data-part="what">
     <div class="sc-plan__label"><span class="sc-plan__k">What</span><span class="sc-plan__hint">Pick a mood or two</span></div>
     <div class="sc-chips sc-chips--wrap sc-chips--tight">
-      ${chip('Adrenaline', 'zap')}${chip('Competitive', 'trophy', { active: true })}${chip('Immersive', 'vr', { active: true })}
-      ${chip('Chill', 'coffee')}${chip('Creative', 'workshop')}${chip('Outdoors', 'tree')}
+      ${chip('Competitive', 'trophy', { active: true, cls: 'sc-chip--sm' })}${chip('Immersive', 'vr', { active: true, cls: 'sc-chip--sm' })}${chip('Adrenaline', 'zap', { cls: 'sc-chip--sm' })}
+      ${chip('Chill', 'coffee', { cls: 'sc-chip--sm' })}${chip('Creative', 'workshop', { cls: 'sc-chip--sm' })}
     </div>
   </div>
 
@@ -274,7 +271,7 @@ const VENUES = [
   { key: 'card-holodeck', name: 'Holodeck VR', cat: 'VR', area: 'Madhapur', km: '6.2', price: '249', art: 'vr', open: 'Till 10 pm', sel: true },
   { key: 'card', name: 'Last Over Box Cricket', cat: 'Box cricket', area: 'Hitech City', km: '7.3', price: '179', art: 'cricket', open: 'Till midnight' },
   { key: 'card', name: 'Cipher Vault Escapes', cat: 'Escape room', area: 'Kondapur', km: '9.1', price: '449', art: 'escape', open: 'Till 10 pm' },
-  { key: 'card', name: 'Gridline Karting', cat: 'Go-karting', area: 'Gachibowli', km: '9.6', price: '549', art: 'kart', open: 'Till 10 pm' },
+  { key: 'card', name: 'Lapline Karting', cat: 'Go-karting', area: 'Gachibowli', km: '9.6', price: '549', art: 'kart', open: 'Till 10 pm' },
 ];
 
 S.results = () => `
@@ -290,7 +287,7 @@ ${statusBar()}
     <div class="sc-h1">5 venues for your crew</div>
   </div>
   <div class="sc-chips sc-chips--row">
-    ${chip('Competitive', '', { active: true, cls: 'sc-chip--sm' })}${chip('Immersive', '', { active: true, cls: 'sc-chip--sm' })}<span class="sc-chip sc-chip--sm sc-chip--ghost">${ic('sliders', 16)}<span>Nearest</span>${ic('chevronDown', 14)}</span>
+    ${chip('Competitive', 'trophy', { active: true, cls: 'sc-chip--sm sc-chip--nocheck' })}${chip('Immersive', 'vr', { active: true, cls: 'sc-chip--sm sc-chip--nocheck' })}<span class="sc-chip sc-chip--sm sc-chip--ghost"><span>Nearest</span>${ic('chevronDown', 16)}</span>
   </div>
   <div class="sc-vlist">
     ${VENUES.map((v) => `
@@ -316,21 +313,38 @@ const PINS = [
   { x: 350, y: 470, p: '299' },
 ];
 const SEL_PIN = { x: 212, y: 392 };
+const seeded = (seed) => {
+  let a = seed | 0;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+};
+// minor street grid (deterministic), drawn rotated under the arterials
+const { MAP_MINOR, MAP_LANES } = (() => {
+  const r = seeded(0x22b0b);
+  let minor = '', lanes = '';
+  for (let y = -320; y < 1180; y += 40 + Math.round(r() * 26)) minor += `M-320 ${y}H720`;
+  for (let x = -320; x < 720; x += 46 + Math.round(r() * 30)) minor += `M${x} -320V1180`;
+  for (let i = 0; i < 70; i++) {
+    const x = -200 + Math.round(r() * 800), y = -200 + Math.round(r() * 1250), len = 30 + Math.round(r() * 50);
+    lanes += r() < 0.5 ? `M${x} ${y}h${len}` : `M${x} ${y}v${len}`;
+  }
+  return { MAP_MINOR: minor, MAP_LANES: lanes };
+})();
 
 S.map = () => `
 <div class="sc-map" data-part="map">
   <svg class="sc-map__svg" viewBox="0 0 393 852" width="393" height="852" aria-hidden="true">
     <rect width="393" height="852" fill="#0B1423"/>
-    <g fill="#0E1A2C">
-      <rect x="-10" y="40" width="120" height="96" rx="10"/><rect x="134" y="20" width="96" height="110" rx="10"/><rect x="250" y="-10" width="160" height="120" rx="10"/>
-      <rect x="-10" y="270" width="110" height="80" rx="10"/><rect x="146" y="282" width="80" height="70" rx="10"/><rect x="258" y="240" width="150" height="100" rx="10"/>
-      <rect x="-10" y="400" width="104" height="60" rx="10"/><rect x="150" y="430" width="70" height="120" rx="10"/>
-      <rect x="-10" y="560" width="120" height="110" rx="10"/><rect x="186" y="600" width="120" height="90" rx="10"/><rect x="320" y="600" width="90" height="140" rx="10"/>
-      <rect x="-10" y="720" width="160" height="140" rx="10"/><rect x="180" y="730" width="120" height="130" rx="10"/>
-    </g>
+    <path d="${MAP_MINOR}" fill="none" stroke="#111D30" stroke-width="2.2" transform="rotate(-14 196 426)"/>
+    <path d="${MAP_LANES}" fill="none" stroke="#0E192A" stroke-width="1.2" transform="rotate(-14 196 426)"/>
     <path d="M14 600c26-22 74-20 92 4s6 56-30 60-72-8-70-34 2-20 8-30z" fill="#0D2124"/>
     <path d="M300 150c30-6 60 8 70 30s-6 44-34 44-48-14-50-38 0-32 14-36z" fill="#0D2124"/>
-    <path d="M262 424c24-16 52-4 58 26 5 26 22 44 12 76-9 30-40 30-54 8-13-20-4-40-18-62-12-20-14-38 2-48z" fill="#0A2338" stroke="#36D6F2" stroke-opacity=".18" stroke-width="1.2"/>
+    <path d="M262 424c24-16 52-4 58 26 5 26 22 44 12 76-9 30-40 30-54 8-13-20-4-40-18-62-12-20-14-38 2-48z" fill="#0B2A42" stroke="#36D6F2" stroke-opacity=".22" stroke-width="1.2"/>
+    <path d="M270 440c18-10 38-2 42 20 4 22 16 40 8 64" fill="none" stroke="#36D6F2" stroke-opacity=".10" stroke-width="1"/>
     <g fill="none" stroke="#15233A" stroke-linecap="round">
       <path d="M-10 150 410 196" stroke-width="6"/><path d="M-10 372c100-24 200 10 420-14" stroke-width="6"/>
       <path d="M44 -10 74 880" stroke-width="6"/><path d="M336 -10c-14 220 22 420-6 890" stroke-width="6"/>
@@ -343,11 +357,11 @@ S.map = () => `
       <path d="M-20 650C100 610 220 570 300 478S380 332 420 302" stroke="#1C2E4A" stroke-width="11"/>
       <path d="M-20 262C90 232 170 252 240 212S360 122 420 112M120 -20C136 200 106 420 150 620S192 800 182 880M-20 650C100 610 220 570 300 478S380 332 420 302" stroke="#2A4266" stroke-width="1" stroke-dasharray="6 7"/>
     </g>
-    <path d="M300 612C286 560 266 520 252 476S226 420 214 400" fill="none" stroke="#36D6F2" stroke-opacity=".25" stroke-width="10" stroke-linecap="round"/>
-    <path d="M300 612C286 560 266 520 252 476S226 420 214 400" fill="none" stroke="#36D6F2" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="1 7"/>
+    <path d="M288 600C280 556 264 520 252 478S226 420 214 402" fill="none" stroke="#36D6F2" stroke-opacity=".25" stroke-width="10" stroke-linecap="round"/>
+    <path d="M288 600C280 556 264 520 252 478S226 420 214 402" fill="none" stroke="#36D6F2" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="1 7"/>
     <g font-family="Rajdhani" font-weight="600" font-size="11" letter-spacing="2.2" fill="#4D6382">
-      <text x="22" y="180">KONDAPUR</text><text x="142" y="236">HITECH CITY</text><text x="236" y="362">MADHAPUR</text>
-      <text x="14" y="430">GACHIBOWLI</text><text x="268" y="590">JUBILEE HILLS</text>
+      <text x="22" y="180">KONDAPUR</text><text x="142" y="236">HITECH CITY</text><text x="176" y="326">MADHAPUR</text>
+      <text x="14" y="430">GACHIBOWLI</text><text x="256" y="410">JUBILEE HILLS</text>
     </g>
   </svg>
   <span class="sc-me" style="left:288px;top:600px"><span class="sc-me__halo"></span><span class="sc-me__dot"></span></span>
@@ -363,7 +377,7 @@ ${statusBar()}
     <span class="sc-search__btn">${ic('sliders', 20)}</span>
   </div>
   <div class="sc-chips sc-chips--row">
-    ${chip('Competitive', '', { active: true, cls: 'sc-chip--sm sc-chip--glass' })}${chip('Immersive', '', { active: true, cls: 'sc-chip--sm sc-chip--glass' })}<span class="sc-chip sc-chip--sm sc-chip--glass">${ic('list', 16)}<span>List</span></span>
+    ${chip('Competitive', 'trophy', { active: true, cls: 'sc-chip--sm sc-chip--nocheck' })}${chip('Immersive', 'vr', { active: true, cls: 'sc-chip--sm sc-chip--nocheck' })}<span class="sc-chip sc-chip--sm sc-chip--glass">${ic('list', 16)}<span>List</span></span>
   </div>
 </div>
 <div class="sc-mapctl">
@@ -386,7 +400,10 @@ S.venue = () => `
 ${bg()}
 <div class="sc-hero" data-part="hero">
   <div class="sc-hero__stage"></div>
+  <div class="sc-hero__grid"></div>
   <div class="sc-hero__floor"></div>
+  <div class="sc-hero__ring sc-hero__ring--1"></div>
+  <div class="sc-hero__ring sc-hero__ring--2"></div>
   <div class="sc-hero__img" data-part="hero-img" style="background-image:url('assets/renders/vr-hero.png')"></div>
   <div class="sc-hero__fade"></div>
 </div>
@@ -418,7 +435,7 @@ ${statusBar()}
     <div class="sc-row"><span class="sc-tile">${ic('offline', 20)}</span><span class="sc-row__t"><b>Offline ticket</b><small>Your QR works without internet</small></span>${ic('chevronRight', 18, 'sc-row__chev')}</div>
   </div>
 </div>
-${ctaBar(`<small>from</small><b>₹249</b><small>/player</small>`, 'Choose package')}
+${ctaBar(`<small>from</small><span class="sc-ctabar__price"><b>₹249</b><small>/player</small></span>`, 'Choose package')}
 ${homeInd()}`;
 
 S.packages = () => `
@@ -441,7 +458,7 @@ ${topbar('Choose a package', { step: 1 })}
     <span class="sc-radio is-on">${ic('check', 14, '', 2.6)}</span>
     <span class="sc-pkg__t"><b>Crew of 3</b><small>3 × ₹249 · 45-min session</small></span>
     <span class="sc-pkg__p"><b>₹747</b></span>
-    <div class="sc-pkg__foot">${crewStack('sc-avstack--sm')}<span>You, Rohan &amp; Meera · one booking, 3 tickets</span></div>
+    <div class="sc-pkg__foot">${crewStack('sc-avstack--sm')}<span>You, Rohan &amp; Meera</span><span class="sc-pkg__tag">${ic('ticket', 16)}3 tickets</span></div>
   </div>
   <div class="sc-card sc-pkg" data-part="pkg-offpeak">
     <span class="sc-radio"></span>
@@ -453,7 +470,7 @@ ${topbar('Choose a package', { step: 1 })}
   <div class="sc-card sc-perk" data-part="perk">
     <span class="sc-tile sc-tile--gold">${coin('sc-coin--lg')}</span>
     <span class="sc-pkg__t"><b>+5 minutes · 250 Coins</b><small>Extra VR time, paid with Coins</small></span>
-    <span class="sc-addbtn">${ic('plus', 16, '', 2.4)}Add</span>
+    <span class="sc-addbtn">${ic('plus', 20, '', 2.4)}</span>
   </div>
 </div>
 ${ctaBar(`<small>Crew of 3</small><b>₹747</b>`, 'Continue')}
@@ -469,17 +486,21 @@ ${topbar('Date, time &amp; crew', { step: 2 })}
 <div class="sc-body sc-body--flow">
   <div class="sc-monthrow"><b>November 2026</b><span class="sc-monthrow__nav">${ic('chevronLeft', 18)}${ic('chevronRight', 18)}</span></div>
   <div class="sc-dates" data-part="dates">
-    ${DATES.map(([d, n, t]) => `<span class="sc-date${n === '22' ? ' is-selected' : ''}"${n === '22' ? ' data-part="date-sun22"' : ''}><small>${d}</small><b>${n}</b>${t ? `<i>${t}</i>` : n === '22' ? '<i class="sc-date__dot"></i>' : ''}</span>`).join('')}
+    ${DATES.map(([d, n, t]) => `<span class="sc-date${n === '22' ? ' is-selected' : ''}${t ? ' is-today' : ''}"${n === '22' ? ' data-part="date-sun22"' : ''}><small>${t || d}</small><b>${n}</b>${n === '22' ? '<i class="sc-date__dot"></i>' : ''}</span>`).join('')}
   </div>
 
-  <div class="sc-label sc-label--row"><span>${ic('sunset', 16)}Evening</span><span class="sc-label__r">Sun, 22 Nov</span></div>
+  <div class="sc-label sc-label--row"><span>${ic('sun', 16)}Afternoon</span><span class="sc-label__r">Sun, 22 Nov</span></div>
+  <div class="sc-slots sc-slots--dim">
+    <span class="sc-slot is-full"><b>1:00<small> pm</small></b><small>Full</small></span><span class="sc-slot"><b>2:00<small> pm</small></b><small>2 left</small></span><span class="sc-slot is-full"><b>3:00<small> pm</small></b><small>Full</small></span><span class="sc-slot"><b>4:00<small> pm</small></b><small>5 left</small></span>
+  </div>
+  <div class="sc-label sc-label--row"><span>${ic('sunset', 16)}Evening</span><span class="sc-label__r sc-label__r--muted">After 5 pm</span></div>
   <div class="sc-slots" data-part="slots">
     ${SLOTS.map(([t, l, s]) => `<span class="sc-slot${s ? ' is-selected' : ''}"${s ? ' data-part="slot-6pm"' : ''}><b>${t}<small> pm</small></b><small>${l}</small></span>`).join('')}
   </div>
 
   <div class="sc-card sc-players" data-part="players">
     <div class="sc-players__top">
-      <span class="sc-pkg__t"><b>Players</b><small>Book once for the whole crew</small></span>
+      <span class="sc-pkg__t"><b>Players</b><small>Book once for the crew</small></span>
       <span class="sc-stepper"><span class="sc-stepper__b">${ic('minus', 18, '', 2.2)}</span><b>3</b><span class="sc-stepper__b is-on">${ic('plus', 18, '', 2.2)}</span></span>
     </div>
     <div class="sc-crew sc-crew--row">
@@ -544,6 +565,7 @@ ${statusBar()}
   </div>
 
   <div class="sc-ticket" data-part="ticket">
+   <div class="sc-ticket__card">
     <div class="sc-ticket__top">
       <div class="sc-ticket__head">
         ${art('vr', { size: 26, cls: 'sc-ticket__art' })}
@@ -559,9 +581,11 @@ ${statusBar()}
     <div class="sc-ticket__bottom">
       <div class="sc-qr" data-part="qr">${qrSvg()}<span class="sc-qr__logo"><span>S</span></span></div>
       <div class="sc-ticket__show"><b>Show at the counter</b><small>Booking ID · HV8-22N-603</small></div>
+      <div class="sc-ticket__xp">${ic('zap', 16, '', 2)}<span><b>+40 XP</b> when you check in</span></div>
     </div>
+   </div>
   </div>
-  <div class="sc-offline">${ic('offline', 16)}<span>Works offline · also in Tickets</span></div>
+  <div class="sc-offline">${ic('offline', 16)}<span>Works offline · saved in Tickets</span></div>
 </div>
 <div class="sc-ctabar sc-ctabar--two">
   <span class="sc-btn sc-btn--ghost">${ic('navigate', 18, '', 2)}<span>Directions</span></span>
@@ -594,7 +618,7 @@ ${statusBar()}
   </div>
   <div class="sc-card sc-next">
     <span class="sc-tile sc-tile--gold">${ic('trophy', 22)}</span>
-    <span class="sc-row__t"><b>Next: Level 10 · The Regular</b><small>70 XP to go · this weekend's plan gets you there</small></span>
+    <span class="sc-row__t"><b>Next: Level 10 · The Regular</b><small>Unlocks at 3,330 XP</small></span>
   </div>
   ${sectionHead('Ways to earn', '')}
   <div class="sc-card sc-rows sc-earnlist" data-part="earn-list">
@@ -617,7 +641,7 @@ ${statusBar()}
       <span class="sc-xp sc-xp--pill">+60 XP</span>
     </div>
     <div class="sc-feat__t">Visit a new venue</div>
-    <div class="sc-sub">Try 3 new places this month. Each first visit earns XP.</div>
+    <div class="sc-sub">Collect 3 stamps this month</div>
     <div class="sc-stamps" data-part="stamps">
       <span class="sc-stamp is-done" data-part="stamp-1"><span class="sc-stamp__c">${ic('kart', 28)}<i>${ic('check', 12, '', 3)}</i></span><small>Karting</small><em>2 Nov</em></span>
       <span class="sc-stamp__link is-done"></span>
@@ -630,9 +654,8 @@ ${statusBar()}
 
   ${sectionHead('This week', 'All missions')}
   <div class="sc-card sc-rows">
-    <div class="sc-row sc-row--mission"><span class="sc-tile">${ic('users', 20)}</span><span class="sc-row__t"><b>Crew night</b><small>Book for 3+ friends</small><span class="sc-minibar"><i style="width:0%"></i></span></span><span class="sc-xp">+80 XP</span></div>
+    <div class="sc-row sc-row--mission"><span class="sc-tile">${ic('users', 20)}</span><span class="sc-row__t"><b>Crew night</b><small>Book for 3+ friends · 0 of 1</small><span class="sc-minibar"><i style="width:0%"></i></span></span><span class="sc-xp">+80 XP</span></div>
     <div class="sc-row sc-row--mission"><span class="sc-tile">${ic('sparkles', 20)}</span><span class="sc-row__t"><b>Try a new category</b><small>1 of 2 done</small><span class="sc-minibar"><i style="width:50%"></i></span></span><span class="sc-xp">+50 XP</span></div>
-    <div class="sc-row sc-row--mission"><span class="sc-tile">${ic('qr', 20)}</span><span class="sc-row__t"><b>Check in on time</b><small>Scan within 15 min of your slot</small><span class="sc-minibar"><i style="width:0%"></i></span></span><span class="sc-xp">+40 XP</span></div>
   </div>
 </div>
 ${nav('progress')}

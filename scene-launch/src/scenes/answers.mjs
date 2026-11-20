@@ -23,7 +23,7 @@ ${layers}
         </div>
       </div>`;
 };
-const stack = (id, names) => names.map((n, i) => `<div class="stk" id="${id}-s${i}" style="position:absolute;left:0;top:0;width:${PHONE.sw}px;height:${PHONE.sh}px">${screen(n)}</div>`).join('');
+const stack = (id, names) => names.map((n, i) => `<div class="stk" id="${id}-s${i}" style="position:absolute;left:0;top:0;z-index:${i + 1};isolation:isolate;width:${PHONE.sw}px;height:${PHONE.sh}px">${screen(n)}</div>`).join('');
 
 const COMMON_CSS = `
     .persp { perspective: 2400px; perspective-origin: 50% 50%; }
@@ -46,7 +46,7 @@ ${rig('a1-rig', screen('explore'), 'explore', 1010, 96, [['a1-t0', 'What you fee
         var scr = $('a1-rig').querySelector('.phone .app-screen'), ls = $('a1-rig-ls');
         // build lifts first (they measure layout)
         var L = [['what', 'a1-t0', 19.85], ['when', 'a1-t1', 20.15], ['who', 'a1-t2', 20.45]];
-        L.forEach(function (l) { SC.liftTag(tl, { scr: scr, liftScr: ls, part: l[0], tag: $(l[1]), wire: $(l[1] + '-w'), side: 'right', dz: 90 }, T(l[2])); });
+        SC.layout(scr, function () { L.forEach(function (l) { SC.liftTag(tl, { scr: scr, liftScr: ls, part: l[0], tag: $(l[1]), wire: $(l[1] + '-w'), side: 'right', dz: 90 }, T(l[2])); }); });
         SC.qBubble(tl, $('a1-q'), T(19.02), T(22.08));
         // camera: phone swings in to a 3/4 hero, then drifts slowly while it is read
         tl.fromTo('#a1-rig', { x: 760, rotationY: -38, rotationX: 6, opacity: 0 }, { x: 0, rotationY: -16, rotationX: 4, opacity: 1, duration: 0.62, ease: 'power3.out' }, T(19.05));
@@ -72,8 +72,10 @@ ${rig('a2-r2', screen('map'), 'map', 1310, 112, [['a2-t1', '₹249 per player']]
       var ID = 'a2', T = function (a) { return a - S0; };
       ${lifts(`
         var s1 = $('a2-r1').querySelector('.phone .app-screen'), s2 = $('a2-r2').querySelector('.phone .app-screen');
-        SC.liftTag(tl, { scr: s1, liftScr: $('a2-r1-ls'), part: 'card-holodeck', tag: $('a2-t0'), wire: $('a2-t0-w'), side: 'left', dz: 80, gap: 70 }, T(23.25));
-        SC.liftTag(tl, { scr: s2, liftScr: $('a2-r2-ls'), part: 'pin-249', tag: $('a2-t1'), wire: $('a2-t1-w'), side: 'above', dz: 80, gap: 46, dim: 0.5 }, T(23.6));
+        SC.layout(s1, function () {
+          SC.liftTag(tl, { scr: s1, liftScr: $('a2-r1-ls'), part: 'card-holodeck', tag: $('a2-t0'), wire: $('a2-t0-w'), side: 'left', dz: 80, gap: 70 }, T(23.25));
+          SC.liftTag(tl, { scr: s2, liftScr: $('a2-r2-ls'), part: 'pin-249', tag: $('a2-t1'), wire: $('a2-t1-w'), side: 'above', dz: 80, gap: 46, dim: 0.5 }, T(23.6));
+        });
         SC.qBubble(tl, $('a2-q'), T(22.42), T(25.72));
         // split screen: two phones rise in one after the other, then the camera eases in
         tl.fromTo('#a2-r1', { y: 980, rotation: -3 }, { y: 0, rotation: 0, duration: 0.55, ease: 'expo.out' }, T(22.45));
@@ -96,7 +98,7 @@ ${rig('a3-rig', stack('a3', ['venue', 'packages']), 'packages', 1040, 100, [['a3
       var ID = 'a3', T = function (a) { return a - S0; };
       ${lifts(`
         var sv = $('a3-s0').querySelector('.app-screen'), sp = $('a3-s1').querySelector('.app-screen');
-        SC.liftTag(tl, { scr: sp, liftScr: $('a3-rig-ls'), part: 'pkg-crew', tag: $('a3-t0'), wire: $('a3-t0-w'), side: 'left', dz: 70, gap: 56 }, T(28.0));
+        SC.layout(sp, function () { SC.liftTag(tl, { scr: sp, liftScr: $('a3-rig-ls'), part: 'pkg-crew', tag: $('a3-t0'), wire: $('a3-t0-w'), side: 'left', dz: 70, gap: 56 }, T(28.0)); });
         SC.qBubble(tl, $('a3-q'), T(26.02), T(29.12));
         // venue screen first (hero), then packages pushes in from the right
         tl.fromTo('#a3-rig', { x: 700, rotation: 6, opacity: 0, scale: 1, transformOrigin: '50% 0%' }, { x: 0, rotation: 0, opacity: 1, duration: 0.5, ease: 'expo.out' }, T(26.04));
@@ -123,7 +125,7 @@ ${rig('a4-rig', screen('datetime'), 'datetime', 1060, 110, [['a4-t0', 'Sunday 22
       ${lifts(`
         var scr = $('a4-rig').querySelector('.phone .app-screen'), ls = $('a4-rig-ls');
         var L = [['date-sun22', 'a4-t0', 30.15, 'right'], ['slot-6pm', 'a4-t1', 30.45, 'right'], ['players', 'a4-t2', 30.75, 'right']];
-        L.forEach(function (l) { SC.liftTag(tl, { scr: scr, liftScr: ls, part: l[0], tag: $(l[1]), wire: $(l[1] + '-w'), side: l[3], dz: 150, gap: 60 }, T(l[2])); });
+        SC.layout(scr, function () { L.forEach(function (l) { SC.liftTag(tl, { scr: scr, liftScr: ls, part: l[0], tag: $(l[1]), wire: $(l[1] + '-w'), side: l[3], dz: 150, gap: 60 }, T(l[2])); }); });
         SC.qBubble(tl, $('a4-q'), T(29.42), T(32.52));
         // top-down tilt: the phone lies back like it's on a table, parts rise off it
         tl.fromTo('#a4-rig', { y: 900, rotationX: 10, rotationZ: 0, opacity: 0 }, { y: 0, rotationX: 34, rotationZ: -7, opacity: 1, duration: 0.6, ease: 'expo.out' }, T(29.45));
@@ -145,8 +147,10 @@ ${rig('a5-rig', stack('a5', ['summary', 'ticket']), ['summary', 'ticket'], 1020,
       var ID = 'a5', T = function (a) { return a - S0; };
       ${lifts(`
         var ss = $('a5-s0').querySelector('.app-screen'), st = $('a5-s1').querySelector('.app-screen');
-        SC.liftTag(tl, { scr: ss, liftScr: $('a5-rig-ls'), part: 'total', tag: $('a5-t0'), wire: $('a5-t0-w'), side: 'right', dz: 90 }, T(33.6));
-        var g2 = SC.liftTag(tl, { scr: st, liftScr: $('a5-rig-ls1'), part: 'ticket', tag: $('a5-t1'), wire: $('a5-t1-w'), side: 'right', dz: 70, gap: 56 }, T(35.5));
+        SC.layout(ss, function () {
+          SC.liftTag(tl, { scr: ss, liftScr: $('a5-rig-ls'), part: 'total', tag: $('a5-t0'), wire: $('a5-t0-w'), side: 'right', dz: 90 }, T(33.6));
+          SC.liftTag(tl, { scr: st, liftScr: $('a5-rig-ls1'), part: 'ticket', tag: $('a5-t1'), wire: $('a5-t1-w'), side: 'right', dz: 70, gap: 56 }, T(35.5));
+        });
         SC.qBubble(tl, $('a5-q'), T(32.82), T(36.68));
         tl.fromTo('#a5-rig', { x: 640, rotationY: 30, opacity: 0 }, { x: 0, rotationY: 12, opacity: 1, duration: 0.6, ease: 'power3.out' }, T(32.85));
         // pay → the summary's lifts settle back, the ticket slides up

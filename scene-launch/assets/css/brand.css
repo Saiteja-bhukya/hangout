@@ -149,8 +149,9 @@
 .app-screen.lift-scr { position: absolute !important; left: 0; top: 0; background: transparent !important; overflow: visible !important; box-shadow: none !important; border: 0 !important; pointer-events: none; transform-style: preserve-3d; }
 .app-screen.lift-scr::before, .app-screen.lift-scr::after { display: none !important; }
 .app-screen.lift-scr > * { visibility: visible; }
-[data-lifted] { box-shadow: 0 26px 50px rgba(0, 10, 30, 0.45), 0 0 0 1.5px rgba(54, 214, 242, 0.55) !important; }
-.tag3d { position: absolute; display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 16px; font: 600 23px 'Inter', sans-serif; color: var(--navy); white-space: nowrap; }
+[data-lifted] { box-shadow: 0 30px 60px rgba(0, 10, 30, 0.5) !important; }
+.tag3d { position: absolute; display: inline-flex; align-items: center; gap: 12px; padding: 14px 24px 15px 20px; border-radius: 18px; font: 600 28px 'Inter', sans-serif; color: var(--navy); white-space: nowrap; background: rgba(255,255,255,0.94) !important; box-shadow: 0 18px 40px rgba(20, 50, 110, 0.22), inset 0 0 0 1.5px rgba(47, 107, 255, 0.18) !important; }
+.tag3d .dot { width: 12px; height: 12px; }
 .tag3d .dot { width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(90deg, #2F6BFF, #12B3DA); flex: none; }
 .wire3d { position: absolute; height: 2px; background: linear-gradient(90deg, rgba(47,107,255,0.9), rgba(18,179,218,0.9)); }
 .wire3d::after { content: ''; position: absolute; right: -5px; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: #12B3DA; box-shadow: 0 0 0 3px rgba(255,255,255,0.9); }

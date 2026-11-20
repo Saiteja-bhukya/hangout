@@ -65,28 +65,34 @@ export function makeKit() {
   K.blue = phys(PALETTE.blue, { roughness: 0.28, rim: 0.3 });
   K.blueDeep = phys('#1C3FB0', { roughness: 0.26, rim: 0.3 });
   K.lilac = phys(PALETTE.lilac, { roughness: 0.3, rim: 0.2 });
-  K.cyanGlow = phys(PALETTE.cyan, {
-    emissive: new Color(PALETTE.cyan), emissiveIntensity: 1.35, roughness: 0.25,
+  // Emissive accents bypass tone mapping (dark base + emissive at 1.0) so they land on the exact
+  // brand colour instead of ACES-desaturated mint; clearcoat still adds glossy glints.
+  K.cyanGlow = new MeshPhysicalMaterial({
+    color: new Color('#04222A'), emissive: new Color(PALETTE.cyan), emissiveIntensity: 1.0,
+    roughness: 0.25, clearcoat: 1, clearcoatRoughness: 0.1, toneMapped: false,
   });
-  K.blueGlow = phys(PALETTE.blue, {
-    emissive: new Color('#3D7BFF'), emissiveIntensity: 1.1, roughness: 0.25,
+  K.blueGlow = new MeshPhysicalMaterial({
+    color: new Color('#040C24'), emissive: new Color('#3B78FF'), emissiveIntensity: 1.0,
+    roughness: 0.25, clearcoat: 1, clearcoatRoughness: 0.1, toneMapped: false,
   });
   K.glossBlack = phys('#070D19', { roughness: 0.12, clearcoatRoughness: 0.03, rim: 0.45 });
   K.rubber = phys('#121C2E', { roughness: 0.5, clearcoat: 0.6, clearcoatRoughness: 0.35, rim: 0.3 });
   K.chrome = new MeshPhysicalMaterial({
     color: new Color('#E8EEF6'), metalness: 1, roughness: 0.16, clearcoat: 1, clearcoatRoughness: 0.05,
   });
+  K.chrome.userData.envBoost = 1.25;
   K.gold = new MeshPhysicalMaterial({
-    color: new Color(PALETTE.gold), metalness: 1, roughness: 0.3, clearcoat: 1, clearcoatRoughness: 0.1,
+    color: new Color(PALETTE.gold), metalness: 1, roughness: 0.27, clearcoat: 1, clearcoatRoughness: 0.08,
   });
+  K.gold.userData.envBoost = 1.5; // richer metal: reflections pushed so gold reads warm, not khaki
   K.hole = new MeshStandardMaterial({ color: new Color('#03060D'), roughness: 0.9, metalness: 0 });
   K.glass = new MeshPhysicalMaterial({
-    color: new Color('#F2FAFF'), metalness: 0, roughness: 0.05, transmission: 0.9, thickness: 0.02,
-    ior: 1.45, clearcoat: 1, clearcoatRoughness: 0.03, specularIntensity: 1,
+    color: new Color('#FFFFFF'), metalness: 0, roughness: 0.03, transmission: 0.95, thickness: 0.02,
+    ior: 1.45, specularIntensity: 0.7,
   });
   K.plush = (hex) => new MeshPhysicalMaterial({
-    color: new Color(hex), roughness: 0.78, metalness: 0, sheen: 1, sheenRoughness: 0.45,
-    sheenColor: new Color('#FFFFFF').lerp(new Color(hex), 0.4),
+    color: new Color(hex), roughness: 0.62, metalness: 0, sheen: 0.45, sheenRoughness: 0.5,
+    sheenColor: new Color(hex).lerp(new Color('#FFFFFF'), 0.25),
   });
   K.phys = phys;
   K.DoubleSide = DoubleSide;

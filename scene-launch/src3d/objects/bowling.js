@@ -26,23 +26,22 @@ function pinProfile() {
   return pts;
 }
 
-function stripeTextures(pts) {
-  const k = PIN_H / 15;
-  const H = 1024;
-  const col = makeCanvas(4, H), mask = makeCanvas(4, H);
-  const gc = col.getContext('2d'), gm = mask.getContext('2d');
-  const n = pts.length - 1;
-  for (let r = 0; r < H; r++) {
-    const v = 1 - (r + 0.5) / H; // canvas row -> uv.v (flipY)
-    const f = v * n, j = Math.min(n - 1, Math.floor(f)), u = f - j;
-    const y = lerp(pts[j].y, pts[j + 1].y, u) / k;
-    const on = STRIPES_IN.some(([a, b]) => y >= a && y <= b);
-    gc.fillStyle = on ? PALETTE.cyan : PALETTE.white;
-    gc.fillRect(0, r, 4, 1);
-    gm.fillStyle = on ? '#ffffff' : '#000000';
-    gm.fillRect(0, r, 4, 1);
-  }
-  return { map: canvasTexture(col), emissiveMap: canvasTexture(mask) };
+/** Lathe band hugging the pin profile between heights a..b (inches), slightly proud of the surface. */
+function bandGeometry(pts, a, b) {
+  const k = PIN_H / 15, y0 = a * k, y1 = b * k;
+  const rAt = (y) => {
+    for (let j = 1; j < pts.length; j++) {
+      if (pts[j].y >= y && pts[j - 1].y <= y && pts[j].y > pts[j - 1].y) {
+        const u = (y - pts[j - 1].y) / (pts[j].y - pts[j - 1].y);
+        return lerp(pts[j - 1].x, pts[j].x, u);
+      }
+    }
+    return 0;
+  };
+  const prof = [];
+  const N = 8;
+  for (let i = 0; i <= N; i++) { const y = lerp(y0, y1, i / N); prof.push(new Vector2(rAt(y) * 1.012 + 0.0015, y)); }
+  return new LatheGeometry(prof, 64);
 }
 
 function swirlTexture() {
@@ -50,7 +49,7 @@ function swirlTexture() {
   const c = makeCanvas(W, H);
   const g = c.getContext('2d');
   const img = g.createImageData(W, H);
-  const deep = new Color('#1532A0'), mid = new Color('#2B4FD8'), lil = new Color(PALETTE.lilac);
+  const deep = new Color('#0F2FB4'), mid = new Color('#2453E6'), lil = new Color(PALETTE.lilac);
   const tmp = new Color();
   const d = img.data;
   for (let py = 0; py < H; py++) {
@@ -62,9 +61,9 @@ function swirlTexture() {
       const w2 = Math.sin(TAU * 2 * u - 4.3 * v * 2.0 + 1.3) * 0.9;
       const ph = TAU * 2 * u + 5.2 * Math.sin(TAU * u + 2.6 * v * 2.2 + w2) + 7.5 * v + w1;
       const s = Math.sin(ph);
-      const band = clamp01((s - 0.42) / 0.38);
-      const vein = clamp01((Math.sin(ph * 2.0 + 1.1) - 0.86) / 0.12) * 0.55;
-      const glow = clamp01((s + 0.2) / 0.9) * 0.35;
+      const band = clamp01((s - 0.6) / 0.3);
+      const vein = clamp01((Math.sin(ph * 2.0 + 1.1) - 0.9) / 0.08) * 0.5;
+      const glow = clamp01((s + 0.2) / 0.9) * 0.45;
       tmp.copy(deep).lerp(mid, glow).lerp(lil, Math.min(1, band * band * (3 - 2 * band) + vein));
       const i = (py * W + px) * 4;
       d[i] = Math.round(tmp.r * 255); d[i + 1] = Math.round(tmp.g * 255); d[i + 2] = Math.round(tmp.b * 255); d[i + 3] = 255;
@@ -135,10 +134,8 @@ export default {
     const model = new Group();
     const pts = pinProfile();
     const pinGeo = new LatheGeometry(pts, 64);
-    const { map, emissiveMap } = stripeTextures(pts);
-    const pinMat = K.phys(PALETTE.white, {
-      map, emissiveMap, emissive: new Color(PALETTE.cyan), emissiveIntensity: 1.25, roughness: 0.26, rim: 0.22,
-    });
+    const bandGeos = STRIPES_IN.map(([a, b]) => bandGeometry(pts, a, b));
+    const pinMat = K.phys(PALETTE.white, { roughness: 0.26, rim: 0.22 });
     const rb = 0.9 / 15; // pivot radius at the base edge
 
     const PINS = [
@@ -149,6 +146,7 @@ export default {
     const pins = PINS.map((p, i) => {
       const outer = new Group(), inner = new Group();
       const mesh = new Mesh(pinGeo, pinMat);
+      for (const bg of bandGeos) mesh.add(new Mesh(bg, K.cyanGlow));
       mesh.rotation.y = i * 1.7;
       inner.add(mesh); outer.add(inner); model.add(outer);
       const d = new Vector2(p.dir[0], p.dir[1]).normalize();
@@ -168,7 +166,7 @@ export default {
     const zPath = -0.05;
     const xImp = -Math.sqrt((R + 0.159) ** 2 - zPath ** 2);
     const ballPos = (t) => {
-      if (t <= 0.45) return [xImp - (0.45 - t) * 3.3, zPath];
+      if (t <= 0.45) return [xImp - (0.45 - t) * 2.6, zPath];
       const u = (t - 0.45) / 0.55;
       return [xImp + u * 0.62 - u * u * 0.02, zPath - u * 0.06];
     };

@@ -40,7 +40,7 @@ ${ITEMS.map(([, l], i) => `    <div class="lbl hook-lbl" id="hook-l${i}">${l}</d
       tl.to('#hook-glow', { opacity: 0, duration: 0.3, ease: 'power2.in' }, RING_T);
       // headline, word by word
       var ws = $('hook-hl').querySelectorAll('.w');
-      [2.55, 2.85, 3.2].forEach(function (t, i) {
+      [2.5, 2.7, 2.9].forEach(function (t, i) {
         tl.fromTo(ws[i], { opacity: 0, filter: 'blur(10px)', scale: 1.12 }, { opacity: 1, filter: 'blur(0px)', scale: 1, duration: 0.2, ease: 'expo.out' }, t);
       });
 

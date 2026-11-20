@@ -3,14 +3,14 @@ import { phone, screen, PHONE } from '../device.mjs';
 import { I } from '../scene-icons.mjs';
 
 const RIG = { l: 1150, t: 100 };
-const stack = (id, names) => names.map((n, i) => `<div class="stk" id="${id}-s${i}" style="position:absolute;left:0;top:0;width:${PHONE.sw}px;height:${PHONE.sh}px;overflow:hidden">${screen(n)}</div>`).join('');
+const stack = (id, names) => names.map((n, i) => `<div class="stk" id="${id}-s${i}" style="position:absolute;left:0;top:0;z-index:${i + 1};isolation:isolate;width:${PHONE.sw}px;height:${PHONE.sh}px;overflow:hidden">${screen(n)}</div>`).join('');
 const w = (s) => s.split(' ').map((x) => `<span class="w">${x}</span>`).join(' ');
 
 // sparkle burst (deterministic positions)
 function sparks(id, n, seed) {
   let a = seed; const r = () => { a = (a * 16807) % 2147483647; return a / 2147483647; };
   return Array.from({ length: n }, (_, i) => {
-    const ang = (i / n) * Math.PI * 2 + r() * 0.3, d = 150 + r() * 140, s = 8 + r() * 12;
+    const ang = (i / n) * Math.PI * 2 + r() * 0.3, d = 120 + r() * 90, s = 26 + r() * 22;
     return `<i class="spk" style="left:${(Math.cos(ang) * d).toFixed(1)}px;top:${(Math.sin(ang) * d).toFixed(1)}px;width:${s.toFixed(1)}px;height:${s.toFixed(1)}px"></i>`;
   }).join('');
 }
@@ -32,7 +32,7 @@ export default {
     #rw-badge .tx { font: 700 22px 'Rajdhani', sans-serif; letter-spacing: 0.18em; color: #5B4314; }
     #rw-badge .tx b { display: block; font: 800 40px 'Urbanist', sans-serif; letter-spacing: 0.04em; color: #3E2D0A; }
     .rw-burst { position: absolute; width: 0; height: 0; }
-    .rw-burst .spk { position: absolute; border-radius: 50%; background: radial-gradient(circle, #FFF8E1 0%, #E9CB7E 60%, rgba(233,203,126,0) 100%); margin: -6px 0 0 -6px; }
+    .rw-burst .spk { position: absolute; margin: -14px 0 0 -14px; background: radial-gradient(circle, #FFFBEA 0%, #F3DC9A 22%, rgba(233,203,126,0) 60%); clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%); }
     .rw-burst .ring { position: absolute; left: -160px; top: -160px; width: 320px; height: 320px; border-radius: 50%; border: 5px solid rgba(233, 203, 126, 0.9); }
     #rw-h2 { position: absolute; left: 150px; top: 360px; font-size: 104px; line-height: 1.04; }
     #rw-h3 { position: absolute; left: 150px; top: 420px; font-size: 120px; line-height: 1.04; }
@@ -89,7 +89,7 @@ export default {
         tl.to('#rw-rig', { scale: 1.18, x: -40, duration: 0.8, ease: 'power2.inOut' }, T(40.1));
         tl.fromTo('#rw-b1 .ring', { scale: 0.4, opacity: 0.9 }, { scale: 1.9, opacity: 0, duration: 0.7, ease: 'expo.out' }, T(41.15));
         tl.fromTo('#rw-b1 .spk', { x: 0, y: 0, opacity: 0, scale: 0.3 }, { x: function (i, el) { return parseFloat(el.style.left) * 0.6; }, y: function (i, el) { return parseFloat(el.style.top) * 0.6; }, opacity: 1, scale: 1, duration: 0.45, ease: 'expo.out', stagger: 0.01 }, T(41.15));
-        tl.to('#rw-b1 .spk', { opacity: 0, duration: 0.4, ease: 'power2.in' }, T(41.75));
+        tl.to('#rw-b1 .spk', { opacity: 0, scale: 0.4, duration: 0.3, ease: 'power2.in' }, T(41.7));
         tl.fromTo('#rw-badge', { opacity: 0, scale: 0.5, y: 30 }, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: 'back.out(1.7)' }, T(41.25));
         // XP beat out
         tl.to(['#rw-c1', '#rw-c2', '#rw-badge'], { opacity: 0, filter: 'blur(8px)', duration: 0.22, ease: 'power3.in', stagger: 0.04 }, T(42.6));
@@ -97,18 +97,33 @@ export default {
 
         // 3) CHALLENGE COMPLETE: missions screen slides in, the third stamp lands
         tl.fromTo('#rw-s1', { x: ${PHONE.sw} }, { x: 0, duration: 0.42, ease: 'power3.inOut' }, T(42.75));
-        tl.fromTo('#rw-s0', { x: 0 }, { x: -${PHONE.sw}, duration: 0.42, ease: 'power3.inOut' }, T(42.75));
+        tl.to('#rw-s0', { x: -${PHONE.sw}, duration: 0.42, ease: 'power3.inOut' }, T(42.75));
         SC.wordsIn(tl, $('rw-h2'), T(42.95), { gap: 0.16, dur: 0.2 });
-        var s3 = q(sm, 'stamp-3');
-        if (s3) tl.fromTo(s3, { scale: 2.4, opacity: 0, rotation: -18 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.3, ease: 'back.out(1.4)' }, T(43.55));
+        var s2 = q(sm, 'stamp-2'), s3 = q(sm, 'stamp-3');
+        if (s2 && s3) {
+          // a filled stamp lands on the third (dashed) slot
+          var c2 = s2.querySelector('.sc-stamp__c'), c3 = s3.querySelector('.sc-stamp__c'), cs = getComputedStyle(c2);
+          var done = document.createElement('span');
+          done.className = 'sc-stamp__c';
+          ['background', 'border', 'boxShadow', 'color', 'borderRadius', 'width', 'height', 'display', 'alignItems', 'justifyContent'].forEach(function (k) { done.style[k] = cs[k]; });
+          done.innerHTML = c3.innerHTML + (c2.querySelector('i') ? c2.querySelector('i').outerHTML : '');
+          done.style.position = 'absolute'; done.style.top = '0px'; done.style.left = '50%'; done.style.marginLeft = '-' + (parseFloat(cs.width) / 2) + 'px';
+          s3.style.position = 'relative';
+          s3.appendChild(done);
+          tl.fromTo(done, { scale: 2.4, opacity: 0, rotation: -18 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.3, ease: 'back.out(1.4)' }, T(43.55));
+          var cnt = sm.querySelector('.sc-feat__foot b'), cf = { f: 0 };
+          if (cnt) tl.fromTo(cf, { f: 0 }, { f: 1, duration: 0.01, ease: 'none', onUpdate: function () { cnt.textContent = cf.f >= 1 ? '3 of 3' : '2 of 3'; } }, T(43.6));
+          var links = sm.querySelectorAll('.sc-stamp__link');
+          if (links[1]) tl.fromTo(links[1], { backgroundImage: 'linear-gradient(90deg, rgba(143,163,191,0.2), rgba(143,163,191,0.2))' }, { backgroundImage: 'linear-gradient(90deg, #12B3DA, #2F6BFF)', duration: 0.2 }, T(43.5));
+        }
         tl.fromTo('#rw-b2 .ring', { scale: 0.3, opacity: 0.9 }, { scale: 1.6, opacity: 0, duration: 0.6, ease: 'expo.out' }, T(43.75));
         tl.fromTo('#rw-b2 .spk', { x: 0, y: 0, opacity: 0, scale: 0.3 }, { x: function (i, el) { return parseFloat(el.style.left) * 0.5; }, y: function (i, el) { return parseFloat(el.style.top) * 0.5; }, opacity: 1, scale: 1, duration: 0.4, ease: 'expo.out' }, T(43.75));
-        tl.to('#rw-b2 .spk', { opacity: 0, duration: 0.35, ease: 'power2.in' }, T(44.3));
+        tl.to('#rw-b2 .spk', { opacity: 0, scale: 0.4, duration: 0.3, ease: 'power2.in' }, T(44.25));
         SC.wordsOut(tl, $('rw-h2'), T(44.75));
 
         // 4) UNLOCK MORE: rewards screen, perk selected, balance 275 → 25, coins tumble, reward burst
         tl.fromTo('#rw-s2', { x: ${PHONE.sw} }, { x: 0, duration: 0.42, ease: 'power3.inOut' }, T(44.95));
-        tl.fromTo('#rw-s1', { x: 0 }, { x: -${PHONE.sw}, duration: 0.42, ease: 'power3.inOut' }, T(44.95));
+        tl.to('#rw-s1', { x: -${PHONE.sw}, duration: 0.42, ease: 'power3.inOut' }, T(44.95));
         SC.wordsIn(tl, $('rw-h3'), T(45.15), { gap: 0.18, dur: 0.2 });
         var pv = q(sr, 'perk-vr');
         if (pv) tl.fromTo(pv, { scale: 1 }, { scale: 0.96, duration: 0.08, ease: 'power2.out', yoyo: true, repeat: 1 }, T(45.85));
