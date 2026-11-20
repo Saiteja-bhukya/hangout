@@ -2,8 +2,8 @@
 # Extract QA stills from the rendered MP4 at section boundaries and chat-readability moments; build labelled sheets.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-V=${1:-renders/scene-launch.mp4}; O=review/qa; rm -rf $O; mkdir -p $O
-TIMES="0.3 2.9 4.9 5.1 7.0 8.5 9.5 11.0 11.9 12.4 12.6 14.9 15.1 17.0 18.9 19.1 20.9 22.3 22.5 24.6 25.9 26.1 27.0 28.5 29.3 29.5 31.2 32.7 32.9 34.2 35.9 36.9 37.1 39.0 40.5 41.6 42.9 44.2 45.2 46.6 47.9 48.1 49.0 50.6 51.5 53.9 54.1 55.3 56.9 59.5"
+V=${1:-renders/toli-launch.mp4}; O=review/qa; rm -rf $O; mkdir -p $O
+TIMES="0.0 1.9 3.4 3.95 4.05 5.0 7.0 8.1 8.3 9.6 10.9 11.95 12.1 12.45 12.6 14.4 14.95 15.1 16.6 18.6 18.95 19.1 21.2 22.95 23.1 25.2 26.95 27.1 29.6 30.95 31.1 33.2 34.5 34.95 35.1 36.5 39.6 42.0 44.6 45.95 46.1 48.8 50.95 51.1 52.6 54.6 55.4 56.5 58.0 59.6"
 i=0; for t in $TIMES; do f=$(printf "%s/%02d_%06.2fs.png" $O $i $t); ffmpeg -loglevel error -y -ss $t -i $V -frames:v 1 "$f"; i=$((i+1)); done
 # labelled 4-up sheets (960x540 tiles)
 ls $O/*.png | sort > $O/_list.txt
