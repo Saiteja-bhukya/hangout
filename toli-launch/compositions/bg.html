@@ -1,0 +1,21 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+
+    #bg-base { position: absolute; inset: 0; background: #0F0A1C; }
+  </style>
+  <div id="root" data-composition-id="bg" data-width="1920" data-height="1080">
+    <div id="bg-base"></div>
+  </div>
+  <script>
+    (function () {
+      var S0 = 0, S1 = 60, D = 60;
+      var $ = function (id) { return document.getElementById(id); };
+      var tl = gsap.timeline({ paused: true });
+
+      tl.set('#bg-base', { opacity: 1 }, 0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["bg"] = tl;
+    })();
+  </script>
+</template>

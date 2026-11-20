@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%" aria-label="toli">
+  <defs>
+    <linearGradient id="ic-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2C1C48"/><stop offset="1" stop-color="#150C26"/></linearGradient>
+    <clipPath id="ic-clip"><rect width="512" height="512" rx="143"/></clipPath>
+  </defs>
+  <g clip-path="url(#ic-clip)"><rect width="512" height="512" fill="url(#ic-bg)"/><rect x="2" y="2" width="508" height="508" rx="141" fill="none" stroke="#FFF3E2" stroke-opacity="0.12" stroke-width="4"/></g>
+  <g style="isolation:isolate"><circle id="ic-c0" cx="198.57999999999998" cy="229" r="118" fill="#FF3D81" style="mix-blend-mode:screen"/><circle id="ic-c1" cx="313.42" cy="229" r="118" fill="#FFB627" style="mix-blend-mode:screen"/><circle id="ic-c2" cx="256" cy="328" r="118" fill="#20C9B5" style="mix-blend-mode:screen"/></g>
+</svg>

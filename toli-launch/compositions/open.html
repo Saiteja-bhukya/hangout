@@ -1,0 +1,41 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+
+    #op-says { position: absolute; inset: 0; }
+    #op-hl { position: absolute; left: 0; right: 0; top: 330px; text-align: center; font-size: 150px; line-height: 1.04; }
+  </style>
+  <div id="root" data-composition-id="open" data-width="1920" data-height="1080">
+    <div id="op-says">
+      <div class="say" id="op-s0" style="left:700px;top:430px"><div class="av av-rohan">R</div><div class="b" style="font-size:60px"><span class="n">Rohan</span>we should hang out</div></div>
+      <div class="say" id="op-s1" style="left:160px;top:170px"><div class="av av-meera">M</div><div class="b" style="font-size:44px"><span class="n">Meera</span>we NEED to hang out</div></div>
+      <div class="say" id="op-s2" style="left:1080px;top:210px"><div class="av av-kabir">K</div><div class="b" style="font-size:39px"><span class="n">Kabir</span>we should hang out this weekend</div></div>
+      <div class="say" id="op-s3" style="left:230px;top:700px"><div class="av av-zoya">Z</div><div class="b" style="font-size:47px"><span class="n">Zoya</span>ok but we should hang out</div></div>
+      <div class="say" id="op-s4" style="left:1270px;top:640px"><div class="av av-dev">D</div><div class="b" style="font-size:52px"><span class="n">Dev</span>hang out soon?</div></div>
+      <div class="say" id="op-s5" style="left:640px;top:860px"><div class="av av-asha">A</div><div class="b" style="font-size:39px"><span class="n">Asha</span>we should totally hang out</div></div>
+      <div class="say" id="op-s6" style="left:1340px;top:900px"><div class="av av-rohan">R</div><div class="b" style="font-size:36px"><span class="n">Rohan</span>we should hang out fr</div></div>
+      <div class="say" id="op-s7" style="left:120px;top:470px"><div class="av av-meera">M</div><div class="b" style="font-size:36px"><span class="n">Meera</span>hang out?? anyone??</div></div>
+      <div class="say" id="op-s8" style="left:1330px;top:470px"><div class="av av-kabir">K</div><div class="b" style="font-size:42px"><span class="n">Kabir</span>we should hang out!!</div></div>
+    </div>
+    <div class="hl" id="op-hl"><span class="w">Said</span> <span class="w">every</span> <span class="w">group</span> <span class="w">chat.</span><br /><span class="w grad-text">Ever.</span></div>
+  </div>
+  <script>
+    (function () {
+      var S0 = 0, S1 = 4, D = 4;
+      var $ = function (id) { return document.getElementById(id); };
+      var tl = gsap.timeline({ paused: true });
+
+      var SAYS = [[-2,0],[3,0.85],[-3,1.22],[2,1.52],[-4,1.76],[1,1.95],[3,2.1],[-2,2.22],[2,2.32]];
+      SAYS.forEach(function (s, i) {
+        if (i === 0) { tl.set('#op-s0', { rotation: s[0], transformOrigin: '0% 100%' }, 0); return; } // on screen from the first frame
+        tl.fromTo('#op-s' + i, { opacity: 0, scale: 0.6, rotation: s[0] * 2, transformOrigin: '0% 100%' },
+          { opacity: 1, scale: 1, rotation: s[0], duration: 0.3, ease: 'back.out(1.8)' }, s[1]);
+      });
+      // the chatter falls back; the line lands
+      tl.to('#op-says', { opacity: 0.16, scale: 0.94, filter: 'blur(6px)', duration: 0.35, ease: 'power2.inOut' }, 2.5);
+      SC.wordsIn(tl, $('op-hl'), 2.62, { gap: 0.11, dur: 0.18 });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["open"] = tl;
+    })();
+  </script>
+</template>

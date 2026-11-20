@@ -1,0 +1,48 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+
+    #rv-icon { position: absolute; left: 810px; top: 320px; width: 300px; height: 300px; }
+    #rv-sq { position: absolute; inset: 0; border-radius: 28%; background: linear-gradient(180deg, #2C1C48, #150C26); box-shadow: inset 0 0 0 2px rgba(255,243,226,0.12), 0 30px 70px rgba(0,0,0,0.55); }
+    #rv-circles { position: absolute; inset: 0; }
+    #rv-word { position: absolute; left: 910px; top: 372px; width: 0; height: 200px; overflow: hidden; }
+    #rv-word-in { width: 385px; height: 200px; }
+    #rv-tag { position: absolute; left: 0; right: 0; top: 660px; text-align: center; font-size: 78px; }
+  </style>
+  <div id="root" data-composition-id="reveal" data-width="1920" data-height="1080">
+    <div id="rv-icon"><div id="rv-sq"></div><div id="rv-circles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%" aria-label="toli">
+  <defs>
+    <linearGradient id="rv-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2C1C48"/><stop offset="1" stop-color="#150C26"/></linearGradient>
+    <clipPath id="rv-clip"><rect width="512" height="512" rx="143"/></clipPath>
+  </defs>
+  
+  <g style="isolation:isolate"><circle id="rv-c0" cx="198.57999999999998" cy="229" r="118" fill="#FF3D81" style="mix-blend-mode:screen"/><circle id="rv-c1" cx="313.42" cy="229" r="118" fill="#FFB627" style="mix-blend-mode:screen"/><circle id="rv-c2" cx="256" cy="328" r="118" fill="#20C9B5" style="mix-blend-mode:screen"/></g>
+</svg></div></div>
+    <div id="rv-word"><div id="rv-word-in"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -160.5 318 165" width="100%" height="100%" aria-label="toli">
+  <path d="M53.60 2.60L53.60 2.60Q35 2.60 26.20-7.30Q17.40-17.20 17.40-39L17.40-39L17.40-80.40L2.40-80.40L3-105.40L13.80-105.40Q20.20-105.60 23.50-107.40Q26.80-109.20 27.60-114.20L27.60-114.20L30.20-129L48.40-129L48.40-105.60L73.80-105.60L73.80-79.40L48.40-79.40L48.40-40.40Q48.40-33.60 51.70-30.40Q55-27.20 61.80-27.20L61.80-27.20Q65.60-27.20 69-28Q72.40-28.80 74.60-30.20L74.60-30.20L74.60-0.40Q68.20 1.60 62.90 2.10Q57.60 2.60 53.60 2.60Z M140.20 2.80L140.20 2.80Q124.20 2.80 111.90-3.40Q99.60-9.60 92.60-22Q85.60-34.40 85.60-53L85.60-53Q85.60-71.60 92.60-83.90Q99.60-96.20 112-102.30Q124.40-108.40 140.40-108.40L140.40-108.40Q156.40-108.40 168.80-102.20Q181.20-96 188.20-83.70Q195.20-71.40 195.20-52.80L195.20-52.80Q195.20-33.80 188-21.40Q180.80-9 168.30-3.10Q155.80 2.80 140.20 2.80ZM141.20-20.60L141.20-20.60Q148.40-20.60 153.20-23.90Q158-27.20 160.40-34Q162.80-40.80 162.80-50.80L162.80-50.80Q162.80-61.40 160.20-68.70Q157.60-76 152.50-79.90Q147.40-83.80 139.40-83.80L139.40-83.80Q132.60-83.80 127.70-80.50Q122.80-77.20 120.40-70.40Q118-63.60 118-53.40L118-53.40Q118-37 124.10-28.80Q130.20-20.60 141.20-20.60Z M243.60 0L212 0L212-144L243.60-144L243.60 0Z M298.80 0L266.60 0L266.60-105.60L298.80-105.60L298.80 0Z" fill="#FFF3E2"/><circle id="rvw-dot" cx="282.7" cy="-136.5" r="20" fill="#FFB627"/>
+</svg></div></div>
+    <div class="hl" id="rv-tag"><span class="w">Plans</span> <span class="w">that</span> <span class="w">actually</span> <span class="w grad-text">happen.</span></div>
+  </div>
+  <script>
+    (function () {
+      var S0 = 12, S1 = 15, D = 3;
+      var $ = function (id) { return document.getElementById(id); };
+      var tl = gsap.timeline({ paused: true });
+
+      var T = function (a) { return a - S0; };
+      // three friends arrive from three sides and meet on the beat (12.5)
+      tl.fromTo('#rv-c0', { x: -2300, y: -200 }, { x: 0, y: 0, duration: 0.5, ease: 'power3.in' }, T(12.0));
+      tl.fromTo('#rv-c1', { x: 2300, y: -200 }, { x: 0, y: 0, duration: 0.5, ease: 'power3.in' }, T(12.0));
+      tl.fromTo('#rv-c2', { x: 0, y: 1500 }, { x: 0, y: 0, duration: 0.5, ease: 'power3.in' }, T(12.0));
+      tl.fromTo('#rv-circles', { scale: 1 }, { scale: 1.12, duration: 0.07, ease: 'power2.out', yoyo: true, repeat: 1 }, T(12.5));
+      tl.fromTo('#rv-sq', { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.32, ease: 'back.out(1.7)' }, T(12.53));
+      // lockup: the icon slides left as the wordmark wipes in; the dot drops onto the i
+      tl.to('#rv-icon', { x: -214, scale: 0.8, duration: 0.45, ease: 'power3.inOut' }, T(12.95));
+      tl.fromTo('#rv-word', { width: 0 }, { width: 385, duration: 0.45, ease: 'power3.out' }, T(13.1));
+      tl.fromTo('#rvw-dot', { y: -260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.42, ease: 'bounce.out' }, T(13.3));
+      SC.wordsIn(tl, $('rv-tag'), T(13.75), { gap: 0.11, dur: 0.18 });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["reveal"] = tl;
+    })();
+  </script>
+</template>

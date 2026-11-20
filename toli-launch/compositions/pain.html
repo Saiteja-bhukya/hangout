@@ -1,0 +1,61 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+
+    #pain-rig { left: 330px; top: 100px; width: 421px; height: 880px; }
+    #pain-hl { position: absolute; left: 1000px; top: 300px; font-size: 128px; line-height: 1.0; }
+    #pain-black { position: absolute; inset: 0; background: #000; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="pain" data-width="1920" data-height="1080">
+    <div class="rig" id="pain-rig"><div class="phone">
+  <span class="phone__btn phone__btn--action"></span><span class="phone__btn phone__btn--volup"></span><span class="phone__btn phone__btn--voldn"></span><span class="phone__btn phone__btn--power"></span>
+  <div class="phone__bezel"></div>
+  <div class="phone__screen"><div class="app-screen chat chat--grey">
+  <div class="ch-status"><span>9:41</span><span class="ch-sb"><i></i><i></i><i></i><i></i><b></b></span></div>
+  <div class="ch-head">
+    <span class="ch-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></span>
+    <div class="ch-stack"><span class="ch-av av-rohan">R</span><span class="ch-av av-meera">M</span><span class="ch-av av-kabir">K</span><span class="ch-av av-zoya">Z</span></div>
+    <div class="ch-title"><div class="ch-t1">Weekend squad</div><div class="ch-t2">Rohan, Meera, Kabir, Zoya, You</div></div>
+    <span class="ch-hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6.5" width="12.5" height="11" rx="3"/><path d="M15.5 10.5l5-3v9l-5-3"/></svg></span><span class="ch-hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h3.2l1.6 4-2.1 1.3a11 11 0 0 0 6.5 6.5l1.3-2.1 4 1.6V19a1.5 1.5 0 0 1-1.6 1.5A16 16 0 0 1 3.5 6.1 1.5 1.5 0 0 1 5 4.5z"/></svg></span>
+  </div>
+  <div class="ch-body"><div class="ch-list" id="pain-list"><div class="ch-item ch-msg ch-theirs" id="pain-m0"><div class="ch-av av-rohan">R</div><div class="ch-col"><div class="ch-name ch-name--rohan">Rohan</div><div class="ch-bub">so… sunday?</div></div></div><div class="ch-item ch-msg ch-theirs" id="pain-m1"><div class="ch-av av-meera">M</div><div class="ch-col"><div class="ch-name ch-name--meera">Meera</div><div class="ch-bub">maybe</div></div></div><div class="ch-item ch-msg ch-theirs" id="pain-m2"><div class="ch-av av-kabir">K</div><div class="ch-col"><div class="ch-name ch-name--kabir">Kabir</div><div class="ch-bub">who's booking?</div></div></div><div class="ch-item ch-msg ch-theirs" id="pain-m3"><div class="ch-av av-zoya">Z</div><div class="ch-col"><div class="ch-name ch-name--zoya">Zoya</div><div class="ch-bub">not me</div></div></div><div class="ch-item ch-msg ch-theirs" id="pain-m4"><div class="ch-av av-rohan">R</div><div class="ch-col"><div class="ch-name ch-name--rohan">Rohan</div><div class="ch-bub">not me either</div></div></div><div class="ch-item ch-divider" id="pain-m5"><span>Sunday, 11:48 pm</span></div><div class="ch-item ch-msg ch-theirs" id="pain-m6"><div class="ch-av av-meera">M</div><div class="ch-col"><div class="ch-name ch-name--meera">Meera</div><div class="ch-bub">next weekend then?</div></div></div><div class="ch-item ch-seen" id="pain-m7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5l4 4 8-9M10.5 16.5l1 0 8-9"/></svg><span>Seen by 4</span></div></div></div>
+  <div class="ch-input"><span class="ch-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><div class="ch-field">Message</div><span class="ch-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v2.5"/></svg></span></div>
+</div></div>
+  <div class="phone__island"><span class="phone__lens"></span></div>
+  <div class="phone__glare"></div>
+</div></div>
+    <div class="hl" id="pain-hl"><span class="w">Plans</span> <span class="w">die</span><br /><span class="w">in</span> <span class="w">the</span><br /><span class="w pink-text">group</span> <span class="w pink-text">chat.</span></div>
+    <div id="pain-black" data-layout-ignore></div>
+  </div>
+  <script>
+    (function () {
+      var S0 = 8.2, S1 = 12, D = 3.8;
+      var $ = function (id) { return document.getElementById(id); };
+      var tl = gsap.timeline({ paused: true });
+
+      var T = function (a) { return a - S0; };
+      var TIMES = [8.45,8.72,8.98,9.2,9.4,9.75,10,10.25];
+      document.fonts.ready.then(function () {
+        tl.fromTo('#pain-rig', { y: 900, rotation: -4, scale: 1, transformOrigin: '210px 757px' }, { y: 0, rotation: 0, duration: 0.45, ease: 'expo.out' }, T(8.2));
+        tl.to('#pain-rig', { scale: 1.38, duration: 0.55, ease: 'power2.inOut' }, T(8.55));
+        var items = []; for (var i = 0; i < TIMES.length; i++) items.push($('pain-m' + i));
+        var gap = 8, h = SC.layout(items[0], function () { return items.map(function (el) { return el.offsetHeight + gap; }); });
+        var below = function (k) { var s = 0; for (var j = k + 1; j < h.length; j++) s += h[j]; return s; };
+        tl.set('#pain-list', { y: below(-1) }, 0);
+        items.forEach(function (el, k) {
+          var t = T(TIMES[k]); tl.to('#pain-list', { y: below(k), duration: 0.22, ease: 'power3.out' }, t);
+          var mine = el.classList.contains('ch-mine');
+          tl.fromTo(el, { opacity: 0, scale: 0.86, transformOrigin: mine ? '100% 100%' : '0% 100%' }, { opacity: 1, scale: 1, duration: 0.24, ease: 'back.out(1.6)' }, t);
+        });
+        SC.wordsIn(tl, $('pain-hl'), T(10.3), { gap: 0.12, dur: 0.18 });
+        // the plan dies: the chat drops away, everything goes quiet
+        tl.to('#pain-rig', { y: 1100, rotation: 9, duration: 0.5, ease: 'power3.in' }, T(11.45));
+        tl.to('#pain-hl', { opacity: 0, duration: 0.3, ease: 'power2.in' }, T(11.6));
+        tl.fromTo('#pain-black', { opacity: 0 }, { opacity: 1, duration: 0.15, ease: 'none' }, T(11.85));
+        window.__timelines = window.__timelines || {};
+        window.__timelines['pain'] = tl;
+      });
+      // (registered at the end of its async build above)
+    })();
+  </script>
+</template>

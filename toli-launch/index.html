@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>toli — launch film</title>
+    <link rel="stylesheet" href="assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="assets/css/brand.css" />
+    <link rel="stylesheet" href="assets/css/app.css" />
+    <link rel="stylesheet" href="assets/css/chat.css" />
+
+    <style>
+      /* secondary colour: toli */
+      :root { --s-rgb: 255, 182, 39; --s2-rgb: 255, 61, 129; --b3-rgb: 15, 10, 28; --aura-grad: none; }
+    </style>
+    <script>window.SC_THEME = {"key":"toli","rim":"#FF3D81","particles":["#FFB627","#FF3D81","#20C9B5","#FFF3E2"]};</script>
+    <script src="lib/gsap.min.js"></script>
+    <script src="lib/film.js"></script>
+    <script src="lib/scene3d.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #0F0A1C; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #0F0A1C; font-family: 'Inter', sans-serif; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="60"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div
+        id="bg"
+        class="clip"
+        data-composition-id="bg"
+        data-composition-src="compositions/bg.html"
+        data-start="0"
+        data-duration="60"
+        data-track-index="0"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 0"
+      ></div>
+      <div
+        id="open"
+        class="clip"
+        data-composition-id="open"
+        data-composition-src="compositions/open.html"
+        data-start="0"
+        data-duration="4"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 2"
+      ></div>
+      <div
+        id="hook"
+        class="clip"
+        data-composition-id="hook"
+        data-composition-src="compositions/hook.html"
+        data-start="4"
+        data-duration="4.2"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 3"
+      ></div>
+      <div
+        id="pain"
+        class="clip"
+        data-composition-id="pain"
+        data-composition-src="compositions/pain.html"
+        data-start="8.2"
+        data-duration="3.8"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 4"
+      ></div>
+      <div
+        id="reveal"
+        class="clip"
+        data-composition-id="reveal"
+        data-composition-src="compositions/reveal.html"
+        data-start="12"
+        data-duration="3"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 5"
+      ></div>
+      <div
+        id="range"
+        class="clip"
+        data-composition-id="range"
+        data-composition-src="compositions/range.html"
+        data-start="15"
+        data-duration="4"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 6"
+      ></div>
+      <div
+        id="s1"
+        class="clip"
+        data-composition-id="s1"
+        data-composition-src="compositions/s1.html"
+        data-start="19"
+        data-duration="4"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 7"
+      ></div>
+      <div
+        id="s2"
+        class="clip"
+        data-composition-id="s2"
+        data-composition-src="compositions/s2.html"
+        data-start="23"
+        data-duration="4"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 8"
+      ></div>
+      <div
+        id="s3"
+        class="clip"
+        data-composition-id="s3"
+        data-composition-src="compositions/s3.html"
+        data-start="27"
+        data-duration="4"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 9"
+      ></div>
+      <div
+        id="s4"
+        class="clip"
+        data-composition-id="s4"
+        data-composition-src="compositions/s4.html"
+        data-start="31"
+        data-duration="4"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 10"
+      ></div>
+      <div
+        id="rewards"
+        class="clip"
+        data-composition-id="rewards"
+        data-composition-src="compositions/rewards.html"
+        data-start="35"
+        data-duration="11"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 11"
+      ></div>
+      <div
+        id="payoff"
+        class="clip"
+        data-composition-id="payoff"
+        data-composition-src="compositions/payoff.html"
+        data-start="46"
+        data-duration="5"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 12"
+      ></div>
+      <div
+        id="finale"
+        class="clip"
+        data-composition-id="finale"
+        data-composition-src="compositions/finale.html"
+        data-start="51"
+        data-duration="9"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 13"
+      ></div>
+      <div
+        id="overlay"
+        class="clip"
+        data-composition-id="overlay"
+        data-composition-src="compositions/overlay.html"
+        data-start="0"
+        data-duration="60"
+        data-track-index="2"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+        style="z-index: 50"
+      ></div>
+      <audio id="toli-mix" class="clip" src="assets/audio/scene-mix.wav" data-start="0" data-duration="60" data-track-index="3" data-volume="1"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

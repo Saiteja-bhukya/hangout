@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SCENE hero objects</title>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+  :root { --ground: #EEF3FA; --ink: #0B1A2E; --blob-a: #C9DBFF; --blob-b: #BFF1FA; --blob-c: #D9CCFF; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #F6F9FD; }
+  body { width: 2400px; padding: 44px 40px 30px; font-family: 'Rajdhani', sans-serif; }
+  #sheet { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px 24px; }
+  .cell { display: flex; flex-direction: column; align-items: stretch; }
+  .card { position: relative; aspect-ratio: 1 / 1; border-radius: 30px; overflow: hidden; background: var(--ground); }
+  .blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.95; }
+  .card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  .label { margin-top: 14px; text-align: center; font-weight: 700; font-size: 40px; letter-spacing: 0.06em;
+           text-transform: uppercase; color: var(--ink); line-height: 1; }
+</style>
+</head>
+<body>
+<div id="sheet"></div>
+<script>
+  const ITEMS = [
+    ['kart', 'Go-kart'], ['bowling', 'Bowling'], ['vr', 'VR headset'], ['trampoline', 'Trampoline'],
+    ['claw', 'Claw machine'], ['controller', 'Controller'], ['padlock', 'Padlock'], ['cricket', 'Box cricket'],
+  ];
+  // deterministic blob layouts (percent of card): [left, top, size, colour]
+  const LAYOUTS = [
+    [[-12, -10, 62, 'a'], [55, 8, 52, 'b'], [20, 62, 60, 'c']],
+    [[48, -14, 64, 'c'], [-16, 40, 56, 'a'], [52, 60, 50, 'b']],
+    [[-10, 50, 58, 'b'], [40, -12, 60, 'a'], [62, 48, 50, 'c']],
+    [[10, -16, 56, 'c'], [-18, 30, 52, 'b'], [50, 52, 64, 'a']],
+  ];
+  const sheet = document.getElementById('sheet');
+  ITEMS.forEach(([name, label], i) => {
+    const cell = document.createElement('div'); cell.className = 'cell';
+    const card = document.createElement('div'); card.className = 'card';
+    for (const [l, t, s, c] of LAYOUTS[i % 4]) {
+      const b = document.createElement('div'); b.className = 'blob';
+      Object.assign(b.style, { left: l + '%', top: t + '%', width: s + '%', height: s + '%', background: `var(--blob-${c})` });
+      card.appendChild(b);
+    }
+    const img = document.createElement('img');
+    img.src = `../review/objects/${name}.png`;
+    img.alt = label;
+    card.appendChild(img);
+    const lab = document.createElement('div'); lab.className = 'label'; lab.textContent = label;
+    cell.append(card, lab);
+    sheet.appendChild(cell);
+  });
+  window.sheetReady = Promise.all([
+    document.fonts.ready,
+    ...[...document.images].map((im) => (im.complete ? Promise.resolve() : new Promise((r) => { im.onload = r; im.onerror = r; }))),
+  ]).then(() => document.fonts.load('700 40px Rajdhani')).then(() => true);
+</script>
+</body>
+</html>

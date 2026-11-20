@@ -1,0 +1,123 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+
+    .step { position: absolute; left: 110px; }
+    .st-n { font-size: 118px; line-height: 1; color: var(--marigold); letter-spacing: -0.03em; }
+    .st-t { font-size: 104px; line-height: 0.98; margin-top: 8px; }
+    .st-s { font-size: 30px; margin-top: 22px; }
+    .persp { perspective: 2400px; perspective-origin: 50% 50%; }
+  </style>
+  <div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+    <div class="step" id="s1-hd" style="top:250px">
+      <div class="num st-n" id="s1-n">01</div>
+      <div class="hl st-t" id="s1-t"><span class="w">Pick</span> <span class="w">a</span><br /><span class="w grad-text">vibe.</span></div>
+      <div class="sub st-s" id="s1-s">Mood. Day. Crew.</div>
+    </div>
+    <div class="sorted" id="s1-ok" style="left:118px;top:720px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Vibe set.</span></div>
+    <div class="persp">
+      <div class="rig" id="s1-rig" style="left:1010px;top:96px;width:421px;height:880px">
+        <div class="phone">
+  <span class="phone__btn phone__btn--action"></span><span class="phone__btn phone__btn--volup"></span><span class="phone__btn phone__btn--voldn"></span><span class="phone__btn phone__btn--power"></span>
+  <div class="phone__bezel"></div>
+  <div class="phone__screen"><div class="app-screen app-screen--explore">
+<div class="sc-bg"></div>
+
+<div class="sc-status">
+  <span class="sc-status__time">9:41</span>
+  <span class="sc-status__right">
+    <svg class="sc-status__sig" viewBox="0 0 18 12" width="18" height="12" aria-hidden="true"><rect x="0" y="8" width="3.2" height="4" rx="1"/><rect x="4.9" y="5.6" width="3.2" height="6.4" rx="1"/><rect x="9.8" y="3" width="3.2" height="9" rx="1"/><rect x="14.7" y="0" width="3.2" height="12" rx="1"/></svg>
+    <svg class="sc-status__wifi" viewBox="0 0 16 12" width="16" height="12" aria-hidden="true"><path d="M8 2.2c2.3 0 4.4.9 6 2.3l1.2-1.3A10.4 10.4 0 0 0 8 .4 10.4 10.4 0 0 0 .8 3.2L2 4.5a8.6 8.6 0 0 1 6-2.3z"/><path d="M8 5.6c1.4 0 2.6.5 3.6 1.3l1.2-1.3A7 7 0 0 0 8 3.8a7 7 0 0 0-4.8 1.8l1.2 1.3c1-.8 2.2-1.3 3.6-1.3z"/><path d="M8 9.2c.5 0 1 .2 1.3.5L8 11.2 6.7 9.7c.3-.3.8-.5 1.3-.5z"/><path d="M8 7.2c.9 0 1.7.3 2.3.8L9.2 9.2A2 2 0 0 0 8 8.8a2 2 0 0 0-1.2.4L5.7 8c.6-.5 1.4-.8 2.3-.8z"/></svg>
+    <span class="sc-batt"><span class="sc-batt__lvl"></span></span>
+  </span>
+</div>
+<div class="sc-body">
+  <div class="sc-pagehead">
+    <div class="sc-h1">Plan an outing</div>
+    <span class="sc-link sc-link--muted">Reset</span>
+  </div>
+
+  <div class="sc-card sc-plan" data-part="what">
+    <div class="sc-plan__label"><span class="sc-plan__k">What</span><span class="sc-plan__hint">Pick a mood or two</span></div>
+    <div class="sc-chips sc-chips--wrap sc-chips--tight">
+      <span class="sc-chip is-active sc-chip--sm"><svg class="sc-ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.6 4h8.8v5.6a4.4 4.4 0 0 1-8.8 0z"/><path d="M7.6 6.2H5a.9.9 0 0 0-.9.9 3.6 3.6 0 0 0 3.6 3.6M16.4 6.2H19a.9.9 0 0 1 .9.9 3.6 3.6 0 0 1-3.6 3.6"/><path d="M12 14v3.4M8.4 20.4h7.2M9.6 20.4c0-1.7 1-3 2.4-3s2.4 1.3 2.4 3"/></svg><span>Competitive</span><svg class="sc-ic sc-chip__check" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5.2 12.6 4.4 4.4 9.2-9.6"/></svg></span><span class="sc-chip is-active sc-chip--sm"><svg class="sc-ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 7.8h15.2a1.9 1.9 0 0 1 1.9 1.9v4.6a2.6 2.6 0 0 1-2.6 2.6h-3.1a2 2 0 0 1-1.7-1l-.6-1.1a1.7 1.7 0 0 0-3 0l-.6 1.1a2 2 0 0 1-1.7 1H5.1a2.6 2.6 0 0 1-2.6-2.6V9.7a1.9 1.9 0 0 1 1.9-1.9z"/><path d="M7.2 7.8 8.4 5h7.2l1.2 2.8"/></svg><span>Immersive</span><svg class="sc-ic sc-chip__check" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5.2 12.6 4.4 4.4 9.2-9.6"/></svg></span><span class="sc-chip sc-chip--sm"><svg class="sc-ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.2 2.8 4.8 13.4h6.6l-1 7.8 8.8-10.8h-6.6z"/></svg><span>Adrenaline</span></span>
+      <span class="sc-chip sc-chip--sm"><svg class="sc-ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.2 9h12.4v4.8a5 5 0 0 1-5 5H9.2a5 5 0 0 1-5-5z"/><path d="M16.6 10.4h1.4a2.5 2.5 0 0 1 0 5h-1.6M8 3.4v2.6M12 3.4v2.6"/></svg><span>Chill</span></span><span class="sc-chip sc-chip--sm"><svg class="sc-ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0 0 18c1.2 0 1.9-.8 1.9-1.8 0-1.3-1-1.7-1-2.7 0-1 .8-1.7 1.8-1.7h2.4A3.9 3.9 0 0 0 21 10.9C21 6.5 17 3 12 3z"/><circle cx="7.6" cy="11.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="9.6" cy="7.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.2" cy="7.2" r="1.15" fill="currentColor" stroke="none"/></svg><span>Creative</span></span>
+    </div>
+  </div>
+
+  <div class="sc-card sc-plan" data-part="when">
+    <div class="sc-plan__label"><span class="sc-plan__k">When</span><span class="sc-plan__hint">This weekend</span></div>
+    <div class="sc-plan__val">
+      <span class="sc-plan__ic"><svg class="sc-ic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.6" y="5" width="16.8" height="15.6" rx="3.2"/><path d="M3.6 10h16.8M8.2 3v3.6M15.8 3v3.6"/></svg></span>
+      <span class="sc-plan__vt"><b>Sun 22 Nov · Evening</b><small>5 pm – 9 pm</small></span>
+      <svg class="sc-ic sc-plan__chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.2 5.5 6.5 6.5-6.5 6.5"/></svg>
+    </div>
+    <div class="sc-seg sc-seg--sm">
+      <span class="sc-seg__i"><svg class="sc-ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.8v2.2M12 19v2.2M2.8 12H5M19 12h2.2M5.5 5.5l1.6 1.6M16.9 16.9l1.6 1.6M5.5 18.5l1.6-1.6M16.9 7.1l1.6-1.6"/></svg>Afternoon</span><span class="sc-seg__i is-active"><svg class="sc-ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17.6h18M6.2 14a5.8 5.8 0 0 1 11.6 0"/><path d="M12 3.6v3.2M4.6 7.4l1.6 1.6M19.4 7.4 17.8 9M8.6 21h6.8"/></svg>Evening</span><span class="sc-seg__i"><svg class="sc-ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.6 14.6A8 8 0 0 1 9.4 4.4a8 8 0 1 0 10.2 10.2z"/></svg>Night</span>
+    </div>
+  </div>
+
+  <div class="sc-card sc-plan" data-part="who">
+    <div class="sc-plan__label"><span class="sc-plan__k">Who</span><span class="sc-plan__hint"><b>3 players</b></span></div>
+    <div class="sc-crew">
+      <span class="sc-crew__p"><span class="sc-av sc-av--a sc-av--xl">A</span><small>You</small></span>
+      <span class="sc-crew__p"><span class="sc-av sc-av--r sc-av--xl">R</span><small>Rohan</small></span>
+      <span class="sc-crew__p"><span class="sc-av sc-av--m sc-av--xl">M</span><small>Meera</small></span>
+      <span class="sc-crew__p"><span class="sc-av sc-av--xl sc-av--add"><svg class="sc-ic" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5.2v13.6M5.2 12h13.6"/></svg></span><small>Invite</small></span>
+    </div>
+  </div>
+
+  <div class="sc-explore-foot">
+    <div class="sc-hint"><svg class="sc-ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4.2c.6 3.7 2.2 5.4 6 6.9-3.8 1.5-5.4 3.2-6 6.9-.6-3.7-2.2-5.4-6-6.9 3.8-1.5 5.4-3.2 6-6.9z"/><path d="M18.4 3.2v3.6M16.6 5h3.6M18.6 16.6v3.2M17 18.2h3.2"/></svg><span>5 venues match your plan</span></div>
+    <span class="sc-btn sc-btn--block" data-part="cta"><span>Show venues</span><svg class="sc-ic" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.8 12h14.2M13.4 6.2 19.2 12l-5.8 5.8"/></svg></span>
+  </div>
+</div>
+
+<div class="sc-navfade"></div>
+<div class="sc-nav" data-part="nav">
+  <span class="sc-nav__btn"><svg class="sc-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.4 12 3.6l8.5 6.8"/><path d="M5.6 8.9V19a1.6 1.6 0 0 0 1.6 1.6h3v-5.1a1.8 1.8 0 0 1 3.6 0v5.1h3a1.6 1.6 0 0 0 1.6-1.6V8.9"/></svg></span><span class="sc-nav__btn is-active"><svg class="sc-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.7 8.3-2.2 5.2-5.2 2.2 2.2-5.2z"/></svg></span><span class="sc-nav__btn"><svg class="sc-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21.2s-6.9-5.7-6.9-11.5a6.9 6.9 0 0 1 13.8 0c0 5.8-6.9 11.5-6.9 11.5z"/><circle cx="12" cy="9.7" r="2.6"/></svg></span><span class="sc-nav__btn"><svg class="sc-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.6 5.6h14.8A1.6 1.6 0 0 1 21 7.2v2.4a2.4 2.4 0 0 0 0 4.8v2.4a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 16.8v-2.4a2.4 2.4 0 0 0 0-4.8V7.2a1.6 1.6 0 0 1 1.6-1.6z"/><path d="M14.6 5.8v1.8M14.6 11.1v1.8M14.6 16.4v1.8"/></svg></span><span class="sc-nav__btn"><svg class="sc-ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.6 4h8.8v5.6a4.4 4.4 0 0 1-8.8 0z"/><path d="M7.6 6.2H5a.9.9 0 0 0-.9.9 3.6 3.6 0 0 0 3.6 3.6M16.4 6.2H19a.9.9 0 0 1 .9.9 3.6 3.6 0 0 1-3.6 3.6"/><path d="M12 14v3.4M8.4 20.4h7.2M9.6 20.4c0-1.7 1-3 2.4-3s2.4 1.3 2.4 3"/></svg></span>
+</div>
+<div class="sc-homeind"></div></div></div>
+  <div class="phone__island"><span class="phone__lens"></span></div>
+  <div class="phone__glare"></div>
+</div>
+        <div class="lift" style="left:14px;top:14px;width:393px;height:852px">
+          <div class="app-screen app-screen--explore lift-scr" id="s1-rig-ls" style="width:393px;height:852px">
+            <div class="wire3d" id="s1-t0-w"></div>
+            <div class="tag3d" id="s1-t0"><span class="dot"></span>What you feel like</div>
+            <div class="wire3d" id="s1-t1-w"></div>
+            <div class="tag3d" id="s1-t1"><span class="dot"></span>When you're free</div>
+            <div class="wire3d" id="s1-t2-w"></div>
+            <div class="tag3d" id="s1-t2"><span class="dot"></span>Who's coming</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var S0 = 19, S1 = 23, D = 4;
+      var $ = function (id) { return document.getElementById(id); };
+      var tl = gsap.timeline({ paused: true });
+
+      document.fonts.ready.then(function () {
+        var scr = $('s1-rig').querySelector('.phone .app-screen'), ls = $('s1-rig-ls');
+        SC.layout(scr, function () { [['what', 's1-t0', 0.85], ['when', 's1-t1', 1.15], ['who', 's1-t2', 1.45]].forEach(function (l) {
+          SC.liftTag(tl, { scr: scr, liftScr: ls, part: l[0], tag: $(l[1]), wire: $(l[1] + '-w'), side: 'right', dz: 90 }, l[2]); }); });
+        tl.fromTo('#s1-rig', { x: 760, rotationY: -38, rotationX: 6, opacity: 0 }, { x: 0, rotationY: -16, rotationX: 4, opacity: 1, duration: 0.62, ease: 'power3.out' }, 0.05);
+        tl.to('#s1-rig', { rotationY: -10, duration: 2.6, ease: 'sine.inOut' }, 0.67);
+        var cta = scr.querySelector('[data-part="cta"]');
+        if (cta) tl.fromTo(cta, { scale: 1 }, { scale: 0.95, duration: 0.08, ease: 'power2.out', yoyo: true, repeat: 1 }, 3.3);
+        tl.to('#s1-rig', { x: -260, opacity: 0, filter: 'blur(10px)', duration: 0.3, ease: 'power3.in' }, 3.68);
+        tl.fromTo('#s1-n', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.35, ease: 'expo.out' }, 0.02);
+        SC.wordsIn(tl, $('s1-t'), 0.12, { gap: 0.1, dur: 0.18 });
+        tl.fromTo('#s1-s', { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' }, 0.55);
+        SC.stamp(tl, $('s1-ok'), 2.7, 3.66);
+        tl.to(['#s1-n', '#s1-t', '#s1-s'], { opacity: 0, filter: 'blur(8px)', duration: 0.22, ease: 'power3.in', stagger: 0.03 }, 3.66);
+        window.__timelines = window.__timelines || {};
+        window.__timelines['s1'] = tl;
+      });
+      // (registered at the end of its async build above)
+    })();
+  </script>
+</template>

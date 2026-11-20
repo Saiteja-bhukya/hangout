@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SCENE3D harness</title>
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script src="../lib/scene3d.js"></script>
+</head>
+<body>
+<script>
+  // Review/export harness for tools/render-objects.mjs. Renders one pose per call.
+  // opts: { w, h, action, rotY, rotX, fill, elevation, azimuth, shadow, camera: 'frame' | 'default' | {...} }
+  window.renderOne = function (name, opts) {
+    opts = opts || {};
+    const w = opts.w || 1024, h = opts.h || 1024;
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    document.body.appendChild(canvas);
+    const stage = SCENE3D.createStage(canvas, { width: w, height: h, pixelRatio: 1, fov: opts.fov || 30 });
+    const handle = stage.add(name);
+    handle.set({ action: opts.action || 0, rotY: opts.rotY || 0, rotX: opts.rotX || 0 });
+    if (opts.shadow !== undefined) handle.setShadow(opts.shadow);
+    if (opts.camera && typeof opts.camera === 'object') stage.setCamera(opts.camera);
+    else if (opts.camera !== 'default') stage.frame(handle, { fill: opts.fill || 0.78, elevation: opts.elevation, azimuth: opts.azimuth });
+    stage.render();
+    const url = canvas.toDataURL('image/png');
+    stage.renderer.dispose();
+    stage.renderer.forceContextLoss();
+    canvas.remove();
+    return url;
+  };
+
+  // Persistent stage for timing: build once, then renderTimed() draws + syncs (1px readback).
+  window.timingStage = null;
+  window.setupTiming = function (name, w, h, action) {
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    document.body.appendChild(canvas);
+    const stage = SCENE3D.createStage(canvas, { width: w, height: h });
+    const handle = stage.add(name);
+    handle.set({ action: action || 0 });
+    stage.frame(handle, { fill: 0.78 });
+    window.timingStage = { stage, handle };
+    return true;
+  };
+  window.renderTimed = function (action) {
+    const t = window.timingStage;
+    t.handle.set({ action });
+    t.stage.render();
+    const gl = t.stage.renderer.getContext();
+    const px = new Uint8Array(4);
+    gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+    return px[3];
+  };
+  window.harnessReady = true;
+</script>
+</body>
+</html>

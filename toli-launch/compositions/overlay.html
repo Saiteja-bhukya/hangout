@@ -1,0 +1,29 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+
+    #ov-grain { position: absolute; inset: -4px; background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'256'%20height%3D'256'%3E%3Cfilter%20id%3D'n'%20x%3D'0'%20y%3D'0'%3E%3CfeTurbulence%20type%3D'fractalNoise'%20baseFrequency%3D'0.85'%20numOctaves%3D'2'%20seed%3D'11'%20stitchTiles%3D'stitch'%2F%3E%3CfeColorMatrix%20type%3D'saturate'%20values%3D'0'%2F%3E%3CfeComponentTransfer%3E%3CfeFuncR%20type%3D'linear'%20slope%3D'2.2'%20intercept%3D'-0.6'%2F%3E%3CfeFuncG%20type%3D'linear'%20slope%3D'2.2'%20intercept%3D'-0.6'%2F%3E%3CfeFuncB%20type%3D'linear'%20slope%3D'2.2'%20intercept%3D'-0.6'%2F%3E%3C%2FfeComponentTransfer%3E%3C%2Ffilter%3E%3Crect%20width%3D'256'%20height%3D'256'%20filter%3D'url(%23n)'%2F%3E%3C%2Fsvg%3E"); background-size: 256px 256px; opacity: 0.035; }
+    #ov-vig { position: absolute; inset: 0; background: radial-gradient(ellipse 78% 72% at 50% 48%, rgba(0,0,0,0) 62%, rgba(0,0,0,0.28) 100%); }
+    #ov-end { position: absolute; inset: 0; background: #000; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="overlay" data-width="1920" data-height="1080">
+    <div id="ov-vig" data-layout-ignore></div>
+    <div id="ov-grain" data-layout-ignore></div>
+    <div id="ov-end" data-layout-ignore></div>
+  </div>
+  <script>
+    (function () {
+      var S0 = 0, S1 = 60, D = 60;
+      var $ = function (id) { return document.getElementById(id); };
+      var tl = gsap.timeline({ paused: true });
+
+      var g = $('ov-grain'), f = { v: 0 };
+      tl.fromTo(f, { v: 0 }, { v: 1800, duration: 60, ease: 'none', onUpdate: function () {
+        var n = Math.floor(f.v); g.style.backgroundPosition = ((n * 73) % 256) + 'px ' + ((n * 151) % 256) + 'px';
+      } }, 0);
+      tl.fromTo('#ov-end', { opacity: 0 }, { opacity: 1, duration: 0.7, ease: 'power2.in' }, 59.3);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["overlay"] = tl;
+    })();
+  </script>
+</template>
