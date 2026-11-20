@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "c566fd4e-1858-457f-9fb0-4899139fea3d",
-  "currentRevision": "8155b9a5-65f9-4fcc-90ec-5e77aa3cde73",
+  "currentRevision": "73fc50af-8c1f-4e7e-8a39-0912ea1fe7ba",
   "pendingChanges": false,
   "files": {
     "AGENTS.md": {
@@ -405,8 +405,8 @@
       "content": "/root/.cache/hyperframes/history/c566fd4e-1858-457f-9fb0-4899139fea3d/blobs/bf/bff2416132850a0b222f3be619d03af3b305352f66e92174fb800649cb3c4f44"
     },
     "tools/splice-patches.sh": {
-      "hash": "95882fa5664a13b1f0940097c90cfdfd1d0bc17b14a8a8e1fc7cc486262cc5c0",
-      "content": "/root/.cache/hyperframes/history/c566fd4e-1858-457f-9fb0-4899139fea3d/blobs/95/95882fa5664a13b1f0940097c90cfdfd1d0bc17b14a8a8e1fc7cc486262cc5c0"
+      "hash": "fae9c82e5b4b39aef9931757c91212206e44ef6db3f127611f44b0be54885cef",
+      "content": "/root/.cache/hyperframes/history/c566fd4e-1858-457f-9fb0-4899139fea3d/blobs/fa/fae9c82e5b4b39aef9931757c91212206e44ef6db3f127611f44b0be54885cef"
     },
     "tools/style-sheet.mjs": {
       "hash": "2610db040c499f3b0901e283f584111f9493a400a83e84b0a084b352010df5d0",
@@ -671,6 +671,10 @@
     "review/qa/sheet_07.jpg": {
       "hash": "ee87510ef01b0d449e73ac6877299645f1fe205dde85c483982a23725e93f238",
       "content": "/root/.cache/hyperframes/history/c566fd4e-1858-457f-9fb0-4899139fea3d/blobs/ee/ee87510ef01b0d449e73ac6877299645f1fe205dde85c483982a23725e93f238"
+    },
+    "REVIEW.md": {
+      "hash": "f6f44fccdf37b0a51483ce2b5dcc31637b268fbc3e143d61fae0bd8587b8206d",
+      "content": "/root/.cache/hyperframes/history/c566fd4e-1858-457f-9fb0-4899139fea3d/blobs/f6/f6f44fccdf37b0a51483ce2b5dcc31637b268fbc3e143d61fae0bd8587b8206d"
     }
   },
   "revisions": {
@@ -1106,6 +1110,25 @@
         "tools/qa-stills.sh": {
           "before": "/root/.cache/hyperframes/history/c566fd4e-1858-457f-9fb0-4899139fea3d/blobs/91/915839b779ae52332b31098b85be14b390fbd33eb770c41c9b369e7a3e5a918a",
           "after": "/root/.cache/hyperframes/history/c566fd4e-1858-457f-9fb0-4899139fea3d/blobs/5d/5da2393a66c1b8e2de2438b5bb6f846415f3736f50027d1995bfba375e947258"
+        }
+      }
+    },
+    "73fc50af-8c1f-4e7e-8a39-0912ea1fe7ba": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795216603479,
+      "endedAt": 1795216603483,
+      "files": {
+        "REVIEW.md": {
+          "before": null,
+          "after": "/root/.cache/hyperframes/history/c566fd4e-1858-457f-9fb0-4899139fea3d/blobs/f6/f6f44fccdf37b0a51483ce2b5dcc31637b268fbc3e143d61fae0bd8587b8206d"
+        },
+        "tools/splice-patches.sh": {
+          "before": "/root/.cache/hyperframes/history/c566fd4e-1858-457f-9fb0-4899139fea3d/blobs/95/95882fa5664a13b1f0940097c90cfdfd1d0bc17b14a8a8e1fc7cc486262cc5c0",
+          "after": "/root/.cache/hyperframes/history/c566fd4e-1858-457f-9fb0-4899139fea3d/blobs/fa/fae9c82e5b4b39aef9931757c91212206e44ef6db3f127611f44b0be54885cef"
         }
       }
     }

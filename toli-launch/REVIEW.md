@@ -2,7 +2,7 @@
 
 **toli** (टोली — Hindi for *your crew, your gang of friends*) is my startup: an app that plans, books and rewards real-world outings for a whole group, so the plan doesn't die in the group chat.
 
-Deliverable: `deliverables/toli-launch-60s.mp4` — 1920×1080, 30 fps, 60.000 s, H.264 + AAC.
+Deliverable: `deliverables/toli-launch-60s.mp4` — 1920×1080, 30 fps, 60.000 s (1800 frames), H.264 + AAC, 17.4 MB.
 
 ## The film
 | Time | Beat | What happens |
@@ -25,7 +25,7 @@ Deliverable: `deliverables/toli-launch-60s.mp4` — 1920×1080, 30 fps, 60.000 s
 
 ## Checked (measured)
 - `hyperframes lint` 0 errors (1 warning kept: `rewards.html` is long — it carries three inline app screens). `hyperframes check` ok: runtime, layout, motion, audio clean; warnings kept on purpose: `line_unread` on the deliberately fast chatter and object labels, `text_below_floor` on phone UI text, contrast on the faded background chatter and tiny avatar initials.
-- File: 1800 frames, 60.000 s, 1920×1080 @ 30/1. Audio: about −14 LUFS integrated, true peak about −1.3 dBTP; SFX 8 dB under the score.
+- File: 1800 frames, 60.000 s, 1920×1080 @ 30/1. Audio: −13.9 LUFS integrated, true peak −1.2 dBTP, no clipping; SFX 8 dB under the score; onsets land on the hook pops (4.04, 4.39, 4.74 … s).
 - QA stills from the render at every section boundary (`review/qa/`). Found and fixed: the reveal circles were clipped by their SVG while flying in, a 0.1 s empty gap at the 4.0 s cut, and the falling headline shuffling. Only those ranges were re-rendered (4.0–8.2, 12.0–12.6 s) and spliced frame-accurately; the mix was regenerated for the shifted hook hits and muxed onto the spliced picture.
 - Petals fall behind the type (checked at full resolution).
 
