@@ -1,0 +1,70 @@
+/* HANGOUT · on-screen text styles for the 45 s launch film (HyperFrames)
+   Fonts (both SIL Open Font License, free for commercial use):
+     Rajdhani  – display / headlines / numbers   https://fonts.google.com/specimen/Rajdhani
+     Urbanist  – supporting text / UI             https://fonts.google.com/specimen/Urbanist
+   Load in the composition <head>:
+   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+   (For offline renders, download the font files from the links above and use @font-face.) */
+
+:root {
+  --hg-bg: #080D16;
+  --hg-surface: #142235;
+  --hg-cyan: #36D6F2;
+  --hg-blue: #397BFF;
+  --hg-ice: #7FE6F7;
+  --hg-text: #F4F8FC;
+  --hg-muted: #93A5BA;
+  --hg-lilac: #B7A9FF;  /* accents only */
+  --hg-gold: #E9CB7E;   /* rewards / badges only */
+  --hg-mint: #6FE3B5;   /* success only */
+}
+
+/* Big film headline: "YOUR CITY." "INTRODUCING" "PLAY MORE." */
+.hg-headline {
+  font-family: Rajdhani, Urbanist, sans-serif;
+  font-weight: 700;
+  font-size: 128px;            /* 1920×1080 frame; use 96px for 1080×1920 */
+  line-height: .95;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--hg-text);
+}
+.hg-headline .accent { color: var(--hg-cyan); text-shadow: 0 0 32px rgba(54,214,242,.45); }
+
+/* Supporting line: "Find your next experience." */
+.hg-support {
+  font-family: Urbanist, sans-serif;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.3;
+  letter-spacing: .01em;
+  color: var(--hg-muted);
+}
+
+/* Short promotional phrase / kicker: "FROM DISCOVERY" */
+.hg-kicker {
+  font-family: Rajdhani, sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--hg-cyan);
+}
+
+/* Numbers: XP counters, prices */
+.hg-number {
+  font-family: Rajdhani, sans-serif;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--hg-text);
+}
+
+/* Final tagline */
+.hg-tagline {
+  font-family: Rajdhani, sans-serif;
+  font-weight: 700;
+  font-size: 56px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--hg-text);
+}

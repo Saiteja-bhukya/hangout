@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-label="HANGOUT app icon full bleed"><title>HANGOUT app icon full bleed</title><defs>
+<linearGradient id="gaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8FF0FF"/><stop offset=".45" stop-color="#36D6F2"/><stop offset="1" stop-color="#397BFF"/></linearGradient>
+<linearGradient id="hlaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".45"/><stop offset=".45" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
+<linearGradient id="shaf" x1="0" y1="0" x2="0" y2="1"><stop offset=".6" stop-color="#10307A" stop-opacity="0"/><stop offset="1" stop-color="#10307A" stop-opacity=".45"/></linearGradient>
+</defs>
+<g transform="scale(16.0)">
+<rect width="64" height="64" rx="0" fill="url(#gaf)"/>
+<rect width="64" height="64" rx="0" fill="url(#hlaf)"/>
+<rect width="64" height="64" rx="0" fill="url(#shaf)"/>
+<path d="M18 14v36M46 14v36M18 32h28" fill="none" stroke="#03141C" stroke-width="8" stroke-linecap="round"/>
+<circle cx="32" cy="18" r="4" fill="#03141C"/>
+</g></svg>

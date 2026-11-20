@@ -1,0 +1,5 @@
+.hyperframes/
+renders/render.log
+renders/work-*/
+renders/.*
+node_modules/
