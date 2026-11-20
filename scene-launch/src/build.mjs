@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const { SCENES, AUDIO, DURATION } = await import('./scenes/index.mjs');
+const { THEME, THEME_KEY } = await import('./theme.mjs');
 
 fs.mkdirSync(path.join(root, 'compositions'), { recursive: true });
 
@@ -63,6 +64,11 @@ const index = `<!doctype html>
     <link rel="stylesheet" href="assets/css/brand.css" />
     <link rel="stylesheet" href="assets/css/app.css" />
     <link rel="stylesheet" href="assets/css/chat.css" />
+    <style>
+      /* secondary colour: ${THEME.label} */
+      :root { --s-rgb: ${THEME.s.join(', ')}; --s2-rgb: ${THEME.s2.join(', ')}; --b3-rgb: ${THEME.b3.join(', ')}; --aura-grad: ${THEME.grad}; }
+    </style>
+    <script>window.SC_THEME = ${JSON.stringify({ key: THEME_KEY, rim: THEME.rim, particles: THEME.particles })};</script>
     <script src="lib/gsap.min.js"></script>
     <script src="lib/film.js"></script>
 ${has3d ? '    <script src="lib/scene3d.js"></script>\n' : ''}    <style>
@@ -91,4 +97,4 @@ ${audio}
 </html>
 `;
 fs.writeFileSync(path.join(root, 'index.html'), index);
-console.log(`built index.html + ${SCENES.length} scenes (${SCENES.map((s) => s.id).join(', ')})${has3d ? '' : ' [no lib/scene3d.js yet]'}`);
+console.log(`[theme ${THEME_KEY}] built index.html + ${SCENES.length} scenes (${SCENES.map((s) => s.id).join(', ')})${has3d ? '' : ' [no lib/scene3d.js yet]'}`);

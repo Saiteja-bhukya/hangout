@@ -51,6 +51,7 @@ ${ITEMS.map(([, l], i) => `    <div class="lbl hook-lbl" id="hook-l${i}">${l}</d
       // --- 3D: every transform is a pure function of scene time
       if (window.SCENE3D) {
         var st = SCENE3D.createStage($('hook-cv'), { width: 1920, height: 1080, fov: 30 });
+        if (window.SC_THEME && st.lights && st.lights.rim2) st.lights.rim2.color.set(SC_THEME.rim);
         var DIST = 11, PXU = 1080 / (2 * Math.tan(15 * Math.PI / 180) * DIST);
         st.setCamera({ position: [0, 1, DIST], target: [0, 1, 0], fov: 30 });
         var H = NAMES.map(function (n) { return st.add(n); });

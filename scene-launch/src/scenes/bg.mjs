@@ -3,9 +3,11 @@ const blobs = [
   // id, left, top, size, colour, grey, drift keyframes [x,y] at 0/20/40/60 s
   ['bg-b1', -380, -520, 1500, '#C9DBFF', '#D9DDE3', [[0, 0], [160, 90], [60, 180], [200, 60]]],
   ['bg-b2', 1060, 260, 1400, '#BFF1FA', '#E2E5E9', [[0, 0], [-140, -80], [-60, -170], [-180, -40]]],
-  ['bg-b3', 180, 520, 1300, '#D9CCFF', '#D6D9DF', [[0, 0], [120, -110], [220, -30], [90, -140]]],
+  ['bg-b3', 180, 520, 1300, 'VAR', '#D6D9DF', [[0, 0], [120, -110], [220, -30], [90, -140]]],
 ];
-const radial = (c) => `radial-gradient(circle at 50% 50%, ${c} 0%, ${c}E6 22%, ${c}80 44%, ${c}00 70%)`;
+const radial = (c) => c === 'VAR'
+  ? 'radial-gradient(circle at 50% 50%, rgba(var(--b3-rgb),1) 0%, rgba(var(--b3-rgb),0.9) 22%, rgba(var(--b3-rgb),0.5) 44%, rgba(var(--b3-rgb),0) 70%)'
+  : `radial-gradient(circle at 50% 50%, ${c} 0%, ${c}E6 22%, ${c}80 44%, ${c}00 70%)`;
 
 export default {
   id: 'bg', start: 0, duration: 60, track: 0, z: 0,

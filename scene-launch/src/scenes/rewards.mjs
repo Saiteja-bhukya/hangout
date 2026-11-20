@@ -141,6 +141,7 @@ export default {
         // coins: 3D, falling and tumbling on seeded arcs (pure function of time)
         if (window.SCENE3D) {
           var stg = SCENE3D.createStage($('rw-cv'), { width: 1920, height: 1080, fov: 30 });
+        if (window.SC_THEME && stg.lights && stg.lights.rim2) stg.lights.rim2.color.set(SC_THEME.rim);
           var DIST = 11, PXU = 1080 / (2 * Math.tan(15 * Math.PI / 180) * DIST);
           stg.setCamera({ position: [0, 1, DIST], target: [0, 1, 0], fov: 30 });
           var rnd = SC.rng(4711), C = [];

@@ -37,7 +37,7 @@ export default {
         var px = gx + rnd() * 6, py = gy + rnd() * 6;
         if (octx.isPointInPath(path, px, py)) pts.push([px, py]);
       }
-      var N = 140, P = [], k = IC.s / SIZE, cols = ['#FFFFFF', '#6FE8FA', '#36A9FF', '#2F6BFF', '#7A5CFF', '#B9A6FF'];
+      var N = 140, P = [], k = IC.s / SIZE, cols = (window.SC_THEME && SC_THEME.particles) || ['#FFFFFF', '#6FE8FA', '#36A9FF', '#2F6BFF'];
       for (var i = 0; i < N; i++) {
         var tp = pts[Math.floor(i * pts.length / N)];
         var a = rnd() * Math.PI * 2, r = 620 + rnd() * 700;
