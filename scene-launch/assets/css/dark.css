@@ -1,0 +1,43 @@
+/* Dark mode: near-black ground, no glow; blue primary + Sun Yellow (#FFD23F) as the solid complement. */
+html.dark { --navy: #FFFFFF; --muted: #93A3B8; --sun: #FFD23F; }
+html.dark body, html.dark #root { background: #06080D; }
+
+/* no glow anywhere */
+html.dark .aura, html.dark .aura-rays, html.dark .aura-ring, html.dark .aura-soft, html.dark .bg-blob { display: none !important; }
+html.dark #bg-base { background: #06080D; }
+html.dark #bg-base-g { background: #15181E; }
+
+/* type */
+html.dark .hl, html.dark .lbl { color: #FFFFFF; }
+html.dark .grad-text { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--sun); -webkit-text-fill-color: var(--sun); filter: none; }
+
+/* glass becomes dark glass */
+html.dark .glass { background: rgba(255, 255, 255, 0.07); backdrop-filter: blur(22px) saturate(140%); -webkit-backdrop-filter: blur(22px) saturate(140%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), inset 0 0 0 1.5px rgba(255, 255, 255, 0.12); }
+html.dark .chip-g { color: #EAF2FF; }
+html.dark .qbubble .txt { color: #FFFFFF; }
+html.dark .qbubble .who { color: #93A3B8; }
+html.dark .tag3d { background: #141C28 !important; color: #FFFFFF; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1.5px rgba(255, 255, 255, 0.14) !important; }
+html.dark .tag3d .dot, html.dark .tag .dot { background: var(--sun); box-shadow: none; }
+html.dark .wire3d { background: var(--sun); }
+html.dark .wire3d::after { background: var(--sun); box-shadow: 0 0 0 3px #06080D; }
+
+/* the complement, solid: SORTED is a yellow pill */
+html.dark .sorted { background: var(--sun); color: #0B1A2E; box-shadow: 0 16px 34px rgba(0, 0, 0, 0.5); }
+
+/* phones: separate the dark device from the dark ground with a hairline edge */
+html.dark .phone { box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 0 1.5px rgba(255, 255, 255, 0.16) !important; }
+
+/* pain: grey world on dark */
+html.dark .pain-chip .chip-g { color: #C9D0DA; }
+html.dark .pain-chip .chip-g .ic { background: #4A5363; }
+html.dark #pain-easier { color: #0B1A2E; }   /* the white silence keeps navy text */
+
+/* wordmark reads white → light blue on dark */
+html.dark linearGradient[id$="w-g"] stop:nth-child(1) { stop-color: #FFFFFF; }
+html.dark linearGradient[id$="w-g"] stop:nth-child(2) { stop-color: #DCE7FF; }
+html.dark linearGradient[id$="w-g"] stop:nth-child(3) { stop-color: #7FA8FF; }
+
+/* the film ends on black */
+html.dark #ov-white { background: #000; }
+html.dark #ov-vig { background: radial-gradient(ellipse 75% 70% at 50% 48%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.35) 100%); }

@@ -1,6 +1,11 @@
 // The film's secondary colour, in one place. Pick with THEME=<key> node src/build.mjs (default below).
 // s = the secondary itself, s2 = its soft tint, b3 = the third background blob, grad = hero-word gradient.
 export const THEMES = {
+  sun: {
+    label: 'Sun Yellow (dark)', mode: 'dark', s: [255, 210, 63], s2: [255, 226, 130], b3: [255, 231, 160],
+    grad: 'linear-gradient(90deg, #FFD23F 0%, #FFD23F 100%)',
+    rim: '#FFD23F', particles: ['#FFFFFF', '#2F6BFF', '#4F8BFF', '#FFD23F', '#FFE27F'],
+  },
   rose: {
     label: 'Rose Pink', s: [255, 92, 158], s2: [255, 179, 209], b3: [255, 211, 230],
     grad: 'linear-gradient(90deg, #2F6BFF 0%, #7C6BFF 42%, #FF5C9E 100%)',
@@ -17,5 +22,5 @@ export const THEMES = {
     rim: '#F4CD5A', particles: ['#FFFFFF', '#6FE8FA', '#36A9FF', '#2F6BFF', '#F4CD5A', '#FFEAA8'],
   },
 };
-export const THEME_KEY = process.env.THEME || 'gold'; // chosen: Halo Gold
+export const THEME_KEY = process.env.THEME || 'sun'; // dark ground, solid Sun Yellow complement
 export const THEME = THEMES[THEME_KEY];

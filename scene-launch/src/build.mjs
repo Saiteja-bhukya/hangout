@@ -55,7 +55,7 @@ const hosts = SCENES.map((s, i) => `      <div
 const audio = (AUDIO || []).map((a) => `      <audio id="${a.id}" class="clip" src="${a.src}" data-start="${a.start}" data-duration="${a.duration}" data-track-index="${a.track}" data-volume="${a.volume ?? 1}"${a.mediaStart != null ? ` data-media-start="${a.mediaStart}"` : ''}></audio>`).join('\n');
 
 const index = `<!doctype html>
-<html lang="en">
+<html lang="en"${THEME.mode === 'dark' ? ' class="dark"' : ''}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
@@ -64,6 +64,7 @@ const index = `<!doctype html>
     <link rel="stylesheet" href="assets/css/brand.css" />
     <link rel="stylesheet" href="assets/css/app.css" />
     <link rel="stylesheet" href="assets/css/chat.css" />
+${THEME.mode === 'dark' ? '    <link rel="stylesheet" href="assets/css/dark.css" />\n' : ''}
     <style>
       /* secondary colour: ${THEME.label} */
       :root { --s-rgb: ${THEME.s.join(', ')}; --s2-rgb: ${THEME.s2.join(', ')}; --b3-rgb: ${THEME.b3.join(', ')}; --aura-grad: ${THEME.grad}; }
