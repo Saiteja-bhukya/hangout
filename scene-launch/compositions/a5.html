@@ -160,7 +160,7 @@
 
         var ss = $('a5-s0').querySelector('.app-screen'), st = $('a5-s1').querySelector('.app-screen');
         SC.layout(ss, function () {
-          SC.liftTag(tl, { scr: ss, liftScr: $('a5-rig-ls'), part: 'total', tag: $('a5-t0'), wire: $('a5-t0-w'), side: 'right', dz: 90 }, T(33.6));
+          SC.liftTag(tl, { scr: ss, liftScr: $('a5-rig-ls'), part: 'total', tag: $('a5-t0'), wire: $('a5-t0-w'), side: 'right', dz: 90, dim: 0 }, T(33.6));
           SC.liftTag(tl, { scr: st, liftScr: $('a5-rig-ls1'), part: 'ticket', tag: $('a5-t1'), wire: $('a5-t1-w'), side: 'right', dz: 70, gap: 56 }, T(35.5));
         });
         tl.fromTo('#a5-halo', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.55, ease: 'power2.out' }, T(32.85));

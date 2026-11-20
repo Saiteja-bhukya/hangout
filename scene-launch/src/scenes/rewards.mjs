@@ -33,7 +33,7 @@ export default {
     #rw-badge .tx b { display: block; font: 800 40px 'Urbanist', sans-serif; letter-spacing: 0.04em; color: #3E2D0A; }
     .rw-burst { position: absolute; width: 0; height: 0; }
     .rw-burst .spk { position: absolute; margin: -14px 0 0 -14px; background: radial-gradient(circle, #FFFBEA 0%, #F3DC9A 22%, rgba(233,203,126,0) 60%); clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%); }
-    .rw-burst .ring { position: absolute; left: -160px; top: -160px; width: 320px; height: 320px; border-radius: 50%; border: 5px solid rgba(233, 203, 126, 0.9); }
+    .rw-burst .ring { opacity: 0; position: absolute; left: -160px; top: -160px; width: 320px; height: 320px; border-radius: 50%; border: 5px solid rgba(233, 203, 126, 0.9); }
     #rw-h2 { position: absolute; left: 150px; top: 360px; font-size: 104px; line-height: 1.04; }
     #rw-h3 { position: absolute; left: 150px; top: 420px; font-size: 120px; line-height: 1.04; }
     #rw-cv { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
@@ -90,7 +90,7 @@ export default {
         }
         // camera pushes in toward the ring while it fills
         tl.to('#rw-rig', { scale: 1.18, x: -40, duration: 0.8, ease: 'power2.inOut' }, T(40.1));
-        tl.fromTo('#rw-b1 .ring', { scale: 0.4, opacity: 0.9 }, { scale: 1.9, opacity: 0, duration: 0.7, ease: 'expo.out' }, T(41.15));
+        tl.fromTo('#rw-b1 .ring', { scale: 0.4, opacity: 0.9 }, { scale: 1.9, opacity: 0, duration: 0.7, ease: 'expo.out', immediateRender: false }, T(41.15));
         tl.fromTo('#rw-b1 .spk', { x: 0, y: 0, opacity: 0, scale: 0.3 }, { x: function (i, el) { return parseFloat(el.style.left) * 0.6; }, y: function (i, el) { return parseFloat(el.style.top) * 0.6; }, opacity: 1, scale: 1, duration: 0.45, ease: 'expo.out', stagger: 0.01 }, T(41.15));
         tl.to('#rw-b1 .spk', { opacity: 0, scale: 0.4, duration: 0.3, ease: 'power2.in' }, T(41.7));
         tl.fromTo('#rw-badge', { opacity: 0, scale: 0.5, y: 30 }, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: 'back.out(1.7)' }, T(41.25));
@@ -119,7 +119,7 @@ export default {
           var links = sm.querySelectorAll('.sc-stamp__link');
           if (links[1]) tl.fromTo(links[1], { backgroundImage: 'linear-gradient(90deg, rgba(143,163,191,0.2), rgba(143,163,191,0.2))' }, { backgroundImage: 'linear-gradient(90deg, #12B3DA, #2F6BFF)', duration: 0.2 }, T(43.5));
         }
-        tl.fromTo('#rw-b2 .ring', { scale: 0.3, opacity: 0.9 }, { scale: 1.6, opacity: 0, duration: 0.6, ease: 'expo.out' }, T(43.75));
+        tl.fromTo('#rw-b2 .ring', { scale: 0.3, opacity: 0.9 }, { scale: 1.6, opacity: 0, duration: 0.6, ease: 'expo.out', immediateRender: false }, T(43.75));
         tl.fromTo('#rw-b2 .spk', { x: 0, y: 0, opacity: 0, scale: 0.3 }, { x: function (i, el) { return parseFloat(el.style.left) * 0.5; }, y: function (i, el) { return parseFloat(el.style.top) * 0.5; }, opacity: 1, scale: 1, duration: 0.4, ease: 'expo.out' }, T(43.75));
         tl.to('#rw-b2 .spk', { opacity: 0, scale: 0.4, duration: 0.3, ease: 'power2.in' }, T(44.25));
         SC.wordsOut(tl, $('rw-h2'), T(44.75));

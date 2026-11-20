@@ -41,3 +41,6 @@ html.dark linearGradient[id$="w-g"] stop:nth-child(3) { stop-color: #7FA8FF; }
 /* the film ends on black */
 html.dark #ov-white { background: #000; }
 html.dark #ov-vig { background: radial-gradient(ellipse 75% 70% at 50% 48%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.35) 100%); }
+
+/* no glow flash behind the end mark */
+html.dark #end-flash { display: none !important; }

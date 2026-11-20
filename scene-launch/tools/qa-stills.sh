@@ -9,5 +9,5 @@ i=0; for t in $TIMES; do f=$(printf "%s/%02d_%06.2fs.png" $O $i $t); ffmpeg -log
 ls $O/*.png | sort > $O/_list.txt
 n=0; batch=(); while read -r f; do batch+=("$f"); if [ ${#batch[@]} -eq 6 ]; then
   args=(); fl=""; k=0; for b in "${batch[@]}"; do t=$(basename "$b" .png | cut -d_ -f2); args+=(-i "$b"); fl+="[$k:v]scale=960:540,drawbox=x=0:y=0:w=150:h=44:color=black@0.7:t=fill,drawtext=text='$t':x=12:y=10:fontsize=26:fontcolor=white[v$k];"; k=$((k+1)); done
-  ffmpeg -loglevel error -y "${args[@]}" -filter_complex "${fl}[v0][v1][v2][v3][v4][v5]xstack=inputs=6:layout=0_0|w0_0|0_h0|w0_h0|0_h0+h0|w0_h0+h0[o]" -map "[o]" -q:v 3 $(printf "%s/sheet_%02d.jpg" $O $n); n=$((n+1)); batch=(); fi; done < $O/_list.txt
+  ffmpeg -nostdin -loglevel error -y "${args[@]}" -filter_complex "${fl}[v0][v1][v2][v3][v4][v5]xstack=inputs=6:layout=0_0|w0_0|0_h0|w0_h0|0_h0+h0|w0_h0+h0[o]" -map "[o]" -q:v 3 $(printf "%s/sheet_%02d.jpg" $O $n); n=$((n+1)); batch=(); fi; done < $O/_list.txt
 echo "stills: $(ls $O/*.png | wc -l), sheets: $(ls $O/sheet_*.jpg | wc -l)"
