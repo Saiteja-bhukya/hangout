@@ -13,7 +13,7 @@ const SLOTS = [];
 { let t = 0.12; for (const l of LENS) { SLOTS.push([+t.toFixed(4), +(t + l).toFixed(4)]); t += l; } }
 const RING_T = 2.4;
 // ring positions (screen px) around the headline
-const RING = [[330, 290], [300, 790], [1590, 280], [1620, 790], [600, 960], [1320, 960], [960, 120]];
+const RING = [[330, 240], [300, 560], [1590, 230], [1610, 560], [430, 870], [1490, 875], [960, 905]];
 
 export default {
   id: 'hook', start: 0, duration: 5, track: 1,
@@ -51,10 +51,10 @@ ${ITEMS.map(([, l], i) => `    <div class="lbl hook-lbl" id="hook-l${i}">${l}</d
         st.setCamera({ position: [0, 1, DIST], target: [0, 1, 0], fov: 30 });
         var H = NAMES.map(function (n) { return st.add(n); });
         var world = function (px, py, sc) { return { x: (px - 960) / PXU, y: 1 - (py - 540) / PXU - 0.9 * sc }; };
-        var CEN = [960, 470], BIG = 1.45, SMALL = 0.62;
+        var CEN = [960, 470], BIG = 1.45, SMALL = 0.84;
         var draw = function (t) {
           for (var i = 0; i < H.length; i++) {
-            var h = H[i], s = SLOTS[i], spin = (t * 20 + i * 40) * Math.PI / 180;
+            var h = H[i], s = SLOTS[i], mid = (s[0] + s[1]) / 2, spin = ((t < RING_T ? t - mid : t - 3.0) * 20 + (t < RING_T ? 0 : (i % 2 ? 12 : -12))) * Math.PI / 180;
             if (t < RING_T) {
               var vis = t >= s[0] && t < s[1];
               if (!vis) { h.set({ visible: false }); continue; }

@@ -138,12 +138,12 @@
         var H = OBJ.map(function (o) { return st.add(o[0]); });
         var draw = function (t) {
           for (var i = 0; i < H.length; i++) {
-            var t0 = T(15.25) + i * 0.15, sc = 0.78 * SC.popScale(t, t0, 0.34);
+            var t0 = T(15.25) + i * 0.15, sc = (i === 1 ? 1.1 : 0.98) * SC.popScale(t, t0, 0.34);
             var drop = SC.prog(t, T(17.3) + i * 0.04, T(17.75) + i * 0.04); drop = drop * drop * drop;
             var px = OBJ[i][1], py = OBJ[i][2] + drop * 520;
             var h = H[i];
             h.set({ visible: t >= t0 && drop < 1, x: (px - 960) / PXU, y: 1 - (py - 540) / PXU - 0.9 * sc, z: 0, scale: sc, rotX: 0.18,
-              rotY: (t * 20 + i * 60) * Math.PI / 180, action: SC.prog(t, t0 + 0.2, t0 + 1.8) });
+              rotY: ((t - T(16.4)) * 20 + (i - 1) * 10) * Math.PI / 180, action: SC.prog(t, t0 + 0.2, t0 + 1.8) });
             h.setShadow(0);
           }
           st.render();
