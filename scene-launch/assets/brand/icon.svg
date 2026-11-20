@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%" aria-label="SCENE">
+  <defs>
+    <linearGradient id="ic-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6FE8FA"/><stop offset="0.36" stop-color="#36A9FF"/><stop offset="0.72" stop-color="#2F6BFF"/><stop offset="1" stop-color="#2A4FD6"/>
+    </linearGradient>
+    <linearGradient id="ic-gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="ic-s" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EAF6FF"/>
+    </linearGradient>
+    <radialGradient id="ic-dot">
+      <stop offset="0" stop-color="#fff"/><stop offset="0.35" stop-color="#fff" stop-opacity="0.9"/><stop offset="1" stop-color="#E6FBFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="ic-sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="6.144" stdDeviation="8.192" flood-color="#14307a" flood-opacity="0.35"/></filter>
+    <clipPath id="ic-clip"><rect width="512" height="512" rx="133"/></clipPath>
+  </defs>
+  <g clip-path="url(#ic-clip)">
+    <rect width="512" height="512" fill="url(#ic-bg)"/>
+    <path d="M0 0H512V153.6C358.4 220.16 153.6 220.16 0 184.32Z" fill="url(#ic-gloss)"/>
+    <rect x="1.5" y="1.5" width="509" height="509" rx="131.5" fill="none" stroke="#fff" stroke-opacity="0.35" stroke-width="3"/>
+  </g>
+  <path d="M249.86 448L249.86 448Q219.65 448 192.00 438.40Q164.35 428.80 143.62 410.75Q122.88 392.70 113.66 367.62L113.66 367.62L185.86 340.99Q188.42 348.42 197.25 355.33Q206.08 362.24 219.65 366.72Q233.22 371.20 249.86 371.20L249.86 371.20Q265.22 371.20 278.78 366.72Q292.35 362.24 300.80 354.30Q309.25 346.37 309.25 335.87L309.25 335.87Q309.25 325.12 300.42 318.08Q291.58 311.04 277.89 306.82Q264.19 302.59 249.86 300.54L249.86 300.54Q210.94 294.91 180.10 281.98Q149.25 269.06 131.46 246.27Q113.66 223.49 113.66 188.42L113.66 188.42Q113.66 154.88 132.61 129.66Q151.55 104.45 182.66 90.37Q213.76 76.29 249.86 76.29L249.86 76.29Q280.06 76.29 307.84 85.89Q335.62 95.49 356.35 113.66Q377.09 131.84 386.05 157.18L386.05 157.18L313.86 183.30Q311.30 175.87 302.46 169.09Q293.63 162.30 280.06 157.95Q266.50 153.60 249.86 153.60L249.86 153.60Q235.01 153.34 221.44 157.95Q207.87 162.56 199.17 170.50Q190.46 178.43 190.46 188.42L190.46 188.42Q190.46 202.24 198.66 209.02Q206.85 215.81 220.29 218.62Q233.73 221.44 249.86 223.74L249.86 223.74Q286.72 229.12 317.70 242.94Q348.67 256.77 367.36 279.81Q386.05 302.85 386.05 335.87L386.05 335.87Q386.05 369.41 367.23 394.62Q348.42 419.84 317.44 433.92Q286.46 448 249.86 448Z" fill="url(#ic-s)" filter="url(#ic-sh)"/>
+  <circle cx="404.0" cy="99.3" r="43.52" fill="url(#ic-dot)" opacity="0.85"/>
+  <circle cx="404.0" cy="99.3" r="13.312" fill="#fff"/>
+</svg>

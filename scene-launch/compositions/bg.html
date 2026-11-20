@@ -1,0 +1,37 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+
+    #bg-base { position: absolute; inset: 0; background: #EEF3FA; }
+    #bg-base-g { position: absolute; inset: 0; background: #ECEEF1; opacity: 0; }
+    .bg-blob { position: absolute; }
+    .bg-blob .bc, .bg-blob .bgr { position: absolute; inset: 0; border-radius: 50%; }
+    .bg-blob .bgr { opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="bg" data-width="1920" data-height="1080">
+    <div id="bg-base"></div>
+    <div id="bg-base-g"></div>
+    <div class="bg-blob" id="bg-b1" style="left:-380px;top:-520px;width:1500px;height:1500px"><div class="bc" style="background:radial-gradient(circle at 50% 50%, #C9DBFF 0%, #C9DBFFE6 22%, #C9DBFF80 44%, #C9DBFF00 70%)"></div><div class="bgr" style="background:radial-gradient(circle at 50% 50%, #D9DDE3 0%, #D9DDE3E6 22%, #D9DDE380 44%, #D9DDE300 70%)"></div></div>
+    <div class="bg-blob" id="bg-b2" style="left:1060px;top:260px;width:1400px;height:1400px"><div class="bc" style="background:radial-gradient(circle at 50% 50%, #BFF1FA 0%, #BFF1FAE6 22%, #BFF1FA80 44%, #BFF1FA00 70%)"></div><div class="bgr" style="background:radial-gradient(circle at 50% 50%, #E2E5E9 0%, #E2E5E9E6 22%, #E2E5E980 44%, #E2E5E900 70%)"></div></div>
+    <div class="bg-blob" id="bg-b3" style="left:180px;top:520px;width:1300px;height:1300px"><div class="bc" style="background:radial-gradient(circle at 50% 50%, #D9CCFF 0%, #D9CCFFE6 22%, #D9CCFF80 44%, #D9CCFF00 70%)"></div><div class="bgr" style="background:radial-gradient(circle at 50% 50%, #D6D9DF 0%, #D6D9DFE6 22%, #D6D9DF80 44%, #D6D9DF00 70%)"></div></div>
+  </div>
+  <script>
+    (function () {
+      var S0 = 0, S1 = 60, D = 60;
+      var $ = function (id) { return document.getElementById(id); };
+      var tl = gsap.timeline({ paused: true });
+
+      [["bg-b1",[[0,0],[160,90],[60,180],[200,60]]],["bg-b2",[[0,0],[-140,-80],[-60,-170],[-180,-40]]],["bg-b3",[[0,0],[120,-110],[220,-30],[90,-140]]]].forEach(function (b) {
+        var k = b[1];
+        tl.fromTo('#' + b[0], { x: k[0][0], y: k[0][1] }, { x: k[1][0], y: k[1][1], duration: 20, ease: 'sine.inOut' }, 0);
+        tl.to('#' + b[0], { x: k[2][0], y: k[2][1], duration: 20, ease: 'sine.inOut' }, 20);
+        tl.to('#' + b[0], { x: k[3][0], y: k[3][1], duration: 20, ease: 'sine.inOut' }, 40);
+      });
+      // Pain: desaturate to cool grey at 5.0 s; colour floods back at 12.5 s
+      tl.fromTo(['#bg-base-g', '#bg-b1 .bgr', '#bg-b2 .bgr', '#bg-b3 .bgr'], { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.inOut' }, 5.0);
+      tl.to(['#bg-base-g', '#bg-b1 .bgr', '#bg-b2 .bgr', '#bg-b3 .bgr'], { opacity: 0, duration: 0.4, ease: 'power2.inOut' }, 12.5);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["bg"] = tl;
+    })();
+  </script>
+</template>

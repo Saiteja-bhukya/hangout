@@ -1,0 +1,157 @@
+/* SCENE film — light-world brand system (scenes). App screens live in app.css. */
+:root {
+  --navy: #0B1A2E;
+  --muted: #5A6B80;
+  --blue: #2F6BFF;
+  --cyan: #12B3DA;
+  --lilac: #B7A9FF;
+  --gold: #E9CB7E;
+  --mint: #6FE3B5;
+  --ground: #EEF3FA;
+  --grad: linear-gradient(90deg, #2F6BFF 0%, #12B3DA 100%);
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-shadow: 0 24px 60px rgba(30, 60, 120, 0.16);
+}
+
+/* ---------- glass ---------- */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  box-shadow: var(--glass-shadow), inset 0 0 0 1.5px rgba(255, 255, 255, 0.9);
+}
+/* glass without backdrop (inside 3D-transformed rigs, where backdrop-filter is unreliable) */
+.glass-solid {
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 18px 44px rgba(30, 60, 120, 0.18), inset 0 0 0 1.5px rgba(255, 255, 255, 1);
+}
+
+/* ---------- type ---------- */
+.hl {
+  font-family: 'Urbanist', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 0.98;
+  color: var(--navy);
+  white-space: nowrap;
+}
+.hl .w { display: inline-block; }
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lbl {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--navy);
+}
+.num { font-family: 'Rajdhani', sans-serif; font-weight: 700; }
+
+/* ---------- pills, chips, tags ---------- */
+.chip-g {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 64px;
+  padding: 0 28px 0 18px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--navy);
+  white-space: nowrap;
+}
+.chip-g .ic {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(160deg, #2F6BFF, #12B3DA);
+  color: #fff;
+}
+.chip-g .ic svg { width: 22px; height: 22px; }
+
+.tag {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border-radius: 18px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--navy);
+  white-space: nowrap;
+}
+.tag .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--grad); }
+
+.sorted {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 70px;
+  padding: 0 34px 0 22px;
+  border-radius: 999px;
+  background: var(--grad);
+  color: #fff;
+  font-family: 'Urbanist', sans-serif;
+  font-weight: 800;
+  font-size: 30px;
+  letter-spacing: 0.08em;
+  box-shadow: 0 18px 40px rgba(47, 107, 255, 0.35), inset 0 0 0 1.5px rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+}
+.sorted svg { width: 34px; height: 34px; }
+
+/* question bubble (answers section) */
+.qbubble {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+}
+.qbubble .av {
+  width: 72px; height: 72px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Urbanist', sans-serif; font-weight: 800; font-size: 32px; color: #fff;
+  flex: none;
+}
+.qbubble .body {
+  padding: 22px 30px 24px;
+  border-radius: 30px 30px 30px 8px;
+  max-width: 640px;
+}
+.qbubble .who { font: 700 20px 'Rajdhani', sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.qbubble .txt { font: 600 40px/1.18 'Inter', sans-serif; color: var(--navy); }
+
+/* avatar colours (crew) */
+.av-rohan { background: linear-gradient(160deg, #5B8CFF, #2F6BFF); }
+.av-meera { background: linear-gradient(160deg, #C7B9FF, #8E7BFF); }
+.av-you { background: linear-gradient(160deg, #36D6F2, #12B3DA); }
+
+/* thin connector lines */
+.wire { position: absolute; height: 2px; background: linear-gradient(90deg, rgba(47,107,255,.85), rgba(18,179,218,.85)); transform-origin: 0 50%; }
+
+/* light-world blobs */
+.blob { position: absolute; border-radius: 50%; }
+
+/* phone rig used by scenes: rig (animated) > phone (static) + lift layer */
+.rig { position: absolute; transform-style: preserve-3d; }
+.lift { position: absolute; left: 0; top: 0; transform-style: preserve-3d; pointer-events: none; }
+.persp { position: absolute; inset: 0; perspective: 2200px; perspective-origin: 50% 45%; }
+
+/* lift layer screen wrapper: keeps app.css scoping for cloned parts, without the screen's own surface */
+.app-screen.lift-scr { position: absolute !important; left: 0; top: 0; background: transparent !important; overflow: visible !important; box-shadow: none !important; border: 0 !important; pointer-events: none; transform-style: preserve-3d; }
+.app-screen.lift-scr::before, .app-screen.lift-scr::after { display: none !important; }
+.app-screen.lift-scr > * { visibility: visible; }
+[data-lifted] { box-shadow: 0 26px 50px rgba(0, 10, 30, 0.45), 0 0 0 1.5px rgba(54, 214, 242, 0.55) !important; }
+.tag3d { position: absolute; display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 16px; font: 600 23px 'Inter', sans-serif; color: var(--navy); white-space: nowrap; }
+.tag3d .dot { width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(90deg, #2F6BFF, #12B3DA); flex: none; }
+.wire3d { position: absolute; height: 2px; background: linear-gradient(90deg, rgba(47,107,255,0.9), rgba(18,179,218,0.9)); }
+.wire3d::after { content: ''; position: absolute; right: -5px; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: #12B3DA; box-shadow: 0 0 0 3px rgba(255,255,255,0.9); }
+.wire3d.l::after { right: auto; left: -5px; }

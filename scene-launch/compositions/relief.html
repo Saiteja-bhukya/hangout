@@ -1,0 +1,74 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+
+    #rl-white { position: absolute; inset: 0; background: #fff; }
+    #rl-flood { position: absolute; left: 960px; top: 470px; width: 2400px; height: 2400px; margin: -1200px 0 0 -1200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(111,232,250,0.55) 0%, rgba(54,169,255,0.35) 30%, rgba(47,107,255,0.12) 52%, rgba(47,107,255,0) 70%); }
+    #rl-ring { position: absolute; left: 960px; top: 470px; width: 340px; height: 340px; margin: -170px 0 0 -170px; border-radius: 30%;
+      border: 6px solid rgba(255,255,255,0.95); box-shadow: 0 0 40px rgba(111,232,250,0.9), inset 0 0 30px rgba(111,232,250,0.6); }
+    #rl-icon { position: absolute; left: 820px; top: 330px; width: 280px; height: 280px; filter: drop-shadow(0 30px 50px rgba(30,60,120,0.28)); }
+    #rl-word { position: absolute; left: 820px; top: 450px; width: 0; height: 100px; overflow: hidden; }
+    #rl-word-in { width: 529px; height: 100px; }
+    #rl-tag { position: absolute; left: 0; right: 0; top: 690px; text-align: center; font-size: 70px; letter-spacing: 0.08em; }
+  </style>
+  <div id="root" data-composition-id="relief" data-width="1920" data-height="1080">
+    <div id="rl-flood" data-layout-ignore></div>
+    <div id="rl-white" data-layout-ignore></div>
+    <div id="rl-ring" data-layout-ignore></div>
+    <div id="rl-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%" aria-label="SCENE">
+  <defs>
+    <linearGradient id="rl-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6FE8FA"/><stop offset="0.36" stop-color="#36A9FF"/><stop offset="0.72" stop-color="#2F6BFF"/><stop offset="1" stop-color="#2A4FD6"/>
+    </linearGradient>
+    <linearGradient id="rl-gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="rl-s" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EAF6FF"/>
+    </linearGradient>
+    <radialGradient id="rl-dot">
+      <stop offset="0" stop-color="#fff"/><stop offset="0.35" stop-color="#fff" stop-opacity="0.9"/><stop offset="1" stop-color="#E6FBFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="rl-sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="6.144" stdDeviation="8.192" flood-color="#14307a" flood-opacity="0.35"/></filter>
+    <clipPath id="rl-clip"><rect width="512" height="512" rx="133"/></clipPath>
+  </defs>
+  <g clip-path="url(#rl-clip)">
+    <rect width="512" height="512" fill="url(#rl-bg)"/>
+    <path d="M0 0H512V153.6C358.4 220.16 153.6 220.16 0 184.32Z" fill="url(#rl-gloss)"/>
+    <rect x="1.5" y="1.5" width="509" height="509" rx="131.5" fill="none" stroke="#fff" stroke-opacity="0.35" stroke-width="3"/>
+  </g>
+  <path d="M249.86 448L249.86 448Q219.65 448 192.00 438.40Q164.35 428.80 143.62 410.75Q122.88 392.70 113.66 367.62L113.66 367.62L185.86 340.99Q188.42 348.42 197.25 355.33Q206.08 362.24 219.65 366.72Q233.22 371.20 249.86 371.20L249.86 371.20Q265.22 371.20 278.78 366.72Q292.35 362.24 300.80 354.30Q309.25 346.37 309.25 335.87L309.25 335.87Q309.25 325.12 300.42 318.08Q291.58 311.04 277.89 306.82Q264.19 302.59 249.86 300.54L249.86 300.54Q210.94 294.91 180.10 281.98Q149.25 269.06 131.46 246.27Q113.66 223.49 113.66 188.42L113.66 188.42Q113.66 154.88 132.61 129.66Q151.55 104.45 182.66 90.37Q213.76 76.29 249.86 76.29L249.86 76.29Q280.06 76.29 307.84 85.89Q335.62 95.49 356.35 113.66Q377.09 131.84 386.05 157.18L386.05 157.18L313.86 183.30Q311.30 175.87 302.46 169.09Q293.63 162.30 280.06 157.95Q266.50 153.60 249.86 153.60L249.86 153.60Q235.01 153.34 221.44 157.95Q207.87 162.56 199.17 170.50Q190.46 178.43 190.46 188.42L190.46 188.42Q190.46 202.24 198.66 209.02Q206.85 215.81 220.29 218.62Q233.73 221.44 249.86 223.74L249.86 223.74Q286.72 229.12 317.70 242.94Q348.67 256.77 367.36 279.81Q386.05 302.85 386.05 335.87L386.05 335.87Q386.05 369.41 367.23 394.62Q348.42 419.84 317.44 433.92Q286.46 448 249.86 448Z" fill="url(#rl-s)" filter="url(#rl-sh)"/>
+  <circle cx="404" cy="99.3" r="43.52" fill="url(#rl-dot)" opacity="0.85"/>
+  <circle cx="404" cy="99.3" r="13.312" fill="#fff"/>
+</svg></div>
+    <div id="rl-word"><div id="rl-word-in"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -140.0 741 140" width="100%" height="100%" aria-label="SCENE">
+  <defs><linearGradient id="rlw-g" x1="0" y1="0" x2="741" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0B1A2E"/><stop offset="0.55" stop-color="#1D3F8F"/><stop offset="1" stop-color="#2F6BFF"/></linearGradient></defs>
+  <path d="M63.20 2.60L63.20 2.60Q51.40 2.60 40.60-1.15Q29.80-4.90 21.70-11.95Q13.60-19 10-28.80L10-28.80L38.20-39.20Q39.20-36.30 42.65-33.60Q46.10-30.90 51.40-29.15Q56.70-27.40 63.20-27.40L63.20-27.40Q69.20-27.40 74.50-29.15Q79.80-30.90 83.10-34Q86.40-37.10 86.40-41.20L86.40-41.20Q86.40-45.40 82.95-48.15Q79.50-50.90 74.15-52.55Q68.80-54.20 63.20-55L63.20-55Q48-57.20 35.95-62.25Q23.90-67.30 16.95-76.20Q10-85.10 10-98.80L10-98.80Q10-111.90 17.40-121.75Q24.80-131.60 36.95-137.10Q49.10-142.60 63.20-142.60L63.20-142.60Q75-142.60 85.85-138.85Q96.70-135.10 104.80-128Q112.90-120.90 116.40-111L116.40-111L88.20-100.80Q87.20-103.70 83.75-106.35Q80.30-109 75-110.70Q69.70-112.40 63.20-112.40L63.20-112.40Q57.40-112.50 52.10-110.70Q46.80-108.90 43.40-105.80Q40-102.70 40-98.80L40-98.80Q40-93.40 43.20-90.75Q46.40-88.10 51.65-87Q56.90-85.90 63.20-85L63.20-85Q77.60-82.90 89.70-77.50Q101.80-72.10 109.10-63.10Q116.40-54.10 116.40-41.20L116.40-41.20Q116.40-28.10 109.05-18.25Q101.70-8.40 89.60-2.90Q77.50 2.60 63.20 2.60Z M231.20 2.60L231.20 2.60Q217 2.60 204.50-3.05Q192-8.70 182.55-18.70Q173.10-28.70 167.75-41.85Q162.40-55 162.40-70L162.40-70Q162.40-85.10 167.75-98.25Q173.10-111.40 182.55-121.35Q192-131.30 204.50-136.95Q217-142.60 231.20-142.60L231.20-142.60Q248.20-142.60 262.50-134.75Q276.80-126.90 286.20-113.80L286.20-113.80L259.40-99.40Q254.20-105.40 246.90-109Q239.60-112.60 231.20-112.60L231.20-112.60Q223.20-112.60 216.15-109.30Q209.10-106 203.75-100.15Q198.40-94.30 195.40-86.60Q192.40-78.90 192.40-70L192.40-70Q192.40-61.20 195.40-53.50Q198.40-45.80 203.75-39.95Q209.10-34.10 216.15-30.75Q223.20-27.40 231.20-27.40L231.20-27.40Q239.60-27.40 246.90-31.05Q254.20-34.70 259.40-40.80L259.40-40.80L286.20-26.20Q276.80-13.20 262.50-5.30Q248.20 2.60 231.20 2.60Z M425.40 0L336.20 0L336.20-140L425.40-140L425.40-110L366.20-110L366.20-90L411.80-90L411.80-60L366.20-60L366.20-30L425.40-30L425.40 0Z M505.40 0L475.40 0L475.40-140L507.80-140L559-54.20L559-140L589-140L589 0L556.60 0L505.40-85.80L505.40 0Z M730.20 0L641 0L641-140L730.20-140L730.20-110L671-110L671-90L716.60-90L716.60-60L671-60L671-30L730.20-30L730.20 0Z" fill="url(#rlw-g)"/>
+</svg></div></div>
+    <div class="hl" id="rl-tag"><span class="w">PLAN IT.</span> <span class="w">BOOK IT.</span> <span class="w grad-text">PLAY IT.</span></div>
+  </div>
+  <script>
+    (function () {
+      var S0 = 12.5, S1 = 15, D = 2.5;
+      var $ = function (id) { return document.getElementById(id); };
+      var tl = gsap.timeline({ paused: true });
+
+      var T = function (a) { return a - S0; };
+      // the white silence floods away into colour
+      tl.fromTo('#rl-white', { opacity: 1 }, { opacity: 0, duration: 0.42, ease: 'power2.inOut' }, T(12.5));
+      tl.fromTo('#rl-flood', { scale: 0.05, opacity: 1 }, { scale: 1, opacity: 0, duration: 0.9, ease: 'expo.out' }, T(12.5));
+      // icon bursts in with a light ring
+      tl.fromTo('#rl-icon', { scale: 0.4, opacity: 0, rotation: -8 }, { scale: 1.08, opacity: 1, rotation: 0, duration: 0.26, ease: 'back.out(1.8)' }, T(12.55));
+      tl.to('#rl-icon', { scale: 1, duration: 0.2, ease: 'power2.out' }, T(12.81));
+      tl.fromTo('#rl-ring', { scale: 0.7, opacity: 0.95 }, { scale: 2.3, opacity: 0, duration: 0.6, ease: 'expo.out' }, T(12.56));
+      // lockup: icon slides left and shrinks, wordmark wipes in from the left
+      tl.to('#rl-icon', { x: -287, y: 30, scale: 0.72, duration: 0.5, ease: 'power3.inOut' }, T(13.05));
+      tl.fromTo('#rl-word', { width: 0 }, { width: 529, duration: 0.5, ease: 'power3.out' }, T(13.3));
+      // tagline, phrase by phrase on the beat
+      SC.wordsIn(tl, $('rl-tag'), T(13.75), { gap: 0.3, dur: 0.18 });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["relief"] = tl;
+    })();
+  </script>
+</template>

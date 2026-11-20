@@ -1,0 +1,5 @@
+.hyperframes/artifacts/
+.hyperframes/video-state-lock
+tools/_*.html
+renders/
+node_modules/

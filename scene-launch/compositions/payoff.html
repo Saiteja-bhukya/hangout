@@ -1,0 +1,70 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+
+    #po-rig { left: 300px; top: 100px; width: 421px; height: 880px; }
+    #po-hl { position: absolute; left: 1040px; top: 300px; font-size: 110px; line-height: 1.04; }
+  </style>
+  <div id="root" data-composition-id="payoff" data-width="1920" data-height="1080">
+    <div class="rig" id="po-rig"><div class="phone">
+  <span class="phone__btn phone__btn--action"></span><span class="phone__btn phone__btn--volup"></span><span class="phone__btn phone__btn--voldn"></span><span class="phone__btn phone__btn--power"></span>
+  <div class="phone__bezel"></div>
+  <div class="phone__screen"><div class="app-screen chat chat--colour">
+  <div class="ch-status"><span>9:41</span><span class="ch-sb"><i></i><i></i><i></i><i></i><b></b></span></div>
+  <div class="ch-head">
+    <span class="ch-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></span>
+    <div class="ch-stack"><span class="ch-av av-rohan">R</span><span class="ch-av av-meera">M</span><span class="ch-av av-you">Y</span></div>
+    <div class="ch-title"><div class="ch-t1">Sunday plan</div><div class="ch-t2">Rohan, Meera, You</div></div>
+    <span class="ch-hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6.5" width="12.5" height="11" rx="3"/><path d="M15.5 10.5l5-3v9l-5-3"/></svg></span><span class="ch-hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h3.2l1.6 4-2.1 1.3a11 11 0 0 0 6.5 6.5l1.3-2.1 4 1.6V19a1.5 1.5 0 0 1-1.6 1.5A16 16 0 0 1 3.5 6.1 1.5 1.5 0 0 1 5 4.5z"/></svg></span>
+  </div>
+  <div class="ch-body"><div class="ch-list" id="po-list"><div class="ch-item ch-msg ch-theirs" id="po-m0"><div class="ch-av av-rohan">R</div><div class="ch-col"><div class="ch-name ch-name--rohan">Rohan</div><div class="ch-bub">So what's the plan this Sunday?</div></div></div><div class="ch-item ch-msg ch-theirs" id="po-m1"><div class="ch-av av-meera">M</div><div class="ch-col"><div class="ch-name ch-name--meera">Meera</div><div class="ch-bub">Bowling?</div></div></div><div class="ch-item ch-msg ch-mine" id="po-m2"><div class="ch-col"><div class="ch-bub">Check this</div></div></div><div class="ch-item ch-msg ch-mine" id="po-m3"><div class="ch-col"><div class="ch-card">
+  <div class="ch-card-top"><span class="ch-card-logo">S</span><span>BOOKED VIA SCENE</span></div>
+  <div class="ch-card-body">
+    <div class="ch-card-title">Holodeck VR</div>
+    <div class="ch-card-row">Sun, 22 Nov · 6:00 pm</div>
+    <div class="ch-card-row">3 players · Rohan, Meera, You</div>
+    <div class="ch-card-btn">View ticket</div>
+  </div>
+</div></div></div><div class="ch-item ch-msg ch-theirs" id="po-m4"><div class="ch-av av-rohan">R</div><div class="ch-col"><div class="ch-name ch-name--rohan">Rohan</div><div class="ch-bub">Wait, it's booked already??</div></div></div><div class="ch-item ch-msg ch-theirs" id="po-m5"><div class="ch-av av-meera">M</div><div class="ch-col"><div class="ch-name ch-name--meera">Meera</div><div class="ch-bub">Finally!! See you at 6</div></div></div><div class="ch-item ch-msg ch-theirs" id="po-m6"><div class="ch-av av-rohan">R</div><div class="ch-col"><div class="ch-name ch-name--rohan">Rohan</div><div class="ch-bub">Same plan next Sunday?</div></div></div></div></div>
+  <div class="ch-input"><span class="ch-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><div class="ch-field">Message</div><span class="ch-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v2.5"/></svg></span></div>
+</div></div>
+  <div class="phone__island"><span class="phone__lens"></span></div>
+  <div class="phone__glare"></div>
+</div></div>
+    <div class="hl" id="po-hl"><span class="w">LESS</span><br /><span class="w">PLANNING.</span><br /><span class="w">MORE</span><br /><span class="w grad-text">SCENES.</span></div>
+  </div>
+  <script>
+    (function () {
+      var S0 = 48, S1 = 54, D = 6;
+      var $ = function (id) { return document.getElementById(id); };
+      var tl = gsap.timeline({ paused: true });
+
+      var T = function (a) { return a - S0; };
+      var TIMES = [null,null,48.45,48.75,49.75,50.55,51.35];
+      document.fonts.ready.then(function () {
+        // phone carries in from the right, camera settles pushed-in on the conversation
+        tl.fromTo('#po-rig', { x: 260, y: 40, opacity: 0, scale: 1.0, transformOrigin: '210px 757px' },
+          { x: 0, y: 0, opacity: 1, duration: 0.5, ease: 'expo.out' }, T(48.0));
+        tl.to('#po-rig', { scale: 1.42, x: 90, duration: 0.6, ease: 'power2.inOut' }, T(48.55));
+
+        var items = [], gap = 8;
+        for (var i = 0; i < TIMES.length; i++) items.push($('po-m' + i));
+        var h = items.map(function (el) { return el.offsetHeight + gap; });
+        var below = function (k) { var s = 0; for (var j = k + 1; j < h.length; j++) s += h[j]; return s; };
+        tl.set('#po-list', { y: below(1) }, 0);
+        items.forEach(function (el, k) {
+          if (TIMES[k] == null) return;
+          var t = T(TIMES[k]);
+          tl.to('#po-list', { y: below(k), duration: 0.26, ease: 'power3.out' }, t);
+          var mine = el.classList.contains('ch-mine');
+          tl.fromTo(el, { opacity: 0, scale: 0.86, transformOrigin: mine ? '100% 100%' : '0% 100%' },
+            { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(1.6)' }, t);
+        });
+        SC.wordsIn(tl, $('po-hl'), T(50.1), { gap: 0.16, dur: 0.2 });
+        window.__timelines = window.__timelines || {};
+        window.__timelines['payoff'] = tl;
+      });
+      // (registered at the end of its async build above)
+    })();
+  </script>
+</template>
