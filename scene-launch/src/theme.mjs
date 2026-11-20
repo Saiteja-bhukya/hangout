@@ -12,10 +12,10 @@ export const THEMES = {
     rim: '#9BE15D', particles: ['#FFFFFF', '#6FE8FA', '#36A9FF', '#2F6BFF', '#8EDB2F', '#CDF58F'],
   },
   gold: {
-    label: 'Halo Gold', s: [244, 205, 90], s2: [255, 234, 168], b3: [255, 240, 199],
+    label: 'Halo Gold', s: [244, 200, 74], s2: [255, 226, 140], b3: [255, 231, 160],
     grad: 'linear-gradient(90deg, #2F6BFF 0%, #12B3DA 100%)',
     rim: '#F4CD5A', particles: ['#FFFFFF', '#6FE8FA', '#36A9FF', '#2F6BFF', '#F4CD5A', '#FFEAA8'],
   },
 };
-export const THEME_KEY = process.env.THEME || 'rose';
+export const THEME_KEY = process.env.THEME || 'gold'; // chosen: Halo Gold
 export const THEME = THEMES[THEME_KEY];

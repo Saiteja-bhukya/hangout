@@ -47,6 +47,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 0 16px rgba(var(--s-rgb), 0.8)) drop-shadow(0 0 3px rgba(var(--s-rgb), 0.5));
 }
 .lbl {
   font-family: 'Rajdhani', sans-serif;
@@ -156,15 +157,15 @@
 .app-screen.lift-scr > * { visibility: visible; }
 [data-lifted] { box-shadow: 0 30px 60px rgba(0, 10, 30, 0.5) !important; }
 .tag3d { position: absolute; display: inline-flex; align-items: center; gap: 12px; padding: 14px 24px 15px 20px; border-radius: 18px; font: 600 28px 'Inter', sans-serif; color: var(--navy); white-space: nowrap; background: rgba(255,255,255,0.94) !important; box-shadow: 0 18px 40px rgba(20, 50, 110, 0.22), inset 0 0 0 1.5px rgba(47, 107, 255, 0.18) !important; }
-.tag3d .dot { width: 12px; height: 12px; }
+.tag3d .dot { width: 12px; height: 12px; background: rgb(var(--s-rgb)); box-shadow: 0 0 10px rgba(var(--s-rgb), 0.9); }
 .tag3d .dot { width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(90deg, #2F6BFF, #12B3DA); flex: none; }
 .wire3d { position: absolute; height: 2px; background: linear-gradient(90deg, rgba(47,107,255,0.9), rgba(18,179,218,0.9)); }
-.wire3d::after { content: ''; position: absolute; right: -5px; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: #12B3DA; box-shadow: 0 0 0 3px rgba(255,255,255,0.9); }
+.wire3d::after { content: ''; position: absolute; right: -5px; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: rgb(var(--s-rgb)); box-shadow: 0 0 0 3px rgba(255,255,255,0.9), 0 0 12px rgba(var(--s-rgb), 0.9); }
 .wire3d.l::after { right: auto; left: -5px; }
 
 /* ---------- aura: the godly light (white core → cyan → blue → violet bloom) ---------- */
 .aura { position: absolute; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(closest-side, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 9%, rgba(160,240,252,0.55) 20%, rgba(111,232,250,0.4) 30%, rgba(47,107,255,0.22) 44%, rgba(var(--s-rgb), 0.3) 58%, rgba(var(--s2-rgb), 0.14) 74%, rgba(var(--s2-rgb), 0) 100%); }
+  background: radial-gradient(closest-side, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 9%, rgba(160,240,252,0.55) 20%, rgba(111,232,250,0.4) 30%, rgba(47,107,255,0.22) 44%, rgba(var(--s-rgb), 0.42) 58%, rgba(var(--s2-rgb), 0.22) 74%, rgba(var(--s2-rgb), 0) 100%); }
 .aura-rays { position: absolute; border-radius: 50%; pointer-events: none;
   background: repeating-conic-gradient(from 0deg, rgba(var(--s2-rgb), 0.30) 0deg 3deg, rgba(var(--s2-rgb), 0) 3deg 10deg, rgba(111,232,250,0.26) 10deg 12deg, rgba(111,232,250,0) 12deg 21deg);
   -webkit-mask-image: radial-gradient(closest-side, rgba(0,0,0,0) 14%, #000 26%, rgba(0,0,0,0.5) 55%, transparent 100%);
@@ -173,4 +174,4 @@
   box-shadow: 0 0 30px rgba(111,232,250,0.8), 0 0 70px rgba(var(--s-rgb), 0.55), inset 0 0 26px rgba(var(--s2-rgb), 0.6); }
 /* soft halo behind the dark phones once SCENE is on screen */
 .aura-soft { position: absolute; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(closest-side, rgba(111,232,250,0.40) 0%, rgba(47,107,255,0.20) 40%, rgba(var(--s-rgb), 0.26) 64%, rgba(var(--s2-rgb), 0) 100%); }
+  background: radial-gradient(closest-side, rgba(111,232,250,0.40) 0%, rgba(47,107,255,0.20) 40%, rgba(var(--s-rgb), 0.36) 64%, rgba(var(--s2-rgb), 0) 100%); }
