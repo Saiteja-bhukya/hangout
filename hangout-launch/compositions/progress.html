@@ -1,0 +1,160 @@
+<template>
+  <style>
+    @font-face { font-family: "Urbanist"; src: url("assets/fonts/Urbanist.woff2") format("woff2"); font-weight: 400 800; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-600.woff2") format("woff2"); font-weight: 600; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-700.woff2") format("woff2"); font-weight: 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #080D16; color: #F4F8FC; font-family: "Urbanist", sans-serif; }
+    .bg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    .scr { mix-blend-mode: screen; pointer-events: none; }
+    .stage { position: absolute; inset: 0; perspective: 1900px; perspective-origin: 50% 46%; transform-style: preserve-3d; }
+    .ph { position: absolute; width: 433px; height: 892px; transform-style: preserve-3d; }
+    .ph-sh { position: absolute; left: 8px; top: 8px; right: 8px; bottom: 8px; border-radius: 60px;
+             box-shadow: 0 60px 120px rgba(0,0,0,.72), 0 20px 40px rgba(0,0,0,.5), 0 0 70px rgba(54,214,242,.22); }
+    .ph-scr { position: absolute; left: 20px; top: 20px; width: 393px; height: 852px; border-radius: 55px; overflow: hidden; background: #080D16; }
+    .ph-scr img { position: absolute; left: 0; top: 0; width: 393px; height: 852px; }
+    .ph-dim { position: absolute; left: 0; top: 0; width: 393px; height: 852px; background: #080D16; opacity: 0; }
+    .ph-fr { position: absolute; left: 0; top: 0; width: 433px; height: 892px; }
+    .hl { position: absolute; font-family: "Urbanist", sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; line-height: 1; color: #F4F8FC; white-space: nowrap; }
+    .hl span { display: inline-block; }
+    .cy { color: #36D6F2; text-shadow: 0 0 18px rgba(54,214,242,.55), 0 0 44px rgba(54,214,242,.28); }
+    .lbl { font-family: "Rajdhani", sans-serif; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+    #g-gold { opacity: 0; }
+    .g-h { left: 1040px; top: 150px; font-size: 100px; opacity: 0; }
+    .g-h2 { left: 1040px; top: 262px; font-size: 100px; opacity: 0; }
+    #g-cnt { position: absolute; left: 1040px; top: 330px; font-size: 200px; line-height: 1; color: #F4F8FC; opacity: 0; letter-spacing: .02em; }
+    #g-cnt small { font-size: 72px; color: #36D6F2; letter-spacing: .08em; margin-left: 18px; }
+    .chip { position: absolute; left: 1046px; padding: 14px 30px; border-radius: 40px; font-size: 40px; color: #F4F8FC; opacity: 0;
+            background: rgba(20,34,53,.78); border: 2px solid rgba(54,214,242,.45); box-shadow: 0 0 28px rgba(54,214,242,.18); }
+    .chip b { color: #36D6F2; }
+    .orb { position: absolute; left: 0; top: 0; width: 84px; height: 84px; opacity: 0; }
+    #g-ring { position: absolute; left: 1090px; top: 400px; width: 400px; height: 400px; opacity: 0; }
+    #g-ring .lv { position: absolute; left: 0; top: 118px; width: 400px; text-align: center; font-size: 40px; color: #93A5BA; }
+    #g-ring .num { position: absolute; left: 0; top: 150px; width: 400px; text-align: center; font-family: "Rajdhani", sans-serif; font-weight: 700; font-size: 150px; line-height: 1; color: #F4F8FC; }
+    #g-n10 { opacity: 0; }
+    #g-burst { position: absolute; left: 920px; top: 230px; width: 740px; height: 740px; opacity: 0; }
+    #g-badge10 { position: absolute; left: 1520px; top: 470px; width: 260px; height: 260px; opacity: 0; }
+    #g-mission { position: absolute; left: 1140px; top: 450px; width: 300px; height: 300px; opacity: 0; }
+    #g-flash { position: absolute; left: 1360px; top: 340px; width: 520px; height: 520px; opacity: 0; }
+    #g-check { position: absolute; left: 1520px; top: 500px; width: 200px; height: 200px; opacity: 0; }
+    #g-rburst { position: absolute; left: 1050px; top: 180px; width: 760px; height: 760px; opacity: 0; }
+    #g-rlabel { position: absolute; left: 1130px; top: 800px; width: 600px; height: 90px; opacity: 0; }
+    .coin { position: absolute; left: 1375px; top: 640px; width: 110px; height: 110px; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="progress" data-width="1920" data-height="1080">
+    <img class="bg" src="assets/derived/atmospheric_blue_lilac_16x9_bg.jpg" alt="" />
+    <img id="g-gold" class="bg" src="assets/derived/atmospheric_navy_gold_16x9_bg.jpg" alt="" />
+    <div id="g-st" class="stage">
+      <div id="g-b" class="ph" style="left:343.5px;top:94px"><div class="ph-sh"></div><div class="ph-scr"><img id="g-s16" src="assets/HANGOUT_Film_Kit/screens/S16Missions.png" alt="S16Missions" /><img id="g-s18" src="assets/HANGOUT_Film_Kit/screens/S18Rewards.png" alt="S18Rewards" /><div id="g-b-dim" class="ph-dim"></div></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+      <div id="g-f" class="ph" style="left:343.5px;top:94px"><div class="ph-sh"></div><div class="ph-scr"><img id="g-s14" src="assets/HANGOUT_Film_Kit/screens/S14XP.png" alt="S14XP" /><img id="g-s15" src="assets/HANGOUT_Film_Kit/screens/S15Levels.png" alt="S15Levels" /><img id="g-s17" src="assets/HANGOUT_Film_Kit/screens/S17Mission.png" alt="S17Mission" /><img id="g-s19" src="assets/HANGOUT_Film_Kit/screens/S19Redeem.png" alt="S19Redeem" /></div><img class="ph-fr" src="assets/HANGOUT_Ad_Asset_Library/03_Motion_Graphics/floating_ui/phone_frame_vector.svg" alt="" /></div>
+    </div>
+    <div id="g-h1" class="hl g-h"><span>Play</span> <span class="cy">more.</span></div>
+    <div id="g-cnt" class="lbl"><span id="g-num">3,230</span><small>XP</small></div>
+    <div id="g-c1" class="chip lbl" style="top:612px"><b>+60 XP</b> · New venue</div>
+    <div id="g-c2" class="chip lbl" style="top:704px"><b>+40 XP</b> · Check-in</div>
+    <img id="g-o0" class="orb scr" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/xp_orb.png" alt="" />
+    <img id="g-o1" class="orb scr" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/xp_orb.png" alt="" />
+    <img id="g-o2" class="orb scr" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/xp_orb.png" alt="" />
+    <img id="g-o3" class="orb scr" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/xp_orb.png" alt="" />
+    <img id="g-o4" class="orb scr" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/xp_orb.png" alt="" />
+    <img id="g-o5" class="orb scr" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/xp_orb.png" alt="" />
+    <div id="g-h2" class="hl g-h"><span>Level</span> <span class="cy">up.</span></div>
+    <div id="g-ring">
+      <svg width="400" height="400" viewBox="0 0 400 400"><circle cx="200" cy="200" r="170" fill="none" stroke="rgba(147,165,186,.22)" stroke-width="22" />
+        <circle id="g-arc" cx="200" cy="200" r="170" fill="none" stroke="#36D6F2" stroke-width="22" stroke-linecap="round" stroke-dasharray="1068.14" stroke-dashoffset="566.11" transform="rotate(-90 200 200)" /></svg>
+      <div class="lv lbl">Level</div>
+      <div id="g-n9" class="num">9</div><div id="g-n10" class="num">10</div>
+    </div>
+    <img id="g-burst" class="scr" src="assets/derived/level_up_burst.png" alt="" />
+    <img id="g-badge10" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/level_badge_10_gold.svg" alt="Level 10" />
+    <div id="g-h3" class="hl g-h"><span>Challenge</span></div>
+    <div id="g-h3b" class="hl g-h2"><span class="cy">complete</span></div>
+    <img id="g-mission" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/badge_mission_cyan.svg" alt="Mission badge" />
+    <img id="g-flash" class="scr" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/challenge_complete_flash.png" alt="" />
+    <img id="g-check" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/challenge_complete_check.svg" alt="Challenge complete" />
+    <div id="g-h4" class="hl g-h"><span>Unlock</span></div>
+    <div id="g-h4b" class="hl g-h2"><span class="cy">more.</span></div>
+    <img id="g-rburst" class="scr" src="assets/derived/reward_unlock_burst.png" alt="" />
+    <img id="g-rlabel" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/reward_unlocked_label.svg" alt="Reward unlocked" />
+    <img id="g-coin0" class="coin" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/coin.svg" alt="" />
+    <img id="g-coin1" class="coin" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/coin.svg" alt="" />
+    <img id="g-coin2" class="coin" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/coin.svg" alt="" />
+    <img id="g-coin3" class="coin" src="assets/HANGOUT_Ad_Asset_Library/05_Gamification_Effects/coin.svg" alt="" />
+
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    const blurIn = (s, t) => tl.fromTo(s, { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, t);
+    const blurOut = (s, t) => tl.to(s, { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power3.in" }, t);
+    const swap = (from, to, t) => { tl.to(from, { opacity: 0, duration: 0.3, ease: "power2.inOut" }, t); tl.fromTo(to, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.inOut", immediateRender: false }, t); };
+    // Screens start hidden except the first of each phone.
+    ["#g-s15", "#g-s17", "#g-s19", "#g-s18"].forEach((s) => tl.fromTo(s, { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0));
+    tl.fromTo("#g-f", { x: -620, rotationY: 30, opacity: 0 }, { x: 0, rotationY: 14, opacity: 1, duration: 0.5, ease: "expo.out" }, 0);
+    tl.fromTo("#g-b", { x: 200, z: -300, rotationY: 8, opacity: 0 }, { x: 200, z: -300, rotationY: 8, opacity: 0, duration: 0.01 }, 0);
+    tl.fromTo("#g-b-dim", { opacity: 0.5 }, { opacity: 0.5, duration: 0.01 }, 0);
+
+    // a) PLAY MORE. XP counts 3,230 -> 3,330 as orbs arc from the phone into the counter.
+    blurIn("#g-h1", 0.3);
+    tl.fromTo("#g-cnt", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, 0.45);
+    const xp = { v: 3230 };
+    tl.fromTo(xp, { v: 3230 }, { v: 3330, duration: 1.4, ease: "power2.inOut", immediateRender: false, onUpdate: () => {
+      document.getElementById("g-num").textContent = Math.round(xp.v).toLocaleString("en-US");
+    } }, 0.8);
+    [["#g-c1", 1.0], ["#g-c2", 1.5]].forEach(([s, t]) => tl.fromTo(s, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(1.6)" }, t));
+    for (let i = 0; i < 6; i++) {
+      const p = { u: 0 };
+      const el = "#g-o" + i;
+      const P0 = [600, 300], P1 = [960, 40], P2 = [1300, 430];
+      tl.fromTo(p, { u: 0 }, { u: 1, duration: 0.7, ease: "power1.inOut", immediateRender: false, onUpdate: () => {
+        const u = p.u, a = (1 - u) * (1 - u), b = 2 * (1 - u) * u, c = u * u;
+        gsap.set(el, { x: a * P0[0] + b * P1[0] + c * P2[0] - 42, y: a * P0[1] + b * P1[1] + c * P2[1] - 42, scale: 0.6 + 0.5 * Math.sin(Math.PI * u) });
+      } }, 0.8 + i * 0.18);
+      tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.12 }, 0.8 + i * 0.18);
+      tl.to(el, { opacity: 0, duration: 0.12 }, 1.38 + i * 0.18);
+    }
+    blurOut(["#g-h1", "#g-cnt", "#g-c1", "#g-c2"], 2.85);
+
+    // b) LEVEL UP. The ring fills 47% -> 100%, 9 flips to 10, burst and the gold badge.
+    swap("#g-s14", "#g-s15", 3.0);
+    blurIn("#g-h2", 3.1);
+    tl.fromTo("#g-ring", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.35, ease: "expo.out" }, 3.2);
+    tl.fromTo("#g-arc", { attr: { "stroke-dashoffset": 566.11 } }, { attr: { "stroke-dashoffset": 0 }, duration: 1.3, ease: "power2.inOut" }, 3.45);
+    tl.to("#g-n9", { rotationX: -90, opacity: 0, duration: 0.12, ease: "power2.in" }, 4.82);
+    tl.fromTo("#g-n10", { rotationX: 90, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.18, ease: "power2.out" }, 4.94);
+    tl.fromTo("#g-burst", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1.05, duration: 0.18, ease: "power3.out" }, 5.0);
+    tl.to("#g-burst", { opacity: 0, scale: 1.3, duration: 0.9, ease: "power2.out" }, 5.18);
+    tl.fromTo("#g-badge10", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.7)" }, 5.05);
+    blurOut(["#g-h2", "#g-ring", "#g-badge10"], 5.85);
+
+    // c) CHALLENGE COMPLETE. Mission in front, missions list dimmed behind; badge stamps, then the check.
+    swap("#g-s15", "#g-s17", 6.0);
+    tl.to("#g-b", { opacity: 1, duration: 0.4, ease: "power2.out" }, 6.0);
+    blurIn("#g-h3", 6.1);
+    blurIn("#g-h3b", 6.2);
+    tl.fromTo("#g-mission", { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power4.out" }, 6.6);
+    tl.fromTo("#g-flash", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1.1, duration: 0.15, ease: "power3.out" }, 7.5);
+    tl.to("#g-flash", { opacity: 0, scale: 1.4, duration: 0.6, ease: "power2.out" }, 7.65);
+    tl.fromTo("#g-check", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 7.5);
+    blurOut(["#g-h3", "#g-h3b", "#g-mission", "#g-check"], 8.85);
+
+    // d) UNLOCK MORE. Redeem in front, Rewards behind; gold room; burst, label, four coins tumbling up.
+    tl.fromTo("#g-gold", { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "power1.inOut" }, 9.0);
+    swap("#g-s17", "#g-s19", 9.0);
+    swap("#g-s16", "#g-s18", 9.0);
+    blurIn("#g-h4", 9.1);
+    blurIn("#g-h4b", 9.2);
+    tl.fromTo("#g-rburst", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1.05, duration: 0.2, ease: "power3.out" }, 10.5);
+    tl.to("#g-rburst", { opacity: 0, scale: 1.3, duration: 1.0, ease: "power2.out" }, 10.7);
+    tl.fromTo("#g-rlabel", { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, 10.6);
+    [[-300, -200, -540], [-100, -250, 400], [110, -235, -380], [310, -190, 520]].forEach(([dx, dy, rot], i) => {
+      tl.fromTo("#g-coin" + i, { x: 0, y: 0, rotation: 0, opacity: 0, scale: 0.6 }, { x: dx, y: dy, rotation: rot, scale: 1, duration: 1.6, ease: "power2.out" }, 10.55 + i * 0.08);
+      tl.to("#g-coin" + i, { opacity: 1, duration: 0.15 }, 10.55 + i * 0.08);
+      tl.to("#g-coin" + i, { opacity: 0, duration: 0.35, ease: "power1.in" }, 11.8 + i * 0.08);
+    });
+    tl.to("#g-st", { opacity: 0, duration: 0.3, ease: "power3.in" }, 12.7);
+    blurOut(["#g-h4", "#g-h4b", "#g-rlabel"], 12.7);
+    window.__timelines["progress"] = tl;
+  </script>
+</template>

@@ -1,0 +1,38 @@
+<template>
+  <style>
+    @font-face { font-family: "Urbanist"; src: url("assets/fonts/Urbanist.woff2") format("woff2"); font-weight: 400 800; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-600.woff2") format("woff2"); font-weight: 600; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-700.woff2") format("woff2"); font-weight: 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #080D16; color: #F4F8FC; font-family: "Urbanist", sans-serif; }
+    .bg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    .scr { mix-blend-mode: screen; pointer-events: none; }
+    .stage { position: absolute; inset: 0; perspective: 1900px; perspective-origin: 50% 46%; transform-style: preserve-3d; }
+    .ph { position: absolute; width: 433px; height: 892px; transform-style: preserve-3d; }
+    .ph-sh { position: absolute; left: 8px; top: 8px; right: 8px; bottom: 8px; border-radius: 60px;
+             box-shadow: 0 60px 120px rgba(0,0,0,.72), 0 20px 40px rgba(0,0,0,.5), 0 0 70px rgba(54,214,242,.22); }
+    .ph-scr { position: absolute; left: 20px; top: 20px; width: 393px; height: 852px; border-radius: 55px; overflow: hidden; background: #080D16; }
+    .ph-scr img { position: absolute; left: 0; top: 0; width: 393px; height: 852px; }
+    .ph-dim { position: absolute; left: 0; top: 0; width: 393px; height: 852px; background: #080D16; opacity: 0; }
+    .ph-fr { position: absolute; left: 0; top: 0; width: 433px; height: 892px; }
+    .hl { position: absolute; font-family: "Urbanist", sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; line-height: 1; color: #F4F8FC; white-space: nowrap; }
+    .hl span { display: inline-block; }
+    .cy { color: #36D6F2; text-shadow: 0 0 18px rgba(54,214,242,.55), 0 0 44px rgba(54,214,242,.28); }
+    .lbl { font-family: "Rajdhani", sans-serif; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+    #root { background: transparent; }
+    #pt-mid { left: -120px; top: -70px; width: 2160px; height: 1216px; opacity: .45; }
+    #pt-fg { left: -160px; top: -90px; width: 2240px; height: 1260px; opacity: .3; }
+  </style>
+  <div id="root" data-composition-id="particles" data-width="1920" data-height="1080">
+    <img id="pt-mid" class="bg scr" src="assets/derived/particles_ambient_mid_3840x2160.png" alt="" />
+    <img id="pt-fg" class="bg scr" src="assets/derived/particles_ambient_fg_3840x2160.png" alt="" />
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#pt-mid", { x: 0, y: 0 }, { x: -70, y: -36, duration: 60, ease: "none" }, 0);
+    tl.fromTo("#pt-fg", { x: 0, y: 0 }, { x: -150, y: -70, duration: 60, ease: "none" }, 0);
+    window.__timelines["particles"] = tl;
+  </script>
+</template>

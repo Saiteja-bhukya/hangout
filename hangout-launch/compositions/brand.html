@@ -1,0 +1,190 @@
+<template>
+  <style>
+    @font-face { font-family: "Urbanist"; src: url("assets/fonts/Urbanist.woff2") format("woff2"); font-weight: 400 800; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-600.woff2") format("woff2"); font-weight: 600; }
+    @font-face { font-family: "Rajdhani"; src: url("assets/fonts/Rajdhani-700.woff2") format("woff2"); font-weight: 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #080D16; color: #F4F8FC; font-family: "Urbanist", sans-serif; }
+    .bg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    .scr { mix-blend-mode: screen; pointer-events: none; }
+    .stage { position: absolute; inset: 0; perspective: 1900px; perspective-origin: 50% 46%; transform-style: preserve-3d; }
+    .ph { position: absolute; width: 433px; height: 892px; transform-style: preserve-3d; }
+    .ph-sh { position: absolute; left: 8px; top: 8px; right: 8px; bottom: 8px; border-radius: 60px;
+             box-shadow: 0 60px 120px rgba(0,0,0,.72), 0 20px 40px rgba(0,0,0,.5), 0 0 70px rgba(54,214,242,.22); }
+    .ph-scr { position: absolute; left: 20px; top: 20px; width: 393px; height: 852px; border-radius: 55px; overflow: hidden; background: #080D16; }
+    .ph-scr img { position: absolute; left: 0; top: 0; width: 393px; height: 852px; }
+    .ph-dim { position: absolute; left: 0; top: 0; width: 393px; height: 852px; background: #080D16; opacity: 0; }
+    .ph-fr { position: absolute; left: 0; top: 0; width: 433px; height: 892px; }
+    .hl { position: absolute; font-family: "Urbanist", sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; line-height: 1; color: #F4F8FC; white-space: nowrap; }
+    .hl span { display: inline-block; }
+    .cy { color: #36D6F2; text-shadow: 0 0 18px rgba(54,214,242,.55), 0 0 44px rgba(54,214,242,.28); }
+    .lbl { font-family: "Rajdhani", sans-serif; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+    .bp { position: absolute; border-radius: 50%; }
+    #b-ring { position: absolute; left: 510px; top: -30px; width: 900px; height: 900px; opacity: 0; }
+    #b-lburst { position: absolute; left: 410px; top: -130px; width: 1100px; height: 1100px; opacity: 0; }
+    #b-logo { position: absolute; left: 760px; top: 220px; width: 400px; height: 400px; opacity: 0; }
+    #b-wm { position: absolute; left: 690px; top: 668px; width: 540px; height: 98px; opacity: 0; }
+    #b-tag { left: 0; top: 818px; width: 1920px; text-align: center; font-size: 54px; letter-spacing: .1em; opacity: 0; }
+    #b-flare { position: absolute; left: -1088px; top: 356px; width: 4096px; height: 512px; opacity: 0; }
+    #b-black { position: absolute; inset: 0; background: #000; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="brand" data-width="1920" data-height="1080">
+    <img class="bg" src="assets/derived/logo_reveal_clean_16x9_bg.jpg" alt="" />
+    <div class="bp" style="left:945.4px;top:1320.8px;width:8.5px;height:8.5px;background:#E8FBFF;box-shadow:0 0 9px #E8FBFF" data-dx="-40.0" data-dy="-972.5" data-d="0.000"></div>
+    <div class="bp" style="left:897.4px;top:1407.3px;width:8.5px;height:8.5px;background:#7FE6F7;box-shadow:0 0 9px #7FE6F7" data-dx="15.4" data-dy="-1058.0" data-d="0.167"></div>
+    <div class="bp" style="left:1754.2px;top:-93.6px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="-845.8" data-dy="450.9" data-d="0.115"></div>
+    <div class="bp" style="left:1568.3px;top:-747.5px;width:8.5px;height:8.5px;background:#36D6F2;box-shadow:0 0 9px #36D6F2" data-dx="-668.9" data-dy="1112.6" data-d="0.062"></div>
+    <div class="bp" style="left:248.8px;top:309.2px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="648.5" data-dy="55.4" data-d="0.010"></div>
+    <div class="bp" style="left:-9.4px;top:-368.0px;width:8.5px;height:8.5px;background:#36D6F2;box-shadow:0 0 9px #36D6F2" data-dx="909.0" data-dy="729.4" data-d="0.177"></div>
+    <div class="bp" style="left:1670.4px;top:1296.9px;width:6.8px;height:6.8px;background:#7FE6F7;box-shadow:0 0 7px #7FE6F7" data-dx="-761.9" data-dy="-915.1" data-d="0.125"></div>
+    <div class="bp" style="left:464.0px;top:1356.3px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="433.6" data-dy="-989.5" data-d="0.072"></div>
+    <div class="bp" style="left:1117.8px;top:-344.0px;width:15.3px;height:15.3px;background:#7FE6F7;box-shadow:0 0 17px #7FE6F7" data-dx="-208.9" data-dy="730.1" data-d="0.019"></div>
+    <div class="bp" style="left:965.1px;top:1310.4px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="-53.1" data-dy="-929.6" data-d="0.187"></div>
+    <div class="bp" style="left:-183.9px;top:-49.3px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="1104.8" data-dy="425.2" data-d="0.134"></div>
+    <div class="bp" style="left:320.5px;top:1640.8px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="593.6" data-dy="-1260.8" data-d="0.082"></div>
+    <div class="bp" style="left:594.4px;top:-539.1px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="303.6" data-dy="918.2" data-d="0.029"></div>
+    <div class="bp" style="left:80.1px;top:369.9px;width:15.3px;height:15.3px;background:#E8FBFF;box-shadow:0 0 17px #E8FBFF" data-dx="821.6" data-dy="27.8" data-d="0.196"></div>
+    <div class="bp" style="left:2127.8px;top:-202.1px;width:8.5px;height:8.5px;background:#36D6F2;box-shadow:0 0 9px #36D6F2" data-dx="-1225.6" data-dy="600.8" data-d="0.144"></div>
+    <div class="bp" style="left:1465.3px;top:1009.8px;width:11.9px;height:11.9px;background:#E8FBFF;box-shadow:0 0 13px #E8FBFF" data-dx="-554.5" data-dy="-614.7" data-d="0.091"></div>
+    <div class="bp" style="left:1736.4px;top:798.9px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="-825.1" data-dy="-405.2" data-d="0.039"></div>
+    <div class="bp" style="left:350.5px;top:-676.5px;width:8.5px;height:8.5px;background:#E8FBFF;box-shadow:0 0 9px #E8FBFF" data-dx="548.9" data-dy="1075.5" data-d="0.206"></div>
+    <div class="bp" style="left:1775.0px;top:1445.1px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="-863.3" data-dy="-1040.0" data-d="0.154"></div>
+    <div class="bp" style="left:938.0px;top:-351.7px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="-34.6" data-dy="763.3" data-d="0.101"></div>
+    <div class="bp" style="left:2235.8px;top:334.1px;width:8.5px;height:8.5px;background:#36D6F2;box-shadow:0 0 9px #36D6F2" data-dx="-1327.5" data-dy="75.6" data-d="0.048"></div>
+    <div class="bp" style="left:1936.0px;top:377.4px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="-1021.8" data-dy="42.5" data-d="0.216"></div>
+    <div class="bp" style="left:480.2px;top:1014.2px;width:10.2px;height:10.2px;background:#7FE6F7;box-shadow:0 0 11px #7FE6F7" data-dx="422.6" data-dy="-593.3" data-d="0.163"></div>
+    <div class="bp" style="left:420.5px;top:1285.6px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="490.3" data-dy="-853.3" data-d="0.111"></div>
+    <div class="bp" style="left:395.4px;top:1403.2px;width:15.3px;height:15.3px;background:#7FE6F7;box-shadow:0 0 17px #7FE6F7" data-dx="515.8" data-dy="-985.5" data-d="0.058"></div>
+    <div class="bp" style="left:1975.0px;top:1290.2px;width:8.5px;height:8.5px;background:#7FE6F7;box-shadow:0 0 9px #7FE6F7" data-dx="-1054.9" data-dy="-869.9" data-d="0.006"></div>
+    <div class="bp" style="left:1724.8px;top:864.5px;width:8.5px;height:8.5px;background:#E8FBFF;box-shadow:0 0 9px #E8FBFF" data-dx="-817.2" data-dy="-426.9" data-d="0.173"></div>
+    <div class="bp" style="left:1001.1px;top:-858.1px;width:10.2px;height:10.2px;background:#36D6F2;box-shadow:0 0 11px #36D6F2" data-dx="-100.4" data-dy="1291.7" data-d="0.120"></div>
+    <div class="bp" style="left:1746.3px;top:1496.0px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="-850.7" data-dy="-1058.1" data-d="0.068"></div>
+    <div class="bp" style="left:722.8px;top:-309.3px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="193.4" data-dy="752.3" data-d="0.015"></div>
+    <div class="bp" style="left:287.1px;top:756.1px;width:6.8px;height:6.8px;background:#7FE6F7;box-shadow:0 0 7px #7FE6F7" data-dx="631.6" data-dy="-316.1" data-d="0.183"></div>
+    <div class="bp" style="left:1197.5px;top:-303.4px;width:8.5px;height:8.5px;background:#7FE6F7;box-shadow:0 0 9px #7FE6F7" data-dx="-283.8" data-dy="751.8" data-d="0.130"></div>
+    <div class="bp" style="left:885.4px;top:1198.5px;width:6.8px;height:6.8px;background:#E8FBFF;box-shadow:0 0 7px #E8FBFF" data-dx="26.6" data-dy="-749.4" data-d="0.077"></div>
+    <div class="bp" style="left:1946.7px;top:379.4px;width:10.2px;height:10.2px;background:#36D6F2;box-shadow:0 0 11px #36D6F2" data-dx="-1030.5" data-dy="81.9" data-d="0.025"></div>
+    <div class="bp" style="left:2109.5px;top:737.5px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="-1199.9" data-dy="-277.9" data-d="0.192"></div>
+    <div class="bp" style="left:893.2px;top:1239.4px;width:10.2px;height:10.2px;background:#E8FBFF;box-shadow:0 0 11px #E8FBFF" data-dx="5.4" data-dy="-777.8" data-d="0.140"></div>
+    <div class="bp" style="left:125.9px;top:250.2px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="785.0" data-dy="220.0" data-d="0.087"></div>
+    <div class="bp" style="left:792.5px;top:1667.0px;width:10.2px;height:10.2px;background:#7FE6F7;box-shadow:0 0 11px #7FE6F7" data-dx="123.3" data-dy="-1209.0" data-d="0.035"></div>
+    <div class="bp" style="left:2159.8px;top:529.1px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="-1256.4" data-dy="-62.1" data-d="0.202"></div>
+    <div class="bp" style="left:85.5px;top:336.2px;width:11.9px;height:11.9px;background:#7FE6F7;box-shadow:0 0 13px #7FE6F7" data-dx="811.4" data-dy="130.8" data-d="0.149"></div>
+    <div class="bp" style="left:324.8px;top:-554.7px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="575.4" data-dy="1016.8" data-d="0.097"></div>
+    <div class="bp" style="left:1855.3px;top:245.9px;width:8.5px;height:8.5px;background:#36D6F2;box-shadow:0 0 9px #36D6F2" data-dx="-955.9" data-dy="235.5" data-d="0.044"></div>
+    <div class="bp" style="left:250.1px;top:1486.8px;width:8.5px;height:8.5px;background:#36D6F2;box-shadow:0 0 9px #36D6F2" data-dx="743.6" data-dy="-1136.4" data-d="0.212"></div>
+    <div class="bp" style="left:2340.1px;top:323.8px;width:8.5px;height:8.5px;background:#7FE6F7;box-shadow:0 0 9px #7FE6F7" data-dx="-1340.4" data-dy="43.7" data-d="0.159"></div>
+    <div class="bp" style="left:2055.2px;top:938.8px;width:10.2px;height:10.2px;background:#36D6F2;box-shadow:0 0 11px #36D6F2" data-dx="-1063.4" data-dy="-578.8" data-d="0.106"></div>
+    <div class="bp" style="left:1347.6px;top:1063.1px;width:11.9px;height:11.9px;background:#E8FBFF;box-shadow:0 0 13px #E8FBFF" data-dx="-346.1" data-dy="-691.4" data-d="0.054"></div>
+    <div class="bp" style="left:-7.3px;top:-272.5px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="1017.5" data-dy="649.3" data-d="0.001"></div>
+    <div class="bp" style="left:1307.6px;top:1232.6px;width:6.8px;height:6.8px;background:#E8FBFF;box-shadow:0 0 7px #E8FBFF" data-dx="-309.6" data-dy="-863.0" data-d="0.169"></div>
+    <div class="bp" style="left:341.0px;top:1113.4px;width:15.3px;height:15.3px;background:#E8FBFF;box-shadow:0 0 17px #E8FBFF" data-dx="654.6" data-dy="-734.6" data-d="0.116"></div>
+    <div class="bp" style="left:1002.9px;top:1790.0px;width:10.2px;height:10.2px;background:#36D6F2;box-shadow:0 0 11px #36D6F2" data-dx="8.7" data-dy="-1422.2" data-d="0.064"></div>
+    <div class="bp" style="left:519.0px;top:963.5px;width:11.9px;height:11.9px;background:#7FE6F7;box-shadow:0 0 13px #7FE6F7" data-dx="474.1" data-dy="-591.8" data-d="0.011"></div>
+    <div class="bp" style="left:-82.8px;top:582.6px;width:8.5px;height:8.5px;background:#36D6F2;box-shadow:0 0 9px #36D6F2" data-dx="1079.0" data-dy="-200.7" data-d="0.178"></div>
+    <div class="bp" style="left:251.7px;top:394.0px;width:10.2px;height:10.2px;background:#7FE6F7;box-shadow:0 0 11px #7FE6F7" data-dx="751.6" data-dy="-15.0" data-d="0.126"></div>
+    <div class="bp" style="left:1641.0px;top:1286.8px;width:11.9px;height:11.9px;background:#7FE6F7;box-shadow:0 0 13px #7FE6F7" data-dx="-651.8" data-dy="-902.3" data-d="0.073"></div>
+    <div class="bp" style="left:606.5px;top:1502.3px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="393.5" data-dy="-1108.9" data-d="0.021"></div>
+    <div class="bp" style="left:293.1px;top:-591.8px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="715.8" data-dy="986.6" data-d="0.188"></div>
+    <div class="bp" style="left:1062.2px;top:-785.5px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="-61.5" data-dy="1183.3" data-d="0.136"></div>
+    <div class="bp" style="left:714.2px;top:1522.8px;width:8.5px;height:8.5px;background:#7FE6F7;box-shadow:0 0 9px #7FE6F7" data-dx="291.9" data-dy="-1133.1" data-d="0.083"></div>
+    <div class="bp" style="left:1496.4px;top:-657.7px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="-488.7" data-dy="1063.3" data-d="0.030"></div>
+    <div class="bp" style="left:827.2px;top:-846.2px;width:8.5px;height:8.5px;background:#7FE6F7;box-shadow:0 0 9px #7FE6F7" data-dx="183.3" data-dy="1258.5" data-d="0.198"></div>
+    <div class="bp" style="left:1467.8px;top:-567.8px;width:8.5px;height:8.5px;background:#7FE6F7;box-shadow:0 0 9px #7FE6F7" data-dx="-468.1" data-dy="974.0" data-d="0.145"></div>
+    <div class="bp" style="left:1732.9px;top:569.2px;width:10.2px;height:10.2px;background:#7FE6F7;box-shadow:0 0 11px #7FE6F7" data-dx="-740.5" data-dy="-155.6" data-d="0.093"></div>
+    <div class="bp" style="left:230.9px;top:1127.7px;width:6.8px;height:6.8px;background:#7FE6F7;box-shadow:0 0 7px #7FE6F7" data-dx="762.2" data-dy="-722.3" data-d="0.040"></div>
+    <div class="bp" style="left:128.6px;top:-424.2px;width:11.9px;height:11.9px;background:#E8FBFF;box-shadow:0 0 13px #E8FBFF" data-dx="865.3" data-dy="832.2" data-d="0.207"></div>
+    <div class="bp" style="left:2210.4px;top:438.6px;width:15.3px;height:15.3px;background:#7FE6F7;box-shadow:0 0 17px #7FE6F7" data-dx="-1215.3" data-dy="-31.9" data-d="0.155"></div>
+    <div class="bp" style="left:551.4px;top:-214.2px;width:11.9px;height:11.9px;background:#E8FBFF;box-shadow:0 0 13px #E8FBFF" data-dx="437.7" data-dy="627.7" data-d="0.102"></div>
+    <div class="bp" style="left:1425.5px;top:-788.2px;width:8.5px;height:8.5px;background:#36D6F2;box-shadow:0 0 9px #36D6F2" data-dx="-432.4" data-dy="1211.0" data-d="0.050"></div>
+    <div class="bp" style="left:1093.5px;top:1560.5px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="-103.8" data-dy="-1125.0" data-d="0.217"></div>
+    <div class="bp" style="left:1380.6px;top:-207.1px;width:10.2px;height:10.2px;background:#7FE6F7;box-shadow:0 0 11px #7FE6F7" data-dx="-376.8" data-dy="630.1" data-d="0.165"></div>
+    <div class="bp" style="left:103.5px;top:-354.5px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="893.9" data-dy="786.6" data-d="0.112"></div>
+    <div class="bp" style="left:386.7px;top:1421.7px;width:10.2px;height:10.2px;background:#36D6F2;box-shadow:0 0 11px #36D6F2" data-dx="611.5" data-dy="-993.5" data-d="0.059"></div>
+    <div class="bp" style="left:1695.1px;top:473.0px;width:10.2px;height:10.2px;background:#7FE6F7;box-shadow:0 0 11px #7FE6F7" data-dx="-686.0" data-dy="-22.3" data-d="0.007"></div>
+    <div class="bp" style="left:538.1px;top:-681.5px;width:10.2px;height:10.2px;background:#E8FBFF;box-shadow:0 0 11px #E8FBFF" data-dx="462.4" data-dy="1123.7" data-d="0.174"></div>
+    <div class="bp" style="left:-44.6px;top:642.6px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="1038.2" data-dy="-204.4" data-d="0.122"></div>
+    <div class="bp" style="left:666.8px;top:1117.8px;width:11.9px;height:11.9px;background:#7FE6F7;box-shadow:0 0 13px #7FE6F7" data-dx="330.0" data-dy="-675.5" data-d="0.069"></div>
+    <div class="bp" style="left:766.9px;top:1142.6px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="239.3" data-dy="-701.6" data-d="0.017"></div>
+    <div class="bp" style="left:1925.8px;top:378.9px;width:8.5px;height:8.5px;background:#7FE6F7;box-shadow:0 0 9px #7FE6F7" data-dx="-934.5" data-dy="86.2" data-d="0.184"></div>
+    <div class="bp" style="left:255.6px;top:20.9px;width:15.3px;height:15.3px;background:#E8FBFF;box-shadow:0 0 17px #E8FBFF" data-dx="743.8" data-dy="425.7" data-d="0.131"></div>
+    <div class="bp" style="left:1710.4px;top:180.3px;width:15.3px;height:15.3px;background:#E8FBFF;box-shadow:0 0 17px #E8FBFF" data-dx="-710.8" data-dy="266.4" data-d="0.079"></div>
+    <div class="bp" style="left:1859.2px;top:-362.2px;width:8.5px;height:8.5px;background:#36D6F2;box-shadow:0 0 9px #36D6F2" data-dx="-856.5" data-dy="836.8" data-d="0.026"></div>
+    <div class="bp" style="left:1789.3px;top:-206.9px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="-778.1" data-dy="678.8" data-d="0.194"></div>
+    <div class="bp" style="left:1998.0px;top:437.7px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="-1002.9" data-dy="27.2" data-d="0.141"></div>
+    <div class="bp" style="left:698.9px;top:1171.2px;width:10.2px;height:10.2px;background:#36D6F2;box-shadow:0 0 11px #36D6F2" data-dx="294.9" data-dy="-693.5" data-d="0.088"></div>
+    <div class="bp" style="left:437.0px;top:1595.3px;width:6.8px;height:6.8px;background:#E8FBFF;box-shadow:0 0 7px #E8FBFF" data-dx="566.7" data-dy="-1112.8" data-d="0.036"></div>
+    <div class="bp" style="left:962.5px;top:-870.8px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="-56.1" data-dy="1281.2" data-d="0.203"></div>
+    <div class="bp" style="left:648.4px;top:-880.4px;width:10.2px;height:10.2px;background:#E8FBFF;box-shadow:0 0 11px #E8FBFF" data-dx="270.8" data-dy="1306.2" data-d="0.151"></div>
+    <div class="bp" style="left:275.1px;top:1113.8px;width:15.3px;height:15.3px;background:#7FE6F7;box-shadow:0 0 17px #7FE6F7" data-dx="646.3" data-dy="-694.5" data-d="0.098"></div>
+    <div class="bp" style="left:314.3px;top:1182.3px;width:10.2px;height:10.2px;background:#7FE6F7;box-shadow:0 0 11px #7FE6F7" data-dx="612.5" data-dy="-762.0" data-d="0.046"></div>
+    <div class="bp" style="left:814.1px;top:1137.4px;width:10.2px;height:10.2px;background:#36D6F2;box-shadow:0 0 11px #36D6F2" data-dx="103.1" data-dy="-722.1" data-d="0.213"></div>
+    <div class="bp" style="left:956.1px;top:1298.3px;width:15.3px;height:15.3px;background:#E8FBFF;box-shadow:0 0 17px #E8FBFF" data-dx="-34.9" data-dy="-896.6" data-d="0.160"></div>
+    <div class="bp" style="left:1308.8px;top:1307.5px;width:11.9px;height:11.9px;background:#7FE6F7;box-shadow:0 0 13px #7FE6F7" data-dx="-389.4" data-dy="-898.5" data-d="0.108"></div>
+    <div class="bp" style="left:1385.6px;top:-643.9px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="-459.1" data-dy="1060.5" data-d="0.055"></div>
+    <div class="bp" style="left:814.4px;top:-307.2px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="133.2" data-dy="720.0" data-d="0.003"></div>
+    <div class="bp" style="left:356.8px;top:-111.8px;width:10.2px;height:10.2px;background:#36D6F2;box-shadow:0 0 11px #36D6F2" data-dx="595.0" data-dy="537.7" data-d="0.170"></div>
+    <div class="bp" style="left:2241.2px;top:824.2px;width:8.5px;height:8.5px;background:#36D6F2;box-shadow:0 0 9px #36D6F2" data-dx="-1284.4" data-dy="-411.5" data-d="0.117"></div>
+    <div class="bp" style="left:28.7px;top:578.4px;width:10.2px;height:10.2px;background:#E8FBFF;box-shadow:0 0 11px #E8FBFF" data-dx="914.3" data-dy="-169.6" data-d="0.065"></div>
+    <div class="bp" style="left:859.6px;top:-965.2px;width:10.2px;height:10.2px;background:#36D6F2;box-shadow:0 0 11px #36D6F2" data-dx="86.6" data-dy="1373.4" data-d="0.012"></div>
+    <div class="bp" style="left:445.2px;top:-343.9px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="511.8" data-dy="765.3" data-d="0.180"></div>
+    <div class="bp" style="left:1796.4px;top:1202.6px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="-826.6" data-dy="-786.5" data-d="0.127"></div>
+    <div class="bp" style="left:-315.9px;top:407.6px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="1281.0" data-dy="11.5" data-d="0.075"></div>
+    <div class="bp" style="left:61.4px;top:685.6px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="896.2" data-dy="-268.0" data-d="0.022"></div>
+    <div class="bp" style="left:1490.3px;top:1058.4px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="-507.8" data-dy="-635.4" data-d="0.189"></div>
+    <div class="bp" style="left:538.6px;top:1055.5px;width:8.5px;height:8.5px;background:#E8FBFF;box-shadow:0 0 9px #E8FBFF" data-dx="443.1" data-dy="-640.3" data-d="0.137"></div>
+    <div class="bp" style="left:898.9px;top:1513.8px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="74.6" data-dy="-1090.7" data-d="0.084"></div>
+    <div class="bp" style="left:50.1px;top:1236.3px;width:8.5px;height:8.5px;background:#36D6F2;box-shadow:0 0 9px #36D6F2" data-dx="929.7" data-dy="-813.8" data-d="0.032"></div>
+    <div class="bp" style="left:798.4px;top:1630.6px;width:11.9px;height:11.9px;background:#E8FBFF;box-shadow:0 0 13px #E8FBFF" data-dx="197.8" data-dy="-1218.9" data-d="0.199"></div>
+    <div class="bp" style="left:102.1px;top:-16.0px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="883.3" data-dy="438.5" data-d="0.147"></div>
+    <div class="bp" style="left:2063.4px;top:1143.8px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="-1065.3" data-dy="-737.1" data-d="0.094"></div>
+    <div class="bp" style="left:344.5px;top:-380.1px;width:10.2px;height:10.2px;background:#7FE6F7;box-shadow:0 0 11px #7FE6F7" data-dx="644.7" data-dy="787.1" data-d="0.041"></div>
+    <div class="bp" style="left:1649.5px;top:1129.3px;width:11.9px;height:11.9px;background:#36D6F2;box-shadow:0 0 13px #36D6F2" data-dx="-639.9" data-dy="-708.4" data-d="0.209"></div>
+    <div class="bp" style="left:1926.4px;top:413.5px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="-972.2" data-dy="-47.5" data-d="0.156"></div>
+    <div class="bp" style="left:1817.3px;top:264.9px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="-850.6" data-dy="109.5" data-d="0.104"></div>
+    <div class="bp" style="left:1559.0px;top:1295.6px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="-593.2" data-dy="-916.2" data-d="0.051"></div>
+    <div class="bp" style="left:2027.2px;top:1049.8px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="-1067.3" data-dy="-671.5" data-d="0.218"></div>
+    <div class="bp" style="left:1101.7px;top:1750.8px;width:10.2px;height:10.2px;background:#36D6F2;box-shadow:0 0 11px #36D6F2" data-dx="-146.8" data-dy="-1377.6" data-d="0.166"></div>
+    <div class="bp" style="left:204.7px;top:-349.3px;width:11.9px;height:11.9px;background:#7FE6F7;box-shadow:0 0 13px #7FE6F7" data-dx="746.6" data-dy="723.7" data-d="0.113"></div>
+    <div class="bp" style="left:1690.6px;top:944.9px;width:15.3px;height:15.3px;background:#36D6F2;box-shadow:0 0 17px #36D6F2" data-dx="-739.5" data-dy="-577.7" data-d="0.061"></div>
+    <div class="bp" style="left:299.1px;top:966.3px;width:15.3px;height:15.3px;background:#7FE6F7;box-shadow:0 0 17px #7FE6F7" data-dx="653.1" data-dy="-600.2" data-d="0.008"></div>
+    <div class="bp" style="left:1863.1px;top:473.8px;width:11.9px;height:11.9px;background:#E8FBFF;box-shadow:0 0 13px #E8FBFF" data-dx="-922.0" data-dy="-106.2" data-d="0.176"></div>
+    <div class="bp" style="left:2068.8px;top:122.1px;width:8.5px;height:8.5px;background:#36D6F2;box-shadow:0 0 9px #36D6F2" data-dx="-1121.0" data-dy="244.0" data-d="0.123"></div>
+    <div class="bp" style="left:-111.6px;top:238.6px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="1063.3" data-dy="126.7" data-d="0.070"></div>
+    <div class="bp" style="left:699.4px;top:-461.7px;width:6.8px;height:6.8px;background:#36D6F2;box-shadow:0 0 7px #36D6F2" data-dx="252.5" data-dy="820.5" data-d="0.018"></div>
+    <div class="bp" style="left:-218.0px;top:426.4px;width:11.9px;height:11.9px;background:#7FE6F7;box-shadow:0 0 13px #7FE6F7" data-dx="1172.1" data-dy="-64.5" data-d="0.185"></div>
+    <div class="bp" style="left:901.7px;top:1580.8px;width:10.2px;height:10.2px;background:#36D6F2;box-shadow:0 0 11px #36D6F2" data-dx="57.6" data-dy="-1222.9" data-d="0.133"></div>
+    <div class="bp" style="left:-231.9px;top:466.7px;width:11.9px;height:11.9px;background:#E8FBFF;box-shadow:0 0 13px #E8FBFF" data-dx="1193.6" data-dy="-106.7" data-d="0.080"></div>
+    <div class="bp" style="left:610.1px;top:-349.6px;width:10.2px;height:10.2px;background:#7FE6F7;box-shadow:0 0 11px #7FE6F7" data-dx="347.4" data-dy="717.0" data-d="0.028"></div>
+    <img id="b-ring" class="scr" src="assets/derived/energy_pulse_ring.png" alt="" />
+    <img id="b-lburst" class="scr" src="assets/derived/logo_light_burst.png" alt="" />
+    <img id="b-logo" src="assets/derived/logo_symbol_glow_2048.png" alt="HANGOUT" />
+    <img id="b-wm" src="assets/HANGOUT_Ad_Asset_Library/01_Brand_Assets/svg/hangout_wordmark_gradient.svg" alt="HANGOUT" />
+    <div id="b-tag" class="hl"><span>Make every outing an</span> <span class="cy">experience.</span></div>
+    <img id="b-flare" class="scr" src="assets/HANGOUT_Ad_Asset_Library/06_Logo_Reveal/logo_flare_streak.png" alt="" />
+    <div id="b-black"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // 126 particles fly in and form the H (54.0-55.0).
+    document.querySelectorAll("#root .bp").forEach((el) => {
+      const dx = parseFloat(el.dataset.dx), dy = parseFloat(el.dataset.dy), dl = parseFloat(el.dataset.d);
+      tl.fromTo(el, { x: 0, y: 0, opacity: 0 }, { x: dx, y: dy, opacity: 1, duration: 0.78 - dl * 0.5, ease: "power3.inOut" }, dl);
+      tl.to(el, { opacity: 0, duration: 0.25, ease: "power2.in" }, 1.0);
+    });
+    // 55.0 logo with burst and ring; 55.5 wordmark; 56.2 tagline; 57.0 flare streak.
+    tl.fromTo("#b-logo", { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.3, ease: "expo.out" }, 1.0);
+    tl.fromTo("#b-lburst", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1.05, duration: 0.2, ease: "power3.out" }, 1.0);
+    tl.to("#b-lburst", { opacity: 0, scale: 1.4, duration: 0.9, ease: "power2.out" }, 1.2);
+    tl.fromTo("#b-ring", { opacity: 0.9, scale: 0.3 }, { opacity: 0, scale: 1.8, duration: 0.9, ease: "power2.out", immediateRender: false }, 1.0);
+    tl.fromTo("#b-wm", { opacity: 0, y: 30, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 1.5);
+    tl.fromTo("#b-tag", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.3, ease: "power4.out" }, 2.2);
+    tl.fromTo("#b-flare", { x: -1500, opacity: 0 }, { x: 1500, opacity: 1, duration: 1.0, ease: "power2.inOut" }, 3.0);
+    tl.to("#b-flare", { opacity: 0, duration: 0.2, ease: "power2.in" }, 4.0);
+    // Hold, then fade to black by 60.0.
+    tl.fromTo("#b-black", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power1.in" }, 5.3);
+    window.__timelines["brand"] = tl;
+  </script>
+</template>
