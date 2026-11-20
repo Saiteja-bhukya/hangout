@@ -23,7 +23,7 @@
       var $ = function (id) { return document.getElementById(id); };
       var tl = gsap.timeline({ paused: true });
 
-      var SLOTS = [[0.1,0.46],[0.46,0.8],[0.8,1.12],[1.12,1.42],[1.42,1.7],[1.7,1.96],[1.96,2.2]], RING = [[330,250],[300,560],[1590,240],[1610,560],[430,870],[1490,875],[960,905]], RING_T = 2.22, DROP_T = 3.55;
+      var SLOTS = [[0.02,0.38],[0.38,0.72],[0.72,1.04],[1.04,1.34],[1.34,1.62],[1.62,1.88],[1.88,2.12]], RING = [[330,250],[300,560],[1590,240],[1610,560],[430,870],[1490,875],[960,905]], RING_T = 2.14, DROP_T = 3.55;
       SLOTS.forEach(function (s, i) {
         var el = $('hook-l' + i), end = i === SLOTS.length - 1 ? RING_T : s[1];
         tl.fromTo(el, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.08, ease: 'power2.out' }, s[0]);
@@ -35,7 +35,7 @@
       });
       // the headline drops with everything else
       [0, 1, 2].forEach(function (i) {
-        tl.to(ws[i], { y: 900, rotation: [-12, 8, -6][i], duration: 0.6, ease: 'power2.in' }, DROP_T + 0.12 + i * 0.05);
+        tl.to(ws[i], { y: 900, rotation: [-5, 4, -3][i], duration: 0.6, ease: 'power2.in' }, DROP_T + 0.12 + i * 0.015);
       });
 
       if (window.SCENE3D) {

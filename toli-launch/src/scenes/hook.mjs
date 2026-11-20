@@ -7,8 +7,8 @@ const ITEMS = [
 const START = 4.0;
 const LENS = [0.36, 0.34, 0.32, 0.30, 0.28, 0.26, 0.24];
 const SLOTS = [];
-{ let t = 0.1; for (const l of LENS) { SLOTS.push([+t.toFixed(4), +(t + l).toFixed(4)]); t += l; } }
-const RING_T = 2.22;  // scene-local
+{ let t = 0.02; for (const l of LENS) { SLOTS.push([+t.toFixed(4), +(t + l).toFixed(4)]); t += l; } }
+const RING_T = 2.14;  // scene-local
 const DROP_T = 3.55;  // everything falls
 const RING = [[330, 250], [300, 560], [1590, 240], [1610, 560], [430, 870], [1490, 875], [960, 905]];
 
@@ -34,7 +34,7 @@ ${ITEMS.map(([, l], i) => `    <div class="hl hook-lbl" id="hook-l${i}">${l}</di
       });
       // the headline drops with everything else
       [0, 1, 2].forEach(function (i) {
-        tl.to(ws[i], { y: 900, rotation: [-12, 8, -6][i], duration: 0.6, ease: 'power2.in' }, DROP_T + 0.12 + i * 0.05);
+        tl.to(ws[i], { y: 900, rotation: [-5, 4, -3][i], duration: 0.6, ease: 'power2.in' }, DROP_T + 0.12 + i * 0.015);
       });
 
       if (window.SCENE3D) {

@@ -165,7 +165,7 @@ bell(3.08, mtof(86), 0.09, 1.0, music, 0, 0.5); dagga(3.08, 0.55);
 // 4–8.2 POSSIBILITIES: 8th-note pulse, a pop on every object, three hits on the headline, a riser, then everything falls
 beatsIn(4.0, 7.55).forEach((t) => kick(t, 0.45, 120, 48, 0.2));
 beatsIn(4.0, 7.55, 0.25).forEach((t) => padNote(t, t + 0.2, 38, { g: 0.07, cut: 340, att: 0.005, rel: 0.03, detune: [-0.05, 0.05] }));
-[4.1, 4.46, 4.8, 5.12, 5.42, 5.7, 5.96].forEach((t, k) => { marimba(t + 0.02, [74, 76, 78, 81, 83, 86, 88][k], 0.12, k % 2 ? 0.3 : -0.3); tihli(t + 0.02, 0.18); });
+[4.02, 4.38, 4.72, 5.04, 5.34, 5.62, 5.88].forEach((t, k) => { marimba(t + 0.02, [74, 76, 78, 81, 83, 86, 88][k], 0.12, k % 2 ? 0.3 : -0.3); tihli(t + 0.02, 0.18); });
 [6.36, 6.52, 6.72].forEach((t, k) => { dagga(t, 0.8); marimba(t, [66, 69, 74][k], 0.1); });
 padNote(6.36, 7.5, 62, { g: 0.03, cut: 1800, att: 0.05, rel: 0.05 }); padNote(6.36, 7.5, 66, { g: 0.03, cut: 1800, att: 0.05, rel: 0.05 }); padNote(6.36, 7.5, 69, { g: 0.03, cut: 1800, att: 0.05, rel: 0.05 });
 noiseSweep(6.8, 7.55, 500, 6000, 0, 0.16, music, { q: 1.5 });
@@ -243,7 +243,7 @@ const bounceTicks = (t0, d) => [0.364, 0.727, 0.909, 0.98].forEach((f, k) => mar
 // open
 OPEN.forEach((t, k) => pop(t, k)); whoosh(2.55, 2);
 // possibilities
-whoosh(6.25, 0); whoosh(7.7, 2); thud(8.0, 0.4);
+whoosh(6.17, 0); whoosh(7.7, 2); thud(8.0, 0.4);
 // plans die
 whoosh(8.25, 1); [8.45, 8.72, 8.98, 9.2, 9.4, 10.0].forEach((t, k) => msgPop(t, k)); whoosh(11.55, 2); thud(11.9, 0.55);
 // reveal
