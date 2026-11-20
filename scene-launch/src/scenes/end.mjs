@@ -10,6 +10,8 @@ export default {
   css: `
     #end-cv { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
     #end-icon { position: absolute; left: ${IC.x}px; top: ${IC.y}px; width: ${IC.s}px; height: ${IC.s}px; filter: drop-shadow(0 30px 50px rgba(30,60,120,0.26)); }
+    #end-aura { left: ${IC.x + IC.s / 2 - 620}px; top: ${IC.y + IC.s / 2 - 620}px; width: 1240px; height: 1240px; }
+    #end-rays { left: ${IC.x + IC.s / 2 - 900}px; top: ${IC.y + IC.s / 2 - 900}px; width: 1800px; height: 1800px; }
     #end-flash { position: absolute; left: ${IC.x + IC.s / 2 - 260}px; top: ${IC.y + IC.s / 2 - 260}px; width: 520px; height: 520px; border-radius: 50%;
       background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(111,232,250,0.5) 35%, rgba(111,232,250,0) 70%); }
     #end-word { position: absolute; left: 696px; top: 586px; width: 0; height: 100px; overflow: hidden; }
@@ -17,7 +19,9 @@ export default {
     #end-line { position: absolute; left: 0; right: 0; top: 766px; text-align: center; font-size: 54px; letter-spacing: 0.08em; }
     #end-streak { position: absolute; left: -700px; top: -200px; width: 380px; height: 1480px;
       background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0) 100%); }`,
-  html: `    <canvas id="end-cv" width="1920" height="1080" data-layout-ignore></canvas>
+  html: `    <div class="aura-rays" id="end-rays" data-layout-ignore></div>
+    <div class="aura" id="end-aura" data-layout-ignore></div>
+    <canvas id="end-cv" width="1920" height="1080" data-layout-ignore></canvas>
     <div id="end-flash" data-layout-ignore></div>
     <div id="end-icon">${icon('end')}</div>
     <div id="end-word"><div id="end-word-in">${wordmark('endw')}</div></div>
@@ -33,7 +37,7 @@ export default {
         var px = gx + rnd() * 6, py = gy + rnd() * 6;
         if (octx.isPointInPath(path, px, py)) pts.push([px, py]);
       }
-      var N = 140, P = [], k = IC.s / SIZE, cols = ['#FFFFFF', '#6FE8FA', '#36A9FF', '#2F6BFF', '#B7A9FF'];
+      var N = 140, P = [], k = IC.s / SIZE, cols = ['#FFFFFF', '#6FE8FA', '#36A9FF', '#2F6BFF', '#7A5CFF', '#B9A6FF'];
       for (var i = 0; i < N; i++) {
         var tp = pts[Math.floor(i * pts.length / N)];
         var a = rnd() * Math.PI * 2, r = 620 + rnd() * 700;
@@ -60,6 +64,10 @@ export default {
       SC.drive(tl, S0, S1, draw);
 
       // --- the mark resolves on the impact
+      tl.fromTo('#end-aura', { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 0.9, duration: 1.1, ease: 'power2.out' }, T(54.2));
+      tl.to('#end-aura', { scale: 1.12, opacity: 0.7, duration: 3.6, ease: 'sine.inOut' }, T(55.4));
+      tl.fromTo('#end-rays', { scale: 0.5, opacity: 0, rotation: 0 }, { scale: 1, opacity: 0.75, rotation: 18, duration: 1.2, ease: 'expo.out' }, T(54.95));
+      tl.to('#end-rays', { rotation: 60, opacity: 0.5, duration: 3.85, ease: 'none' }, T(56.15));
       tl.fromTo('#end-flash', { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.18, ease: 'power2.out' }, T(54.98));
       tl.to('#end-flash', { opacity: 0, scale: 1.5, duration: 0.6, ease: 'power2.out' }, T(55.16));
       tl.fromTo('#end-icon', { opacity: 0, scale: 0.86 }, { opacity: 1, scale: 1, duration: 0.34, ease: 'back.out(1.6)' }, T(55.0));

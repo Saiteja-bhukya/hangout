@@ -42,6 +42,7 @@ export default {
       -webkit-mask-image: radial-gradient(circle, #000 0%, rgba(0,0,0,0.6) 30%, transparent 62%); mask-image: radial-gradient(circle, #000 0%, rgba(0,0,0,0.6) 30%, transparent 62%); }`,
   html: `    <div class="hl" id="rw-h1">${w('AND EVERY OUTING')}<br />${w('PAYS YOU')} <span class="w grad-text">BACK.</span></div>
     <div id="rw-rays" data-layout-ignore></div>
+    <div class="aura-soft" id="rw-halo" style="left:835px;top:-35px;width:1050px;height:1150px" data-layout-ignore></div>
     <div class="rig" id="rw-rig">${phone(stack('rw', ['xp', 'missions', 'rewards']))}</div>
     <div class="rw-chip" id="rw-c1" style="left:236px;top:300px"><div class="chip-g glass"><span class="ic">${I.star}</span><b>+60 XP</b>NEW VENUE</div></div>
     <div class="rw-chip" id="rw-c2" style="left:236px;top:430px"><div class="chip-g glass"><span class="ic">${I.check}</span><b>+40 XP</b>CHECK-IN</div></div>
@@ -63,6 +64,8 @@ export default {
 
         // 2) XP: phone rises; chips land; count 3,230 → 3,330; ring fills; 9 flips to 10; gold badge
         tl.fromTo('#rw-rig', { y: 1000, rotation: 4, scale: 1, transformOrigin: '50% 30%' }, { y: 0, rotation: 0, duration: 0.55, ease: 'expo.out' }, T(39.3));
+        tl.fromTo('#rw-halo', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.55, ease: 'power2.out' }, T(39.35));
+        tl.to('#rw-halo', { opacity: 0, duration: 0.3, ease: 'power2.in' }, T(47.62));
         tl.fromTo('#rw-c1', { opacity: 0, scale: 0.6, x: -40 }, { opacity: 1, scale: 1, x: 0, duration: 0.4, ease: 'back.out(1.6)' }, T(39.8));
         tl.fromTo('#rw-c2', { opacity: 0, scale: 0.6, x: -40 }, { opacity: 1, scale: 1, x: 0, duration: 0.4, ease: 'back.out(1.6)' }, T(40.3));
         var xn = q(sx, 'xp-num'), xp = { v: 3230 };

@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const T = [['3', 'HOOK'], ['9', 'PAIN'], ['14', 'RELIEF'], ['24', 'ANSWERS · NEAR US?'], ['42', 'REWARDS · LEVEL UP'], ['51', 'PAYOFF']];
+const T = [['3', 'HOOK'], ['9', 'PAIN · NO AURA ON PURPOSE'], ['14', 'RELIEF'], ['24', 'ANSWERS · NEAR US?'], ['42', 'REWARDS · LEVEL UP'], ['51', 'PAYOFF'], ['12.8', 'AURA · LOGO BURST'], ['56.9', 'AURA · END CARD']];
 const html = `<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../assets/fonts/fonts.css"><style>
 *{margin:0;box-sizing:border-box} body{width:2600px;background:#0B1A2E;padding:40px;display:grid;grid-template-columns:1240px 1240px;gap:40px 40px}
 figure img{width:1240px;height:697.5px;display:block;border-radius:10px} figcaption{font:700 26px Rajdhani;letter-spacing:.16em;color:#EAF2FF;margin-top:12px}

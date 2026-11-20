@@ -4,6 +4,8 @@
 
     #end-cv { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
     #end-icon { position: absolute; left: 820px; top: 250px; width: 280px; height: 280px; filter: drop-shadow(0 30px 50px rgba(30,60,120,0.26)); }
+    #end-aura { left: 340px; top: -230px; width: 1240px; height: 1240px; }
+    #end-rays { left: 60px; top: -510px; width: 1800px; height: 1800px; }
     #end-flash { position: absolute; left: 700px; top: 130px; width: 520px; height: 520px; border-radius: 50%;
       background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(111,232,250,0.5) 35%, rgba(111,232,250,0) 70%); }
     #end-word { position: absolute; left: 696px; top: 586px; width: 0; height: 100px; overflow: hidden; }
@@ -13,6 +15,8 @@
       background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0) 100%); }
   </style>
   <div id="root" data-composition-id="end" data-width="1920" data-height="1080">
+    <div class="aura-rays" id="end-rays" data-layout-ignore></div>
+    <div class="aura" id="end-aura" data-layout-ignore></div>
     <canvas id="end-cv" width="1920" height="1080" data-layout-ignore></canvas>
     <div id="end-flash" data-layout-ignore></div>
     <div id="end-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%" aria-label="SCENE">
@@ -63,7 +67,7 @@
         var px = gx + rnd() * 6, py = gy + rnd() * 6;
         if (octx.isPointInPath(path, px, py)) pts.push([px, py]);
       }
-      var N = 140, P = [], k = IC.s / SIZE, cols = ['#FFFFFF', '#6FE8FA', '#36A9FF', '#2F6BFF', '#B7A9FF'];
+      var N = 140, P = [], k = IC.s / SIZE, cols = ['#FFFFFF', '#6FE8FA', '#36A9FF', '#2F6BFF', '#7A5CFF', '#B9A6FF'];
       for (var i = 0; i < N; i++) {
         var tp = pts[Math.floor(i * pts.length / N)];
         var a = rnd() * Math.PI * 2, r = 620 + rnd() * 700;
@@ -90,6 +94,10 @@
       SC.drive(tl, S0, S1, draw);
 
       // --- the mark resolves on the impact
+      tl.fromTo('#end-aura', { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 0.9, duration: 1.1, ease: 'power2.out' }, T(54.2));
+      tl.to('#end-aura', { scale: 1.12, opacity: 0.7, duration: 3.6, ease: 'sine.inOut' }, T(55.4));
+      tl.fromTo('#end-rays', { scale: 0.5, opacity: 0, rotation: 0 }, { scale: 1, opacity: 0.75, rotation: 18, duration: 1.2, ease: 'expo.out' }, T(54.95));
+      tl.to('#end-rays', { rotation: 60, opacity: 0.5, duration: 3.85, ease: 'none' }, T(56.15));
       tl.fromTo('#end-flash', { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.18, ease: 'power2.out' }, T(54.98));
       tl.to('#end-flash', { opacity: 0, scale: 1.5, duration: 0.6, ease: 'power2.out' }, T(55.16));
       tl.fromTo('#end-icon', { opacity: 0, scale: 0.86 }, { opacity: 1, scale: 1, duration: 0.34, ease: 'back.out(1.6)' }, T(55.0));

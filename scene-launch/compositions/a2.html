@@ -11,6 +11,7 @@
       <div class="body glass"><div class="who">Meera</div><div class="txt">Which one is even near us?</div></div>
     </div>
     <div class="sorted" id="a2-ok" style="left:196px;top:316px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>SORTED</span></div>
+    <div class="aura-soft" id="a2-halo" style="left:515px;top:-23px;width:1500px;height:1150px" data-layout-ignore></div>
     <div class="persp" id="a2-persp">
       <div class="rig" id="a2-r1" style="left:800px;top:112px;width:421px;height:880px">
         <div class="phone">
@@ -235,6 +236,8 @@
           SC.liftTag(tl, { scr: s1, liftScr: $('a2-r1-ls'), part: 'card-holodeck', tag: $('a2-t0'), wire: $('a2-t0-w'), side: 'left', dz: 80, gap: 70 }, T(23.25));
           SC.liftTag(tl, { scr: s2, liftScr: $('a2-r2-ls'), part: 'pin-249', tag: $('a2-t1'), wire: $('a2-t1-w'), side: 'above', dz: 80, gap: 46, dim: 0.5 }, T(23.6));
         });
+        tl.fromTo('#a2-halo', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.55, ease: 'power2.out' }, T(22.45));
+        tl.to('#a2-halo', { opacity: 0, duration: 0.3, ease: 'power2.in' }, T(25.66));
         SC.qBubble(tl, $('a2-q'), T(22.42), T(25.72));
         // split screen: two phones rise in one after the other, then the camera eases in
         tl.fromTo('#a2-r1', { y: 980, rotation: -3 }, { y: 0, rotation: 0, duration: 0.55, ease: 'expo.out' }, T(22.45));

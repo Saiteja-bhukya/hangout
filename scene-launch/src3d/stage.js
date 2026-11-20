@@ -83,7 +83,7 @@ export function createStage(canvas, opts = {}) {
     key: dirLight(0xffffff, 2.3, [-3.5, 4.5, 4.0]),          // soft key, upper-left front
     fill: dirLight(0xe4ecff, 0.55, [4.5, 0.5, 3.0]),         // cool low fill, right
     rim: dirLight(0x36d6f2, 4.2, [3.0, 2.6, -5.0]),          // cyan rim, behind right
-    rim2: dirLight(0x36d6f2, 2.4, [-3.6, 1.2, -4.5]),        // cyan rim, behind left
+    rim2: dirLight(0x7a5cff, 3.2, [-3.6, 1.2, -4.5]),        // aura-violet rim, behind left
   };
   const hemi = new HemisphereLight(0xf4f8ff, 0x7d8cab, 0.35);
   scene.add(hemi);

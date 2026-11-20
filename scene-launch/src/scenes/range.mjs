@@ -34,6 +34,7 @@ ${ROWS.map((row, r) => `      <div class="rg-row" id="rg-r${r}" style="top:${ROW
     </div>
     <canvas id="rg-cv" width="1920" height="1080" data-layout-ignore></canvas>
     <div class="hl" id="rg-hl">${w('EVERY WAY TO')} <span class="w grad-text">PLAY.</span></div>
+    <div class="aura-soft" id="rg-halo" style="left:865px;top:-35px;width:1050px;height:1150px" data-layout-ignore></div>
     <div class="rig" id="rg-rig">${phone(screen('home'))}</div>
     <div class="hl" id="rg-app">${w('ALL IN')}<br />${w('ONE')} <span class="w grad-text">APP.</span></div>`,
   js: `
@@ -48,6 +49,7 @@ ${ROWS.map((row, r) => `      <div class="rg-row" id="rg-r${r}" style="top:${ROW
       SC.wordsOut(tl, $('rg-hl'), T(17.3));
       tl.to('#rg-rows', { opacity: 0.16, filter: 'blur(10px)', scale: 0.96, duration: 0.45, ease: 'power2.inOut' }, T(17.3));
       tl.fromTo('#rg-rig', { y: 1000, rotation: 4 }, { y: 0, rotation: 0, duration: 0.6, ease: 'expo.out' }, T(17.35));
+      tl.fromTo('#rg-halo', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' }, T(17.4));
       SC.wordsIn(tl, $('rg-app'), T(17.55), { gap: 0.14, dur: 0.18 });
 
       if (window.SCENE3D) {

@@ -20,7 +20,8 @@ export default {
   css: `
     #po-rig { left: 300px; top: 100px; width: 421px; height: 880px; }
     #po-hl { position: absolute; left: 1040px; top: 300px; font-size: 110px; line-height: 1.04; }`,
-  html: `    <div class="rig" id="po-rig">${phone(chatScreen(MSGS, { p: 'po', variant: 'colour' }))}</div>
+  html: `    <div class="aura-soft" id="po-halo" style="left:25px;top:-65px;width:1150px;height:1250px" data-layout-ignore></div>
+    <div class="rig" id="po-rig">${phone(chatScreen(MSGS, { p: 'po', variant: 'colour' }))}</div>
     <div class="hl" id="po-hl"><span class="w">LESS</span><br /><span class="w">PLANNING.</span><br /><span class="w">MORE</span><br /><span class="w grad-text">SCENES.</span></div>`,
   js: `
       var T = function (a) { return a - S0; };
@@ -31,6 +32,7 @@ export default {
           { x: 0, y: 0, opacity: 1, duration: 0.5, ease: 'expo.out' }, T(48.0));
         tl.to('#po-rig', { scale: 1.42, x: 90, duration: 0.6, ease: 'power2.inOut' }, T(48.55));
 
+        tl.fromTo('#po-halo', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' }, T(48.1));
         var items = [], gap = 8;
         for (var i = 0; i < TIMES.length; i++) items.push($('po-m' + i));
         var h = SC.layout(items[0], function () { return items.map(function (el) { return el.offsetHeight + gap; }); });

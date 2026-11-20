@@ -6,6 +6,7 @@
     #po-hl { position: absolute; left: 1040px; top: 300px; font-size: 110px; line-height: 1.04; }
   </style>
   <div id="root" data-composition-id="payoff" data-width="1920" data-height="1080">
+    <div class="aura-soft" id="po-halo" style="left:25px;top:-65px;width:1150px;height:1250px" data-layout-ignore></div>
     <div class="rig" id="po-rig"><div class="phone">
   <span class="phone__btn phone__btn--action"></span><span class="phone__btn phone__btn--volup"></span><span class="phone__btn phone__btn--voldn"></span><span class="phone__btn phone__btn--power"></span>
   <div class="phone__bezel"></div>
@@ -47,6 +48,7 @@
           { x: 0, y: 0, opacity: 1, duration: 0.5, ease: 'expo.out' }, T(48.0));
         tl.to('#po-rig', { scale: 1.42, x: 90, duration: 0.6, ease: 'power2.inOut' }, T(48.55));
 
+        tl.fromTo('#po-halo', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' }, T(48.1));
         var items = [], gap = 8;
         for (var i = 0; i < TIMES.length; i++) items.push($('po-m' + i));
         var h = SC.layout(items[0], function () { return items.map(function (el) { return el.offsetHeight + gap; }); });

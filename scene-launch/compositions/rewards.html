@@ -28,6 +28,7 @@
   <div id="root" data-composition-id="rewards" data-width="1920" data-height="1080">
     <div class="hl" id="rw-h1"><span class="w">AND</span> <span class="w">EVERY</span> <span class="w">OUTING</span><br /><span class="w">PAYS</span> <span class="w">YOU</span> <span class="w grad-text">BACK.</span></div>
     <div id="rw-rays" data-layout-ignore></div>
+    <div class="aura-soft" id="rw-halo" style="left:835px;top:-35px;width:1050px;height:1150px" data-layout-ignore></div>
     <div class="rig" id="rw-rig"><div class="phone">
   <span class="phone__btn phone__btn--action"></span><span class="phone__btn phone__btn--volup"></span><span class="phone__btn phone__btn--voldn"></span><span class="phone__btn phone__btn--power"></span>
   <div class="phone__bezel"></div>
@@ -224,6 +225,8 @@
 
         // 2) XP: phone rises; chips land; count 3,230 → 3,330; ring fills; 9 flips to 10; gold badge
         tl.fromTo('#rw-rig', { y: 1000, rotation: 4, scale: 1, transformOrigin: '50% 30%' }, { y: 0, rotation: 0, duration: 0.55, ease: 'expo.out' }, T(39.3));
+        tl.fromTo('#rw-halo', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.55, ease: 'power2.out' }, T(39.35));
+        tl.to('#rw-halo', { opacity: 0, duration: 0.3, ease: 'power2.in' }, T(47.62));
         tl.fromTo('#rw-c1', { opacity: 0, scale: 0.6, x: -40 }, { opacity: 1, scale: 1, x: 0, duration: 0.4, ease: 'back.out(1.6)' }, T(39.8));
         tl.fromTo('#rw-c2', { opacity: 0, scale: 0.6, x: -40 }, { opacity: 1, scale: 1, x: 0, duration: 0.4, ease: 'back.out(1.6)' }, T(40.3));
         var xn = q(sx, 'xp-num'), xp = { v: 3230 };

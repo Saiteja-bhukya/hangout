@@ -9,6 +9,10 @@
   --mint: #6FE3B5;
   --ground: #EEF3FA;
   --grad: linear-gradient(90deg, #2F6BFF 0%, #12B3DA 100%);
+  /* secondary: Aura Violet — the celestial end of the cyan → blue run */
+  --violet: #7A5CFF;
+  --violet-soft: #B9A6FF;
+  --aura-grad: linear-gradient(90deg, #12B3DA 0%, #2F6BFF 46%, #7A5CFF 100%);
   --glass-bg: rgba(255, 255, 255, 0.55);
   --glass-shadow: 0 24px 60px rgba(30, 60, 120, 0.16);
 }
@@ -38,7 +42,7 @@
 }
 .hl .w { display: inline-block; }
 .grad-text {
-  background: var(--grad);
+  background: var(--aura-grad);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -103,7 +107,7 @@
   font-weight: 800;
   font-size: 30px;
   letter-spacing: 0.08em;
-  box-shadow: 0 18px 40px rgba(47, 107, 255, 0.35), inset 0 0 0 1.5px rgba(255, 255, 255, 0.45);
+  box-shadow: 0 18px 40px rgba(47, 107, 255, 0.32), 0 0 46px rgba(122, 92, 255, 0.35), inset 0 0 0 1.5px rgba(255, 255, 255, 0.45);
   white-space: nowrap;
 }
 .sorted svg { width: 34px; height: 34px; }
@@ -156,3 +160,16 @@
 .wire3d { position: absolute; height: 2px; background: linear-gradient(90deg, rgba(47,107,255,0.9), rgba(18,179,218,0.9)); }
 .wire3d::after { content: ''; position: absolute; right: -5px; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: #12B3DA; box-shadow: 0 0 0 3px rgba(255,255,255,0.9); }
 .wire3d.l::after { right: auto; left: -5px; }
+
+/* ---------- aura: the godly light (white core → cyan → blue → violet bloom) ---------- */
+.aura { position: absolute; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 9%, rgba(160,240,252,0.55) 20%, rgba(111,232,250,0.4) 30%, rgba(47,107,255,0.22) 44%, rgba(122,92,255,0.3) 58%, rgba(185,166,255,0.14) 74%, rgba(185,166,255,0) 100%); }
+.aura-rays { position: absolute; border-radius: 50%; pointer-events: none;
+  background: repeating-conic-gradient(from 0deg, rgba(185,166,255,0.30) 0deg 3deg, rgba(185,166,255,0) 3deg 10deg, rgba(111,232,250,0.26) 10deg 12deg, rgba(111,232,250,0) 12deg 21deg);
+  -webkit-mask-image: radial-gradient(closest-side, rgba(0,0,0,0) 14%, #000 26%, rgba(0,0,0,0.5) 55%, transparent 100%);
+  mask-image: radial-gradient(closest-side, rgba(0,0,0,0) 14%, #000 26%, rgba(0,0,0,0.5) 55%, transparent 100%); }
+.aura-ring { position: absolute; border-radius: 50%; pointer-events: none; border: 3px solid rgba(255,255,255,0.85);
+  box-shadow: 0 0 30px rgba(111,232,250,0.8), 0 0 70px rgba(122,92,255,0.55), inset 0 0 26px rgba(185,166,255,0.6); }
+/* soft halo behind the dark phones once SCENE is on screen */
+.aura-soft { position: absolute; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(111,232,250,0.40) 0%, rgba(47,107,255,0.20) 40%, rgba(122,92,255,0.26) 64%, rgba(185,166,255,0) 100%); }

@@ -19,11 +19,12 @@ export default {
   id: 'hook', start: 0, duration: 5, track: 1,
   css: `
     #hook-cv { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
-    #hook-glow { position: absolute; left: 960px; top: 470px; width: 1100px; height: 1100px; margin: -550px 0 0 -550px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.45) 35%, rgba(255,255,255,0) 68%); }
+    #hook-glow { left: 960px; top: 470px; width: 1100px; height: 1100px; margin: -550px 0 0 -550px; }
+    #hook-rays { left: 960px; top: 470px; width: 1500px; height: 1500px; margin: -750px 0 0 -750px; }
     .hook-lbl { position: absolute; left: 0; right: 0; top: 840px; text-align: center; font-size: 60px; letter-spacing: 0.22em; opacity: 0; }
     #hook-hl { position: absolute; left: 0; right: 0; top: 300px; text-align: center; font-size: 150px; line-height: 1.0; }`,
-  html: `    <div id="hook-glow" data-layout-ignore></div>
+  html: `    <div class="aura-rays" id="hook-rays" data-layout-ignore></div>
+    <div class="aura" id="hook-glow" data-layout-ignore></div>
     <canvas id="hook-cv" width="1920" height="1080" data-layout-ignore></canvas>
 ${ITEMS.map(([, l], i) => `    <div class="lbl hook-lbl" id="hook-l${i}">${l}</div>`).join('\n')}
     <div class="hl" id="hook-hl"><span class="w">PLANNING</span><br /><span class="w">TO</span><br /><span class="w grad-text">CHILL?</span></div>`,
@@ -36,8 +37,11 @@ ${ITEMS.map(([, l], i) => `    <div class="lbl hook-lbl" id="hook-l${i}">${l}</d
         tl.fromTo(el, { opacity: 0, filter: 'blur(6px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.08, ease: 'power2.out' }, s[0]);
         tl.set(el, { opacity: 0 }, end);
       });
-      tl.fromTo('#hook-glow', { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: 'power2.out' }, 0.05);
-      tl.to('#hook-glow', { opacity: 0, duration: 0.3, ease: 'power2.in' }, RING_T);
+      tl.fromTo('#hook-glow', { opacity: 0, scale: 0.5 }, { opacity: 0.95, scale: 1, duration: 0.35, ease: 'power2.out' }, 0.05);
+      tl.fromTo('#hook-rays', { opacity: 0, rotation: 0 }, { opacity: 0.8, rotation: 24, duration: 2.35, ease: 'none' }, 0.05);
+      // at the ring the aura widens behind the headline and settles softer
+      tl.to('#hook-glow', { scale: 1.35, opacity: 0.6, duration: 0.5, ease: 'power2.out' }, RING_T);
+      tl.to('#hook-rays', { scale: 1.2, opacity: 0.45, rotation: 50, duration: 2.6, ease: 'none' }, RING_T);
       // headline, word by word
       var ws = $('hook-hl').querySelectorAll('.w');
       [2.5, 2.7, 2.9].forEach(function (t, i) {

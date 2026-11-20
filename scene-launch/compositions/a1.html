@@ -11,6 +11,7 @@
       <div class="body glass"><div class="who">Rohan</div><div class="txt">So what's the plan this Sunday?</div></div>
     </div>
     <div class="sorted" id="a1-ok" style="left:196px;top:600px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>SORTED</span></div>
+    <div class="aura-soft" id="a1-halo" style="left:695px;top:-39px;width:1050px;height:1150px" data-layout-ignore></div>
     <div class="persp" id="a1-persp">
       <div class="rig" id="a1-rig" style="left:1010px;top:96px;width:421px;height:880px">
         <div class="phone">
@@ -103,6 +104,8 @@
         // build lifts first (they measure layout)
         var L = [['what', 'a1-t0', 19.85], ['when', 'a1-t1', 20.15], ['who', 'a1-t2', 20.45]];
         SC.layout(scr, function () { L.forEach(function (l) { SC.liftTag(tl, { scr: scr, liftScr: ls, part: l[0], tag: $(l[1]), wire: $(l[1] + '-w'), side: 'right', dz: 90 }, T(l[2])); }); });
+        tl.fromTo('#a1-halo', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.55, ease: 'power2.out' }, T(19.05));
+        tl.to('#a1-halo', { opacity: 0, duration: 0.3, ease: 'power2.in' }, T(22.1));
         SC.qBubble(tl, $('a1-q'), T(19.02), T(22.08));
         // camera: phone swings in to a 3/4 hero, then drifts slowly while it is read
         tl.fromTo('#a1-rig', { x: 760, rotationY: -38, rotationX: 6, opacity: 0 }, { x: 0, rotationY: -16, rotationX: 4, opacity: 1, duration: 0.62, ease: 'power3.out' }, T(19.05));
